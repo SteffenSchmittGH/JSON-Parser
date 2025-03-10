@@ -1,0 +1,928 @@
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"sevenSegDriver.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.comm	funny,1,1
+  20              		.section	.text.init_sev,"ax",%progbits
+  21              		.align	2
+  22              		.global	init_sev
+  23              		.thumb
+  24              		.thumb_func
+  25              		.type	init_sev, %function
+  26              	init_sev:
+  27              	.LFB0:
+  28              		.file 1 "sevenSegDriver.c"
+   1:sevenSegDriver.c **** /* ========================================
+   2:sevenSegDriver.c ****  *
+   3:sevenSegDriver.c ****  * Copyright YOUR COMPANY, THE YEAR
+   4:sevenSegDriver.c ****  * All Rights Reserved
+   5:sevenSegDriver.c ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:sevenSegDriver.c ****  *
+   7:sevenSegDriver.c ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:sevenSegDriver.c ****  * WHICH IS THE PROPERTY OF your company.
+   9:sevenSegDriver.c ****  *
+  10:sevenSegDriver.c ****  * ========================================
+  11:sevenSegDriver.c **** */
+  12:sevenSegDriver.c **** 
+  13:sevenSegDriver.c **** /* [] END OF FILE */
+  14:sevenSegDriver.c **** 
+  15:sevenSegDriver.c **** #include "sevenSegDriver.h"
+  16:sevenSegDriver.c **** #include "SEVEN_CONTROL.h"
+  17:sevenSegDriver.c **** #include "SEVEN_SELECT.h"
+  18:sevenSegDriver.c **** 
+  19:sevenSegDriver.c **** void init_sev( segment_t seg){
+  29              		.loc 1 19 0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 8
+  32              		@ frame_needed = 1, uses_anonymous_args = 0
+  33 0000 80B5     		push	{r7, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 7, -8
+  36              		.cfi_offset 14, -4
+  37 0002 82B0     		sub	sp, sp, #8
+  38              		.cfi_def_cfa_offset 16
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 2
+
+
+  39 0004 00AF     		add	r7, sp, #0
+  40              		.cfi_def_cfa_register 7
+  41 0006 0346     		mov	r3, r0
+  42 0008 FB71     		strb	r3, [r7, #7]
+  20:sevenSegDriver.c ****     if(seg == SEG1){
+  43              		.loc 1 20 0
+  44 000a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+  45 000c 002B     		cmp	r3, #0
+  46 000e 03D1     		bne	.L2
+  21:sevenSegDriver.c ****         SEVEN_SELECT_Write(1);
+  47              		.loc 1 21 0
+  48 0010 0120     		movs	r0, #1
+  49 0012 FFF7FEFF 		bl	SEVEN_SELECT_Write
+  22:sevenSegDriver.c ****     }else{
+  23:sevenSegDriver.c ****         SEVEN_SELECT_Write(0);   
+  24:sevenSegDriver.c ****     }
+  25:sevenSegDriver.c ****     return;   
+  50              		.loc 1 25 0
+  51 0016 03E0     		b	.L1
+  52              	.L2:
+  23:sevenSegDriver.c ****     }
+  53              		.loc 1 23 0
+  54 0018 0020     		movs	r0, #0
+  55 001a FFF7FEFF 		bl	SEVEN_SELECT_Write
+  56              		.loc 1 25 0
+  57 001e 00BF     		nop
+  58              	.L1:
+  26:sevenSegDriver.c **** }
+  59              		.loc 1 26 0
+  60 0020 0837     		adds	r7, r7, #8
+  61              		.cfi_def_cfa_offset 8
+  62 0022 BD46     		mov	sp, r7
+  63              		.cfi_def_cfa_register 13
+  64              		@ sp needed
+  65 0024 80BD     		pop	{r7, pc}
+  66              		.cfi_endproc
+  67              	.LFE0:
+  68              		.size	init_sev, .-init_sev
+  69 0026 00BF     		.section	.text.getSegSign,"ax",%progbits
+  70              		.align	2
+  71              		.global	getSegSign
+  72              		.thumb
+  73              		.thumb_func
+  74              		.type	getSegSign, %function
+  75              	getSegSign:
+  76              	.LFB1:
+  27:sevenSegDriver.c **** 
+  28:sevenSegDriver.c **** sign_t getSegSign(){
+  77              		.loc 1 28 0
+  78              		.cfi_startproc
+  79              		@ args = 0, pretend = 0, frame = 0
+  80              		@ frame_needed = 1, uses_anonymous_args = 0
+  81 0000 80B5     		push	{r7, lr}
+  82              		.cfi_def_cfa_offset 8
+  83              		.cfi_offset 7, -8
+  84              		.cfi_offset 14, -4
+  85 0002 00AF     		add	r7, sp, #0
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 3
+
+
+  86              		.cfi_def_cfa_register 7
+  29:sevenSegDriver.c ****     return  SEVEN_CONTROL_Read();
+  87              		.loc 1 29 0
+  88 0004 FFF7FEFF 		bl	SEVEN_CONTROL_Read
+  89 0008 0346     		mov	r3, r0
+  30:sevenSegDriver.c **** }
+  90              		.loc 1 30 0
+  91 000a 1846     		mov	r0, r3
+  92 000c 80BD     		pop	{r7, pc}
+  93              		.cfi_endproc
+  94              	.LFE1:
+  95              		.size	getSegSign, .-getSegSign
+  96 000e 00BF     		.section	.text.setSegSign,"ax",%progbits
+  97              		.align	2
+  98              		.global	setSegSign
+  99              		.thumb
+ 100              		.thumb_func
+ 101              		.type	setSegSign, %function
+ 102              	setSegSign:
+ 103              	.LFB2:
+  31:sevenSegDriver.c **** 
+  32:sevenSegDriver.c **** void setSegSign(sign_t sign){
+ 104              		.loc 1 32 0
+ 105              		.cfi_startproc
+ 106              		@ args = 0, pretend = 0, frame = 8
+ 107              		@ frame_needed = 1, uses_anonymous_args = 0
+ 108 0000 80B5     		push	{r7, lr}
+ 109              		.cfi_def_cfa_offset 8
+ 110              		.cfi_offset 7, -8
+ 111              		.cfi_offset 14, -4
+ 112 0002 82B0     		sub	sp, sp, #8
+ 113              		.cfi_def_cfa_offset 16
+ 114 0004 00AF     		add	r7, sp, #0
+ 115              		.cfi_def_cfa_register 7
+ 116 0006 0346     		mov	r3, r0
+ 117 0008 FB71     		strb	r3, [r7, #7]
+  33:sevenSegDriver.c **** switch(sign){
+ 118              		.loc 1 33 0
+ 119 000a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 120 000c 0F2B     		cmp	r3, #15
+ 121 000e 64D8     		bhi	.L27
+ 122 0010 01A2     		adr	r2, .L10
+ 123 0012 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 124 0016 00BF     		.p2align 2
+ 125              	.L10:
+ 126 0018 59000000 		.word	.L9+1
+ 127 001c 61000000 		.word	.L11+1
+ 128 0020 69000000 		.word	.L12+1
+ 129 0024 71000000 		.word	.L13+1
+ 130 0028 79000000 		.word	.L14+1
+ 131 002c 81000000 		.word	.L15+1
+ 132 0030 89000000 		.word	.L16+1
+ 133 0034 91000000 		.word	.L17+1
+ 134 0038 99000000 		.word	.L18+1
+ 135 003c A1000000 		.word	.L19+1
+ 136 0040 A9000000 		.word	.L20+1
+ 137 0044 B1000000 		.word	.L21+1
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 4
+
+
+ 138 0048 B9000000 		.word	.L22+1
+ 139 004c C1000000 		.word	.L23+1
+ 140 0050 C9000000 		.word	.L24+1
+ 141 0054 D1000000 		.word	.L25+1
+ 142              		.p2align 1
+ 143              	.L9:
+  34:sevenSegDriver.c ****     case A: SEVEN_CONTROL_Write(238); break;
+ 144              		.loc 1 34 0
+ 145 0058 EE20     		movs	r0, #238
+ 146 005a FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 147 005e 3BE0     		b	.L8
+ 148              	.L11:
+  35:sevenSegDriver.c ****     case B: SEVEN_CONTROL_Write(0b11111110); break;
+ 149              		.loc 1 35 0
+ 150 0060 FE20     		movs	r0, #254
+ 151 0062 FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 152 0066 37E0     		b	.L8
+ 153              	.L12:
+  36:sevenSegDriver.c ****     case C: SEVEN_CONTROL_Write(156); break;
+ 154              		.loc 1 36 0
+ 155 0068 9C20     		movs	r0, #156
+ 156 006a FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 157 006e 33E0     		b	.L8
+ 158              	.L13:
+  37:sevenSegDriver.c ****     case D: SEVEN_CONTROL_Write(252); break;
+ 159              		.loc 1 37 0
+ 160 0070 FC20     		movs	r0, #252
+ 161 0072 FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 162 0076 2FE0     		b	.L8
+ 163              	.L14:
+  38:sevenSegDriver.c ****     case E: SEVEN_CONTROL_Write(158); break;
+ 164              		.loc 1 38 0
+ 165 0078 9E20     		movs	r0, #158
+ 166 007a FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 167 007e 2BE0     		b	.L8
+ 168              	.L15:
+  39:sevenSegDriver.c ****     case F: SEVEN_CONTROL_Write(142); break;
+ 169              		.loc 1 39 0
+ 170 0080 8E20     		movs	r0, #142
+ 171 0082 FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 172 0086 27E0     		b	.L8
+ 173              	.L16:
+  40:sevenSegDriver.c ****     case ZERO: SEVEN_CONTROL_Write(252); break;
+ 174              		.loc 1 40 0
+ 175 0088 FC20     		movs	r0, #252
+ 176 008a FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 177 008e 23E0     		b	.L8
+ 178              	.L17:
+  41:sevenSegDriver.c ****     case EINS: SEVEN_CONTROL_Write(96); break;
+ 179              		.loc 1 41 0
+ 180 0090 6020     		movs	r0, #96
+ 181 0092 FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 182 0096 1FE0     		b	.L8
+ 183              	.L18:
+  42:sevenSegDriver.c ****     case ZWEI: SEVEN_CONTROL_Write(218); break;
+ 184              		.loc 1 42 0
+ 185 0098 DA20     		movs	r0, #218
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 5
+
+
+ 186 009a FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 187 009e 1BE0     		b	.L8
+ 188              	.L19:
+  43:sevenSegDriver.c ****     case DREI: SEVEN_CONTROL_Write(242); break;
+ 189              		.loc 1 43 0
+ 190 00a0 F220     		movs	r0, #242
+ 191 00a2 FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 192 00a6 17E0     		b	.L8
+ 193              	.L20:
+  44:sevenSegDriver.c ****     case VIER: SEVEN_CONTROL_Write(102); break;
+ 194              		.loc 1 44 0
+ 195 00a8 6620     		movs	r0, #102
+ 196 00aa FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 197 00ae 13E0     		b	.L8
+ 198              	.L21:
+  45:sevenSegDriver.c ****     case FUENF: SEVEN_CONTROL_Write(182); break;
+ 199              		.loc 1 45 0
+ 200 00b0 B620     		movs	r0, #182
+ 201 00b2 FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 202 00b6 0FE0     		b	.L8
+ 203              	.L22:
+  46:sevenSegDriver.c ****     case SECHS: SEVEN_CONTROL_Write(188); break;
+ 204              		.loc 1 46 0
+ 205 00b8 BC20     		movs	r0, #188
+ 206 00ba FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 207 00be 0BE0     		b	.L8
+ 208              	.L23:
+  47:sevenSegDriver.c ****     case SIEBEN: SEVEN_CONTROL_Write(224); break;
+ 209              		.loc 1 47 0
+ 210 00c0 E020     		movs	r0, #224
+ 211 00c2 FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 212 00c6 07E0     		b	.L8
+ 213              	.L24:
+  48:sevenSegDriver.c ****     case ACHT: SEVEN_CONTROL_Write(254); break;
+ 214              		.loc 1 48 0
+ 215 00c8 FE20     		movs	r0, #254
+ 216 00ca FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 217 00ce 03E0     		b	.L8
+ 218              	.L25:
+  49:sevenSegDriver.c ****     case NEUN: SEVEN_CONTROL_Write(236); break;
+ 219              		.loc 1 49 0
+ 220 00d0 EC20     		movs	r0, #236
+ 221 00d2 FFF7FEFF 		bl	SEVEN_CONTROL_Write
+ 222 00d6 00BF     		nop
+ 223              	.L8:
+  50:sevenSegDriver.c **** };
+  51:sevenSegDriver.c ****     return;   
+ 224              		.loc 1 51 0
+ 225 00d8 00BF     		nop
+ 226              	.L27:
+ 227 00da 00BF     		nop
+  52:sevenSegDriver.c **** }...
+ 228              		.loc 1 52 0
+ 229 00dc 0837     		adds	r7, r7, #8
+ 230              		.cfi_def_cfa_offset 8
+ 231 00de BD46     		mov	sp, r7
+ 232              		.cfi_def_cfa_register 13
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 6
+
+
+ 233              		@ sp needed
+ 234 00e0 80BD     		pop	{r7, pc}
+ 235              		.cfi_endproc
+ 236              	.LFE2:
+ 237              		.size	setSegSign, .-setSegSign
+ 238 00e2 00BF     		.text
+ 239              	.Letext0:
+ 240              		.file 2 "sevenSegDriver.h"
+ 241              		.section	.debug_info,"",%progbits
+ 242              	.Ldebug_info0:
+ 243 0000 9C010000 		.4byte	0x19c
+ 244 0004 0400     		.2byte	0x4
+ 245 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 246 000a 04       		.byte	0x4
+ 247 000b 01       		.uleb128 0x1
+ 248 000c 2D000000 		.4byte	.LASF29
+ 249 0010 0C       		.byte	0xc
+ 250 0011 06000000 		.4byte	.LASF30
+ 251 0015 76010000 		.4byte	.LASF31
+ 252 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 253 001d 00000000 		.4byte	0
+ 254 0021 00000000 		.4byte	.Ldebug_line0
+ 255 0025 02       		.uleb128 0x2
+ 256 0026 01       		.byte	0x1
+ 257 0027 86000000 		.4byte	0x86
+ 258 002b 02       		.byte	0x2
+ 259 002c 0F       		.byte	0xf
+ 260 002d 86000000 		.4byte	0x86
+ 261 0031 03       		.uleb128 0x3
+ 262 0032 4100     		.ascii	"A\000"
+ 263 0034 00       		.byte	0
+ 264 0035 03       		.uleb128 0x3
+ 265 0036 4200     		.ascii	"B\000"
+ 266 0038 01       		.byte	0x1
+ 267 0039 03       		.uleb128 0x3
+ 268 003a 4300     		.ascii	"C\000"
+ 269 003c 02       		.byte	0x2
+ 270 003d 03       		.uleb128 0x3
+ 271 003e 4400     		.ascii	"D\000"
+ 272 0040 03       		.byte	0x3
+ 273 0041 03       		.uleb128 0x3
+ 274 0042 4500     		.ascii	"E\000"
+ 275 0044 04       		.byte	0x4
+ 276 0045 03       		.uleb128 0x3
+ 277 0046 4600     		.ascii	"F\000"
+ 278 0048 05       		.byte	0x5
+ 279 0049 04       		.uleb128 0x4
+ 280 004a C6000000 		.4byte	.LASF0
+ 281 004e 06       		.byte	0x6
+ 282 004f 04       		.uleb128 0x4
+ 283 0050 D6000000 		.4byte	.LASF1
+ 284 0054 07       		.byte	0x7
+ 285 0055 04       		.uleb128 0x4
+ 286 0056 6C010000 		.4byte	.LASF2
+ 287 005a 08       		.byte	0x8
+ 288 005b 04       		.uleb128 0x4
+ 289 005c 1B010000 		.4byte	.LASF3
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 7
+
+
+ 290 0060 09       		.byte	0x9
+ 291 0061 04       		.uleb128 0x4
+ 292 0062 D1000000 		.4byte	.LASF4
+ 293 0066 0A       		.byte	0xa
+ 294 0067 04       		.uleb128 0x4
+ 295 0068 D2010000 		.4byte	.LASF5
+ 296 006c 0B       		.byte	0xb
+ 297 006d 04       		.uleb128 0x4
+ 298 006e F6010000 		.4byte	.LASF6
+ 299 0072 0C       		.byte	0xc
+ 300 0073 04       		.uleb128 0x4
+ 301 0074 DB000000 		.4byte	.LASF7
+ 302 0078 0D       		.byte	0xd
+ 303 0079 04       		.uleb128 0x4
+ 304 007a 21000000 		.4byte	.LASF8
+ 305 007e 0E       		.byte	0xe
+ 306 007f 04       		.uleb128 0x4
+ 307 0080 07020000 		.4byte	.LASF9
+ 308 0084 0F       		.byte	0xf
+ 309 0085 00       		.byte	0
+ 310 0086 05       		.uleb128 0x5
+ 311 0087 01       		.byte	0x1
+ 312 0088 08       		.byte	0x8
+ 313 0089 0D010000 		.4byte	.LASF14
+ 314 008d 06       		.uleb128 0x6
+ 315 008e 26000000 		.4byte	.LASF12
+ 316 0092 02       		.byte	0x2
+ 317 0093 0F       		.byte	0xf
+ 318 0094 25000000 		.4byte	0x25
+ 319 0098 02       		.uleb128 0x2
+ 320 0099 01       		.byte	0x1
+ 321 009a 86000000 		.4byte	0x86
+ 322 009e 02       		.byte	0x2
+ 323 009f 10       		.byte	0x10
+ 324 00a0 B9000000 		.4byte	0xb9
+ 325 00a4 03       		.uleb128 0x3
+ 326 00a5 5600     		.ascii	"V\000"
+ 327 00a7 00       		.byte	0
+ 328 00a8 03       		.uleb128 0x3
+ 329 00a9 4A00     		.ascii	"J\000"
+ 330 00ab 01       		.byte	0x1
+ 331 00ac 03       		.uleb128 0x3
+ 332 00ad 4D00     		.ascii	"M\000"
+ 333 00af 02       		.byte	0x2
+ 334 00b0 03       		.uleb128 0x3
+ 335 00b1 4E00     		.ascii	"N\000"
+ 336 00b3 03       		.byte	0x3
+ 337 00b4 03       		.uleb128 0x3
+ 338 00b5 5800     		.ascii	"X\000"
+ 339 00b7 04       		.byte	0x4
+ 340 00b8 00       		.byte	0
+ 341 00b9 02       		.uleb128 0x2
+ 342 00ba 01       		.byte	0x1
+ 343 00bb 86000000 		.4byte	0x86
+ 344 00bf 02       		.byte	0x2
+ 345 00c0 11       		.byte	0x11
+ 346 00c1 D2000000 		.4byte	0xd2
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 8
+
+
+ 347 00c5 04       		.uleb128 0x4
+ 348 00c6 F0000000 		.4byte	.LASF10
+ 349 00ca 00       		.byte	0
+ 350 00cb 04       		.uleb128 0x4
+ 351 00cc F5000000 		.4byte	.LASF11
+ 352 00d0 01       		.byte	0x1
+ 353 00d1 00       		.byte	0
+ 354 00d2 06       		.uleb128 0x6
+ 355 00d3 03010000 		.4byte	.LASF13
+ 356 00d7 02       		.byte	0x2
+ 357 00d8 11       		.byte	0x11
+ 358 00d9 B9000000 		.4byte	0xb9
+ 359 00dd 05       		.uleb128 0x5
+ 360 00de 01       		.byte	0x1
+ 361 00df 06       		.byte	0x6
+ 362 00e0 20010000 		.4byte	.LASF15
+ 363 00e4 05       		.uleb128 0x5
+ 364 00e5 02       		.byte	0x2
+ 365 00e6 05       		.byte	0x5
+ 366 00e7 17000000 		.4byte	.LASF16
+ 367 00eb 05       		.uleb128 0x5
+ 368 00ec 02       		.byte	0x2
+ 369 00ed 07       		.byte	0x7
+ 370 00ee 59010000 		.4byte	.LASF17
+ 371 00f2 05       		.uleb128 0x5
+ 372 00f3 04       		.byte	0x4
+ 373 00f4 05       		.byte	0x5
+ 374 00f5 FA000000 		.4byte	.LASF18
+ 375 00f9 05       		.uleb128 0x5
+ 376 00fa 04       		.byte	0x4
+ 377 00fb 07       		.byte	0x7
+ 378 00fc D8010000 		.4byte	.LASF19
+ 379 0100 05       		.uleb128 0x5
+ 380 0101 08       		.byte	0x8
+ 381 0102 05       		.byte	0x5
+ 382 0103 E2000000 		.4byte	.LASF20
+ 383 0107 05       		.uleb128 0x5
+ 384 0108 08       		.byte	0x8
+ 385 0109 07       		.byte	0x7
+ 386 010a 2C010000 		.4byte	.LASF21
+ 387 010e 07       		.uleb128 0x7
+ 388 010f 04       		.byte	0x4
+ 389 0110 05       		.byte	0x5
+ 390 0111 696E7400 		.ascii	"int\000"
+ 391 0115 05       		.uleb128 0x5
+ 392 0116 04       		.byte	0x4
+ 393 0117 07       		.byte	0x7
+ 394 0118 43010000 		.4byte	.LASF22
+ 395 011c 05       		.uleb128 0x5
+ 396 011d 04       		.byte	0x4
+ 397 011e 04       		.byte	0x4
+ 398 011f 00000000 		.4byte	.LASF23
+ 399 0123 05       		.uleb128 0x5
+ 400 0124 08       		.byte	0x8
+ 401 0125 04       		.byte	0x4
+ 402 0126 EF010000 		.4byte	.LASF24
+ 403 012a 05       		.uleb128 0x5
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 9
+
+
+ 404 012b 01       		.byte	0x1
+ 405 012c 08       		.byte	0x8
+ 406 012d 71010000 		.4byte	.LASF25
+ 407 0131 08       		.uleb128 0x8
+ 408 0132 50010000 		.4byte	.LASF26
+ 409 0136 01       		.byte	0x1
+ 410 0137 13       		.byte	0x13
+ 411 0138 00000000 		.4byte	.LFB0
+ 412 013c 26000000 		.4byte	.LFE0-.LFB0
+ 413 0140 01       		.uleb128 0x1
+ 414 0141 9C       		.byte	0x9c
+ 415 0142 55010000 		.4byte	0x155
+ 416 0146 09       		.uleb128 0x9
+ 417 0147 73656700 		.ascii	"seg\000"
+ 418 014b 01       		.byte	0x1
+ 419 014c 13       		.byte	0x13
+ 420 014d D2000000 		.4byte	0xd2
+ 421 0151 02       		.uleb128 0x2
+ 422 0152 91       		.byte	0x91
+ 423 0153 77       		.sleb128 -9
+ 424 0154 00       		.byte	0
+ 425 0155 0A       		.uleb128 0xa
+ 426 0156 FC010000 		.4byte	.LASF32
+ 427 015a 01       		.byte	0x1
+ 428 015b 1C       		.byte	0x1c
+ 429 015c 8D000000 		.4byte	0x8d
+ 430 0160 00000000 		.4byte	.LFB1
+ 431 0164 0E000000 		.4byte	.LFE1-.LFB1
+ 432 0168 01       		.uleb128 0x1
+ 433 0169 9C       		.byte	0x9c
+ 434 016a 08       		.uleb128 0x8
+ 435 016b BB000000 		.4byte	.LASF27
+ 436 016f 01       		.byte	0x1
+ 437 0170 20       		.byte	0x20
+ 438 0171 00000000 		.4byte	.LFB2
+ 439 0175 E2000000 		.4byte	.LFE2-.LFB2
+ 440 0179 01       		.uleb128 0x1
+ 441 017a 9C       		.byte	0x9c
+ 442 017b 8E010000 		.4byte	0x18e
+ 443 017f 0B       		.uleb128 0xb
+ 444 0180 EA010000 		.4byte	.LASF28
+ 445 0184 01       		.byte	0x1
+ 446 0185 20       		.byte	0x20
+ 447 0186 8D000000 		.4byte	0x8d
+ 448 018a 02       		.uleb128 0x2
+ 449 018b 91       		.byte	0x91
+ 450 018c 77       		.sleb128 -9
+ 451 018d 00       		.byte	0
+ 452 018e 0C       		.uleb128 0xc
+ 453 018f CB000000 		.4byte	.LASF33
+ 454 0193 02       		.byte	0x2
+ 455 0194 10       		.byte	0x10
+ 456 0195 98000000 		.4byte	0x98
+ 457 0199 05       		.uleb128 0x5
+ 458 019a 03       		.byte	0x3
+ 459 019b 00000000 		.4byte	funny
+ 460 019f 00       		.byte	0
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 10
+
+
+ 461              		.section	.debug_abbrev,"",%progbits
+ 462              	.Ldebug_abbrev0:
+ 463 0000 01       		.uleb128 0x1
+ 464 0001 11       		.uleb128 0x11
+ 465 0002 01       		.byte	0x1
+ 466 0003 25       		.uleb128 0x25
+ 467 0004 0E       		.uleb128 0xe
+ 468 0005 13       		.uleb128 0x13
+ 469 0006 0B       		.uleb128 0xb
+ 470 0007 03       		.uleb128 0x3
+ 471 0008 0E       		.uleb128 0xe
+ 472 0009 1B       		.uleb128 0x1b
+ 473 000a 0E       		.uleb128 0xe
+ 474 000b 55       		.uleb128 0x55
+ 475 000c 17       		.uleb128 0x17
+ 476 000d 11       		.uleb128 0x11
+ 477 000e 01       		.uleb128 0x1
+ 478 000f 10       		.uleb128 0x10
+ 479 0010 17       		.uleb128 0x17
+ 480 0011 00       		.byte	0
+ 481 0012 00       		.byte	0
+ 482 0013 02       		.uleb128 0x2
+ 483 0014 04       		.uleb128 0x4
+ 484 0015 01       		.byte	0x1
+ 485 0016 0B       		.uleb128 0xb
+ 486 0017 0B       		.uleb128 0xb
+ 487 0018 49       		.uleb128 0x49
+ 488 0019 13       		.uleb128 0x13
+ 489 001a 3A       		.uleb128 0x3a
+ 490 001b 0B       		.uleb128 0xb
+ 491 001c 3B       		.uleb128 0x3b
+ 492 001d 0B       		.uleb128 0xb
+ 493 001e 01       		.uleb128 0x1
+ 494 001f 13       		.uleb128 0x13
+ 495 0020 00       		.byte	0
+ 496 0021 00       		.byte	0
+ 497 0022 03       		.uleb128 0x3
+ 498 0023 28       		.uleb128 0x28
+ 499 0024 00       		.byte	0
+ 500 0025 03       		.uleb128 0x3
+ 501 0026 08       		.uleb128 0x8
+ 502 0027 1C       		.uleb128 0x1c
+ 503 0028 0B       		.uleb128 0xb
+ 504 0029 00       		.byte	0
+ 505 002a 00       		.byte	0
+ 506 002b 04       		.uleb128 0x4
+ 507 002c 28       		.uleb128 0x28
+ 508 002d 00       		.byte	0
+ 509 002e 03       		.uleb128 0x3
+ 510 002f 0E       		.uleb128 0xe
+ 511 0030 1C       		.uleb128 0x1c
+ 512 0031 0B       		.uleb128 0xb
+ 513 0032 00       		.byte	0
+ 514 0033 00       		.byte	0
+ 515 0034 05       		.uleb128 0x5
+ 516 0035 24       		.uleb128 0x24
+ 517 0036 00       		.byte	0
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 11
+
+
+ 518 0037 0B       		.uleb128 0xb
+ 519 0038 0B       		.uleb128 0xb
+ 520 0039 3E       		.uleb128 0x3e
+ 521 003a 0B       		.uleb128 0xb
+ 522 003b 03       		.uleb128 0x3
+ 523 003c 0E       		.uleb128 0xe
+ 524 003d 00       		.byte	0
+ 525 003e 00       		.byte	0
+ 526 003f 06       		.uleb128 0x6
+ 527 0040 16       		.uleb128 0x16
+ 528 0041 00       		.byte	0
+ 529 0042 03       		.uleb128 0x3
+ 530 0043 0E       		.uleb128 0xe
+ 531 0044 3A       		.uleb128 0x3a
+ 532 0045 0B       		.uleb128 0xb
+ 533 0046 3B       		.uleb128 0x3b
+ 534 0047 0B       		.uleb128 0xb
+ 535 0048 49       		.uleb128 0x49
+ 536 0049 13       		.uleb128 0x13
+ 537 004a 00       		.byte	0
+ 538 004b 00       		.byte	0
+ 539 004c 07       		.uleb128 0x7
+ 540 004d 24       		.uleb128 0x24
+ 541 004e 00       		.byte	0
+ 542 004f 0B       		.uleb128 0xb
+ 543 0050 0B       		.uleb128 0xb
+ 544 0051 3E       		.uleb128 0x3e
+ 545 0052 0B       		.uleb128 0xb
+ 546 0053 03       		.uleb128 0x3
+ 547 0054 08       		.uleb128 0x8
+ 548 0055 00       		.byte	0
+ 549 0056 00       		.byte	0
+ 550 0057 08       		.uleb128 0x8
+ 551 0058 2E       		.uleb128 0x2e
+ 552 0059 01       		.byte	0x1
+ 553 005a 3F       		.uleb128 0x3f
+ 554 005b 19       		.uleb128 0x19
+ 555 005c 03       		.uleb128 0x3
+ 556 005d 0E       		.uleb128 0xe
+ 557 005e 3A       		.uleb128 0x3a
+ 558 005f 0B       		.uleb128 0xb
+ 559 0060 3B       		.uleb128 0x3b
+ 560 0061 0B       		.uleb128 0xb
+ 561 0062 27       		.uleb128 0x27
+ 562 0063 19       		.uleb128 0x19
+ 563 0064 11       		.uleb128 0x11
+ 564 0065 01       		.uleb128 0x1
+ 565 0066 12       		.uleb128 0x12
+ 566 0067 06       		.uleb128 0x6
+ 567 0068 40       		.uleb128 0x40
+ 568 0069 18       		.uleb128 0x18
+ 569 006a 9642     		.uleb128 0x2116
+ 570 006c 19       		.uleb128 0x19
+ 571 006d 01       		.uleb128 0x1
+ 572 006e 13       		.uleb128 0x13
+ 573 006f 00       		.byte	0
+ 574 0070 00       		.byte	0
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 12
+
+
+ 575 0071 09       		.uleb128 0x9
+ 576 0072 05       		.uleb128 0x5
+ 577 0073 00       		.byte	0
+ 578 0074 03       		.uleb128 0x3
+ 579 0075 08       		.uleb128 0x8
+ 580 0076 3A       		.uleb128 0x3a
+ 581 0077 0B       		.uleb128 0xb
+ 582 0078 3B       		.uleb128 0x3b
+ 583 0079 0B       		.uleb128 0xb
+ 584 007a 49       		.uleb128 0x49
+ 585 007b 13       		.uleb128 0x13
+ 586 007c 02       		.uleb128 0x2
+ 587 007d 18       		.uleb128 0x18
+ 588 007e 00       		.byte	0
+ 589 007f 00       		.byte	0
+ 590 0080 0A       		.uleb128 0xa
+ 591 0081 2E       		.uleb128 0x2e
+ 592 0082 00       		.byte	0
+ 593 0083 3F       		.uleb128 0x3f
+ 594 0084 19       		.uleb128 0x19
+ 595 0085 03       		.uleb128 0x3
+ 596 0086 0E       		.uleb128 0xe
+ 597 0087 3A       		.uleb128 0x3a
+ 598 0088 0B       		.uleb128 0xb
+ 599 0089 3B       		.uleb128 0x3b
+ 600 008a 0B       		.uleb128 0xb
+ 601 008b 49       		.uleb128 0x49
+ 602 008c 13       		.uleb128 0x13
+ 603 008d 11       		.uleb128 0x11
+ 604 008e 01       		.uleb128 0x1
+ 605 008f 12       		.uleb128 0x12
+ 606 0090 06       		.uleb128 0x6
+ 607 0091 40       		.uleb128 0x40
+ 608 0092 18       		.uleb128 0x18
+ 609 0093 9642     		.uleb128 0x2116
+ 610 0095 19       		.uleb128 0x19
+ 611 0096 00       		.byte	0
+ 612 0097 00       		.byte	0
+ 613 0098 0B       		.uleb128 0xb
+ 614 0099 05       		.uleb128 0x5
+ 615 009a 00       		.byte	0
+ 616 009b 03       		.uleb128 0x3
+ 617 009c 0E       		.uleb128 0xe
+ 618 009d 3A       		.uleb128 0x3a
+ 619 009e 0B       		.uleb128 0xb
+ 620 009f 3B       		.uleb128 0x3b
+ 621 00a0 0B       		.uleb128 0xb
+ 622 00a1 49       		.uleb128 0x49
+ 623 00a2 13       		.uleb128 0x13
+ 624 00a3 02       		.uleb128 0x2
+ 625 00a4 18       		.uleb128 0x18
+ 626 00a5 00       		.byte	0
+ 627 00a6 00       		.byte	0
+ 628 00a7 0C       		.uleb128 0xc
+ 629 00a8 34       		.uleb128 0x34
+ 630 00a9 00       		.byte	0
+ 631 00aa 03       		.uleb128 0x3
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 13
+
+
+ 632 00ab 0E       		.uleb128 0xe
+ 633 00ac 3A       		.uleb128 0x3a
+ 634 00ad 0B       		.uleb128 0xb
+ 635 00ae 3B       		.uleb128 0x3b
+ 636 00af 0B       		.uleb128 0xb
+ 637 00b0 49       		.uleb128 0x49
+ 638 00b1 13       		.uleb128 0x13
+ 639 00b2 3F       		.uleb128 0x3f
+ 640 00b3 19       		.uleb128 0x19
+ 641 00b4 02       		.uleb128 0x2
+ 642 00b5 18       		.uleb128 0x18
+ 643 00b6 00       		.byte	0
+ 644 00b7 00       		.byte	0
+ 645 00b8 00       		.byte	0
+ 646              		.section	.debug_aranges,"",%progbits
+ 647 0000 2C000000 		.4byte	0x2c
+ 648 0004 0200     		.2byte	0x2
+ 649 0006 00000000 		.4byte	.Ldebug_info0
+ 650 000a 04       		.byte	0x4
+ 651 000b 00       		.byte	0
+ 652 000c 0000     		.2byte	0
+ 653 000e 0000     		.2byte	0
+ 654 0010 00000000 		.4byte	.LFB0
+ 655 0014 26000000 		.4byte	.LFE0-.LFB0
+ 656 0018 00000000 		.4byte	.LFB1
+ 657 001c 0E000000 		.4byte	.LFE1-.LFB1
+ 658 0020 00000000 		.4byte	.LFB2
+ 659 0024 E2000000 		.4byte	.LFE2-.LFB2
+ 660 0028 00000000 		.4byte	0
+ 661 002c 00000000 		.4byte	0
+ 662              		.section	.debug_ranges,"",%progbits
+ 663              	.Ldebug_ranges0:
+ 664 0000 00000000 		.4byte	.LFB0
+ 665 0004 26000000 		.4byte	.LFE0
+ 666 0008 00000000 		.4byte	.LFB1
+ 667 000c 0E000000 		.4byte	.LFE1
+ 668 0010 00000000 		.4byte	.LFB2
+ 669 0014 E2000000 		.4byte	.LFE2
+ 670 0018 00000000 		.4byte	0
+ 671 001c 00000000 		.4byte	0
+ 672              		.section	.debug_line,"",%progbits
+ 673              	.Ldebug_line0:
+ 674 0000 8B000000 		.section	.debug_str,"MS",%progbits,1
+ 674      02003B00 
+ 674      00000201 
+ 674      FB0E0D00 
+ 674      01010101 
+ 675              	.LASF23:
+ 676 0000 666C6F61 		.ascii	"float\000"
+ 676      7400
+ 677              	.LASF30:
+ 678 0006 73657665 		.ascii	"sevenSegDriver.c\000"
+ 678      6E536567 
+ 678      44726976 
+ 678      65722E63 
+ 678      00
+ 679              	.LASF16:
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 14
+
+
+ 680 0017 73686F72 		.ascii	"short int\000"
+ 680      7420696E 
+ 680      7400
+ 681              	.LASF8:
+ 682 0021 41434854 		.ascii	"ACHT\000"
+ 682      00
+ 683              	.LASF12:
+ 684 0026 7369676E 		.ascii	"sign_t\000"
+ 684      5F7400
+ 685              	.LASF29:
+ 686 002d 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 686      43313120 
+ 686      352E342E 
+ 686      31203230 
+ 686      31363036 
+ 687 0060 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 687      20726576 
+ 687      6973696F 
+ 687      6E203233 
+ 687      37373135 
+ 688 0093 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 688      66756E63 
+ 688      74696F6E 
+ 688      2D736563 
+ 688      74696F6E 
+ 689              	.LASF27:
+ 690 00bb 73657453 		.ascii	"setSegSign\000"
+ 690      65675369 
+ 690      676E00
+ 691              	.LASF0:
+ 692 00c6 5A45524F 		.ascii	"ZERO\000"
+ 692      00
+ 693              	.LASF33:
+ 694 00cb 66756E6E 		.ascii	"funny\000"
+ 694      7900
+ 695              	.LASF4:
+ 696 00d1 56494552 		.ascii	"VIER\000"
+ 696      00
+ 697              	.LASF1:
+ 698 00d6 45494E53 		.ascii	"EINS\000"
+ 698      00
+ 699              	.LASF7:
+ 700 00db 53494542 		.ascii	"SIEBEN\000"
+ 700      454E00
+ 701              	.LASF20:
+ 702 00e2 6C6F6E67 		.ascii	"long long int\000"
+ 702      206C6F6E 
+ 702      6720696E 
+ 702      7400
+ 703              	.LASF10:
+ 704 00f0 53454731 		.ascii	"SEG1\000"
+ 704      00
+ 705              	.LASF11:
+ 706 00f5 53454732 		.ascii	"SEG2\000"
+ 706      00
+ 707              	.LASF18:
+ 708 00fa 6C6F6E67 		.ascii	"long int\000"
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 15
+
+
+ 708      20696E74 
+ 708      00
+ 709              	.LASF13:
+ 710 0103 7365676D 		.ascii	"segment_t\000"
+ 710      656E745F 
+ 710      7400
+ 711              	.LASF14:
+ 712 010d 756E7369 		.ascii	"unsigned char\000"
+ 712      676E6564 
+ 712      20636861 
+ 712      7200
+ 713              	.LASF3:
+ 714 011b 44524549 		.ascii	"DREI\000"
+ 714      00
+ 715              	.LASF15:
+ 716 0120 7369676E 		.ascii	"signed char\000"
+ 716      65642063 
+ 716      68617200 
+ 717              	.LASF21:
+ 718 012c 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 718      206C6F6E 
+ 718      6720756E 
+ 718      7369676E 
+ 718      65642069 
+ 719              	.LASF22:
+ 720 0143 756E7369 		.ascii	"unsigned int\000"
+ 720      676E6564 
+ 720      20696E74 
+ 720      00
+ 721              	.LASF26:
+ 722 0150 696E6974 		.ascii	"init_sev\000"
+ 722      5F736576 
+ 722      00
+ 723              	.LASF17:
+ 724 0159 73686F72 		.ascii	"short unsigned int\000"
+ 724      7420756E 
+ 724      7369676E 
+ 724      65642069 
+ 724      6E7400
+ 725              	.LASF2:
+ 726 016c 5A574549 		.ascii	"ZWEI\000"
+ 726      00
+ 727              	.LASF25:
+ 728 0171 63686172 		.ascii	"char\000"
+ 728      00
+ 729              	.LASF31:
+ 730 0176 433A5C55 		.ascii	"C:\\Users\\schmi\\OneDrive\\Dokumente\\PSoC Creator"
+ 730      73657273 
+ 730      5C736368 
+ 730      6D695C4F 
+ 730      6E654472 
+ 731 01a4 5C4A736F 		.ascii	"\\JsonParserLAB3\\holidayProject\\setUpEnv.cydsn\000"
+ 731      6E506172 
+ 731      7365724C 
+ 731      4142335C 
+ 731      686F6C69 
+ 732              	.LASF5:
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccFjB1oM.s 			page 16
+
+
+ 733 01d2 4655454E 		.ascii	"FUENF\000"
+ 733      4600
+ 734              	.LASF19:
+ 735 01d8 6C6F6E67 		.ascii	"long unsigned int\000"
+ 735      20756E73 
+ 735      69676E65 
+ 735      6420696E 
+ 735      7400
+ 736              	.LASF28:
+ 737 01ea 7369676E 		.ascii	"sign\000"
+ 737      00
+ 738              	.LASF24:
+ 739 01ef 646F7562 		.ascii	"double\000"
+ 739      6C6500
+ 740              	.LASF6:
+ 741 01f6 53454348 		.ascii	"SECHS\000"
+ 741      5300
+ 742              	.LASF32:
+ 743 01fc 67657453 		.ascii	"getSegSign\000"
+ 743      65675369 
+ 743      676E00
+ 744              	.LASF9:
+ 745 0207 4E45554E 		.ascii	"NEUN\000"
+ 745      00
+ 746              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,118 @@
+--------------- Build Started: 03/07/2025 12:05:44 Project: setUpEnv, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+The code generation step is up to date.
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I.\source\asw -I.\source\bsw -I.\source\bsw\services -I.\source\bsw\tft -I.\source\bsw\tft\fonts -I.\source\bsw\myDrivers -I.\source\bsw\json -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/main.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -O0 -c source\asw\main.c -o .\CortexM3\ARM_GCC_541\Debug\main.o
+In file included from Generated_Source\PSoC5/cyfitter_cfg.h:20:0,
+                 from Generated_Source\PSoC5/project.h:17,
+                 from ./bufferTypes.h:13,
+                 from ./drawer.h:13,
+                 from ./message.h:21,
+                 from source\asw\main.c:12:
+Generated_Source\PSoC5/cytypes.h:1376:0: warning: "LO8" redefined
+ #define LO8(x)                  ((uint8) ((x) & 0xFFu))
+ ^
+In file included from .\source\bsw\tft/tft.h:29:0,
+                 from ./drawer.h:12,
+                 from ./message.h:21,
+                 from source\asw\main.c:12:
+.\source\bsw/global.h:306:0: note: this is the location of the previous definition
+  # define LO8(x)   ((uint8_t) ((x) & 0xFFu))
+ ^
+In file included from Generated_Source\PSoC5/cyfitter_cfg.h:20:0,
+                 from Generated_Source\PSoC5/project.h:17,
+                 from ./bufferTypes.h:13,
+                 from ./drawer.h:13,
+                 from ./message.h:21,
+                 from source\asw\main.c:12:
+Generated_Source\PSoC5/cytypes.h:1377:0: warning: "HI8" redefined
+ #define HI8(x)                  ((uint8) ((uint16)(x) >> 8))
+ ^
+In file included from .\source\bsw\tft/tft.h:29:0,
+                 from ./drawer.h:12,
+                 from ./message.h:21,
+                 from source\asw\main.c:12:
+.\source\bsw/global.h:311:0: note: this is the location of the previous definition
+  # define HI8(x)   ((uint8_t) ((uint16_t)(x) >> 8))
+ ^
+In file included from Generated_Source\PSoC5/cyfitter_cfg.h:20:0,
+                 from Generated_Source\PSoC5/project.h:17,
+                 from ./bufferTypes.h:13,
+                 from ./drawer.h:13,
+                 from ./message.h:21,
+                 from source\asw\main.c:12:
+Generated_Source\PSoC5/cytypes.h:1380:0: warning: "LO16" redefined
+ #define LO16(x)                 ((uint16) ((x) & 0xFFFFu))
+ ^
+In file included from .\source\bsw\tft/tft.h:29:0,
+                 from ./drawer.h:12,
+                 from ./message.h:21,
+                 from source\asw\main.c:12:
+.\source\bsw/global.h:316:0: note: this is the location of the previous definition
+  # define LO16(x)   ((uint16_t) ((x) & 0xFFFFu))
+ ^
+In file included from Generated_Source\PSoC5/cyfitter_cfg.h:20:0,
+                 from Generated_Source\PSoC5/project.h:17,
+                 from ./bufferTypes.h:13,
+                 from ./drawer.h:13,
+                 from ./message.h:21,
+                 from source\asw\main.c:12:
+Generated_Source\PSoC5/cytypes.h:1381:0: warning: "HI16" redefined
+ #define HI16(x)                 ((uint16) ((uint32)(x) >> 16))
+ ^
+In file included from .\source\bsw\tft/tft.h:29:0,
+                 from ./drawer.h:12,
+                 from ./message.h:21,
+                 from source\asw\main.c:12:
+.\source\bsw/global.h:321:0: note: this is the location of the previous definition
+  # define HI16(x)   ((uint16_t) ((uint32_t)(x) >> 16))
+ ^
+source\asw\main.c: In function 'Functsk_json':
+source\asw\main.c:98:14: warning: unused variable 'res' [-Wunused-variable]
+         RC_t res = mb_transferTokenIntoDrawer(&messages, nbrTokens,tftCommands,tokens, jsonString, &drawerObj);
+              ^
+source\asw\main.c:95:22: warning: unused variable 'tftCommandToken' [-Wunused-variable]
+         unsigned int tftCommandToken = 0;
+                      ^
+source\asw\main.c:94:22: warning: unused variable 'index_tokens' [-Wunused-variable]
+         unsigned int index_tokens = 0;
+                      ^
+In file included from Generated_Source\PSoC5/ErikaOS_1_ee_api.inc:73:0,
+                 from Generated_Source\PSoC5/ErikaOS_1_ee.h:129,
+                 from Generated_Source\PSoC5/project.h:91,
+                 from ./bufferTypes.h:13,
+                 from ./drawer.h:13,
+                 from ./message.h:21,
+                 from source\asw\main.c:12:
+Generated_Source\PSoC5/ErikaOS_1_ee_oo_api.inc:92:35: warning: statement with no effect [-Wunused-value]
+ #define TerminateTask             EE_oo_TerminateTask
+                                   ^
+source\asw\main.c:101:5: note: in expansion of macro 'TerminateTask'
+     TerminateTask;
+     ^
+In file included from ./message.h:20:0,
+                 from source\asw\main.c:12:
+source\asw\main.c: At top level:
+.\source\bsw\json/jsmn.h:135:12: warning: 'jsmn_parse_primitive' defined but not used [-Wunused-function]
+ static int jsmn_parse_primitive(jsmn_parser *parser, const char *js,
+            ^
+.\source\bsw\json/jsmn.h:193:12: warning: 'jsmn_parse_string' defined but not used [-Wunused-function]
+ static int jsmn_parse_string(jsmn_parser *parser, const char *js,
+            ^
+In file included from source\asw\main.c:12:0:
+./message.h:52:13: warning: 'mb_writeToMessageBuffer' declared 'static' but never defined [-Wunused-function]
+ static RC_t mb_writeToMessageBuffer(messagebox_t* const me,RingBuffer_type type,Drawer_t data, uint8_t uint8Data);
+             ^
+In file included from source\asw\main.c:13:0:
+./myRingbuffer.h:19:16: warning: 'rb_delimiter' defined but not used [-Wunused-variable]
+ static uint8_t rb_delimiter = '\0';
+                ^
+arm-none-eabi-ar.exe -rs .\CortexM3\ARM_GCC_541\Debug\setUpEnv.a .\CortexM3\ARM_GCC_541\Debug\CyDmac.o .\CortexM3\ARM_GCC_541\Debug\CyFlash.o .\CortexM3\ARM_GCC_541\Debug\CyLib.o .\CortexM3\ARM_GCC_541\Debug\cyPm.o .\CortexM3\ARM_GCC_541\Debug\CySpc.o .\CortexM3\ARM_GCC_541\Debug\cyutils.o .\CortexM3\ARM_GCC_541\Debug\cy_em_eeprom.o .\CortexM3\ARM_GCC_541\Debug\led_red_rgb.o .\CortexM3\ARM_GCC_541\Debug\led_blue_rgb.o .\CortexM3\ARM_GCC_541\Debug\led_green_rgb.o .\CortexM3\ARM_GCC_541\Debug\PWM_1.o .\CortexM3\ARM_GCC_541\Debug\PWM_1_PM.o .\CortexM3\ARM_GCC_541\Debug\PWM_2.o .\CortexM3\ARM_GCC_541\Debug\PWM_2_PM.o .\CortexM3\ARM_GCC_541\Debug\PWM_3.o .\CortexM3\ARM_GCC_541\Debug\PWM_3_PM.o .\CortexM3\ARM_GCC_541\Debug\clk.o .\CortexM3\ARM_GCC_541\Debug\led_R.o .\CortexM3\ARM_GCC_541\Debug\led_Y.o .\CortexM3\ARM_GCC_541\Debug\led_G.o .\CortexM3\ARM_GCC_541\Debug\joystick_horizontal.o .\CortexM3\ARM_GCC_541\Debug\joystick_vertical.o .\CortexM3\ARM_GCC_541\Debug\joystick_button.o .\CortexM3\ARM_GCC_541\Debug\ADC_Joy.o .\CortexM3\ARM_GCC_541\Debug\ADC_Joy_PM.o .\CortexM3\ARM_GCC_541\Debug\ADC_Joy_INT.o .\CortexM3\ARM_GCC_541\Debug\ADC_Joy_SAR.o .\CortexM3\ARM_GCC_541\Debug\ADC_Joy_SAR_INT.o .\CortexM3\ARM_GCC_541\Debug\ADC_Joy_SAR_PM.o .\CortexM3\ARM_GCC_541\Debug\ADC_Joy_IntClock.o .\CortexM3\ARM_GCC_541\Debug\ADC_Joy_TempBuf_dma.o .\CortexM3\ARM_GCC_541\Debug\ADC_Joy_FinalBuf_dma.o .\CortexM3\ARM_GCC_541\Debug\ADC_Joy_IRQ.o .\CortexM3\ARM_GCC_541\Debug\SEG_1_A.o .\CortexM3\ARM_GCC_541\Debug\SEG_1_B.o .\CortexM3\ARM_GCC_541\Debug\SEG_1_C.o .\CortexM3\ARM_GCC_541\Debug\SEG_1_D.o .\CortexM3\ARM_GCC_541\Debug\SEG_1_E.o .\CortexM3\ARM_GCC_541\Debug\SEG_1_F.o .\CortexM3\ARM_GCC_541\Debug\SEG_1_G.o .\CortexM3\ARM_GCC_541\Debug\SEG_1_DP.o .\CortexM3\ARM_GCC_541\Debug\SEVEN_SELECT.o .\CortexM3\ARM_GCC_541\Debug\SEVEN_CONTROL.o .\CortexM3\ARM_GCC_541\Debug\SEVEN_CONTROL_PM.o .\CortexM3\ARM_GCC_541\Debug\isr_button.o .\CortexM3\ARM_GCC_541\Debug\Button_1.o .\CortexM3\ARM_GCC_541\Debug\Button_2.o .\CortexM3\ARM_GCC_541\Debug\Button_3.o .\CortexM3\ARM_GCC_541\Debug\Button_4.o .\CortexM3\ARM_GCC_541\Debug\TFT_SPI.o .\CortexM3\ARM_GCC_541\Debug\TFT_SPI_PM.o .\CortexM3\ARM_GCC_541\Debug\TFT_SPI_INT.o .\CortexM3\ARM_GCC_541\Debug\TFT_SDA.o .\CortexM3\ARM_GCC_541\Debug\TFT_SCL.o .\CortexM3\ARM_GCC_541\Debug\TFT_CS.o .\CortexM3\ARM_GCC_541\Debug\TFT_DC.o .\CortexM3\ARM_GCC_541\Debug\TFT_LED.o .\CortexM3\ARM_GCC_541\Debug\TFT_RES.o .\CortexM3\ARM_GCC_541\Debug\clk1.o .\CortexM3\ARM_GCC_541\Debug\TFT_SPI_IntClock.o .\CortexM3\ARM_GCC_541\Debug\UART_LOG.o .\CortexM3\ARM_GCC_541\Debug\UART_LOG_PM.o .\CortexM3\ARM_GCC_541\Debug\UART_LOG_INT.o .\CortexM3\ARM_GCC_541\Debug\UART_LOG_BOOT.o .\CortexM3\ARM_GCC_541\Debug\UART_LOG_IntClock.o .\CortexM3\ARM_GCC_541\Debug\TFT_BackLight.o .\CortexM3\ARM_GCC_541\Debug\TFT_BackLight_PM.o .\CortexM3\ARM_GCC_541\Debug\isr_log_rx.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_activate.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_alcancel.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_alget.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_algetbase.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_alsetabs.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_alsetrel.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_altick.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_chaintas.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_evclear.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_evget.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_evset.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_evwait.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_force_schedule.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_getcountervalue.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_getelapsedvalue.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_gettaskid.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_gettaskstate.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_iparam.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_irqendin.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_lockres.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_lookup.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_rq_exchg.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_rq_first.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_rq_inser.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_schedule.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_semgetvalue.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_sempost.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_semtrywait.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_semwait.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_shtdown.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_startos.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_terminat.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_thendin.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_tnterm.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_tstub.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_ulockallres.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_ulockres.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_cortex_mx_ee_context.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_cortex_mx_ee_system_timer.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_cortex_mx_ee_utils.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_common_ee_hal_structs.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_eecfg.o .\CortexM3\ARM_GCC_541\Debug\CyBootAsmGnu.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_gnu_change_context_isr.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_gnu_irq_stack.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_gnu_multi_context.o .\CortexM3\ARM_GCC_541\Debug\ErikaOS_1_ee_gnu_oo.o
+arm-none-eabi-ar.exe: creating .\CortexM3\ARM_GCC_541\Debug\setUpEnv.a
+arm-none-eabi-gcc.exe -Wl,--start-group -o "C:\Users\schmi\OneDrive\Dokumente\PSoC Creator\JsonParserLAB3\holidayProject\setUpEnv.cydsn\CortexM3\ARM_GCC_541\Debug\setUpEnv.elf" .\CortexM3\ARM_GCC_541\Debug\main.o .\CortexM3\ARM_GCC_541\Debug\tft.o .\CortexM3\ARM_GCC_541\Debug\button.o .\CortexM3\ARM_GCC_541\Debug\seven.o .\CortexM3\ARM_GCC_541\Debug\led.o .\CortexM3\ARM_GCC_541\Debug\logging.o .\CortexM3\ARM_GCC_541\Debug\myLED.o .\CortexM3\ARM_GCC_541\Debug\sevenSegDriver.o .\CortexM3\ARM_GCC_541\Debug\myRingbuffer.o .\CortexM3\ARM_GCC_541\Debug\message.o .\CortexM3\ARM_GCC_541\Debug\jsmn.o .\CortexM3\ARM_GCC_541\Debug\drawer.o .\CortexM3\ARM_GCC_541\Debug\cyfitter_cfg.o .\CortexM3\ARM_GCC_541\Debug\cymetadata.o .\CortexM3\ARM_GCC_541\Debug\Cm3Start.o .\CortexM3\ARM_GCC_541\Debug\setUpEnv.a "C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CortexM3\ARM_GCC_541\Debug\CyComponentLibrary.a" -mcpu=cortex-m3 -mthumb -L Generated_Source\PSoC5 -Wl,-Map,.\CortexM3\ARM_GCC_541\Debug/setUpEnv.map -T Generated_Source\PSoC5\cm3gcc.ld -specs=nano.specs -Wl,--gc-sections -g -ffunction-sections -O0 -ffat-lto-objects -Wl,--end-group
+cyelftool.exe -C "C:\Users\schmi\OneDrive\Dokumente\PSoC Creator\JsonParserLAB3\holidayProject\setUpEnv.cydsn\CortexM3\ARM_GCC_541\Debug\setUpEnv.elf" --flash_row_size 256 --flash_size 262144 --flash_offset 0x00000000
+No ELF section .cychecksum found, creating one
+Application checksum calculated and stored in ELF section .cychecksum
+Checksum calculated and stored in ELF section .cymeta
+cyelftool.exe -S "C:\Users\schmi\OneDrive\Dokumente\PSoC Creator\JsonParserLAB3\holidayProject\setUpEnv.cydsn\CortexM3\ARM_GCC_541\Debug\setUpEnv.elf"
+Flash used: 24480 of 262144 bytes (9,3 %).
+SRAM used: 11093 of 65536 bytes (16,9 %). Stack: 2048 bytes. Heap: 2048 bytes.
+--------------- Build Succeeded: 03/07/2025 12:05:45 ---------------

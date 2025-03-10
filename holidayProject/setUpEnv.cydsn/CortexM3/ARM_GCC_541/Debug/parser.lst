@@ -1,0 +1,3289 @@
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"parser.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.jsmn_alloc_token,"ax",%progbits
+  20              		.align	2
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	jsmn_alloc_token, %function
+  24              	jsmn_alloc_token:
+  25              	.LFB0:
+  26              		.file 1 ".\\source\\bsw\\json/jsmn.h"
+   1:.\source\bsw\json/jsmn.h **** /*
+   2:.\source\bsw\json/jsmn.h ****  * MIT License
+   3:.\source\bsw\json/jsmn.h ****  *
+   4:.\source\bsw\json/jsmn.h ****  * Copyright (c) 2010 Serge Zaitsev
+   5:.\source\bsw\json/jsmn.h ****  *
+   6:.\source\bsw\json/jsmn.h ****  * Permission is hereby granted, free of charge, to any person obtaining a copy
+   7:.\source\bsw\json/jsmn.h ****  * of this software and associated documentation files (the "Software"), to deal
+   8:.\source\bsw\json/jsmn.h ****  * in the Software without restriction, including without limitation the rights
+   9:.\source\bsw\json/jsmn.h ****  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  10:.\source\bsw\json/jsmn.h ****  * copies of the Software, and to permit persons to whom the Software is
+  11:.\source\bsw\json/jsmn.h ****  * furnished to do so, subject to the following conditions:
+  12:.\source\bsw\json/jsmn.h ****  *
+  13:.\source\bsw\json/jsmn.h ****  * The above copyright notice and this permission notice shall be included in
+  14:.\source\bsw\json/jsmn.h ****  * all copies or substantial portions of the Software.
+  15:.\source\bsw\json/jsmn.h ****  *
+  16:.\source\bsw\json/jsmn.h ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  17:.\source\bsw\json/jsmn.h ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  18:.\source\bsw\json/jsmn.h ****  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  19:.\source\bsw\json/jsmn.h ****  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  20:.\source\bsw\json/jsmn.h ****  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  21:.\source\bsw\json/jsmn.h ****  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  22:.\source\bsw\json/jsmn.h ****  * SOFTWARE.
+  23:.\source\bsw\json/jsmn.h ****  */
+  24:.\source\bsw\json/jsmn.h **** #ifndef JSMN_H
+  25:.\source\bsw\json/jsmn.h **** #define JSMN_H
+  26:.\source\bsw\json/jsmn.h **** 
+  27:.\source\bsw\json/jsmn.h **** #include <stddef.h>
+  28:.\source\bsw\json/jsmn.h **** 
+  29:.\source\bsw\json/jsmn.h **** #ifdef __cplusplus
+  30:.\source\bsw\json/jsmn.h **** extern "C" {
+  31:.\source\bsw\json/jsmn.h **** #endif
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 2
+
+
+  32:.\source\bsw\json/jsmn.h **** 
+  33:.\source\bsw\json/jsmn.h **** #ifdef JSMN_STATIC
+  34:.\source\bsw\json/jsmn.h **** #define JSMN_API static
+  35:.\source\bsw\json/jsmn.h **** #else
+  36:.\source\bsw\json/jsmn.h **** #define JSMN_API extern
+  37:.\source\bsw\json/jsmn.h **** #endif
+  38:.\source\bsw\json/jsmn.h **** 
+  39:.\source\bsw\json/jsmn.h **** /**
+  40:.\source\bsw\json/jsmn.h ****  * JSON type identifier. Basic types are:
+  41:.\source\bsw\json/jsmn.h ****  * 	o Object
+  42:.\source\bsw\json/jsmn.h ****  * 	o Array
+  43:.\source\bsw\json/jsmn.h ****  * 	o String
+  44:.\source\bsw\json/jsmn.h ****  * 	o Other primitive: number, boolean (true/false) or null
+  45:.\source\bsw\json/jsmn.h ****  */
+  46:.\source\bsw\json/jsmn.h **** typedef enum {
+  47:.\source\bsw\json/jsmn.h ****   JSMN_UNDEFINED = 0,
+  48:.\source\bsw\json/jsmn.h ****   JSMN_OBJECT = 1 << 0,
+  49:.\source\bsw\json/jsmn.h ****   JSMN_ARRAY = 1 << 1,
+  50:.\source\bsw\json/jsmn.h ****   JSMN_STRING = 1 << 2,
+  51:.\source\bsw\json/jsmn.h ****   JSMN_PRIMITIVE = 1 << 3
+  52:.\source\bsw\json/jsmn.h **** } jsmntype_t;
+  53:.\source\bsw\json/jsmn.h **** 
+  54:.\source\bsw\json/jsmn.h **** enum jsmnerr {
+  55:.\source\bsw\json/jsmn.h ****   /* Not enough tokens were provided */
+  56:.\source\bsw\json/jsmn.h ****   JSMN_ERROR_NOMEM = -1,
+  57:.\source\bsw\json/jsmn.h ****   /* Invalid character inside JSON string */
+  58:.\source\bsw\json/jsmn.h ****   JSMN_ERROR_INVAL = -2,
+  59:.\source\bsw\json/jsmn.h ****   /* The string is not a full JSON packet, more bytes expected */
+  60:.\source\bsw\json/jsmn.h ****   JSMN_ERROR_PART = -3
+  61:.\source\bsw\json/jsmn.h **** };
+  62:.\source\bsw\json/jsmn.h **** 
+  63:.\source\bsw\json/jsmn.h **** /**
+  64:.\source\bsw\json/jsmn.h ****  * JSON token description.
+  65:.\source\bsw\json/jsmn.h ****  * type		type (object, array, string etc.)
+  66:.\source\bsw\json/jsmn.h ****  * start	start position in JSON data string
+  67:.\source\bsw\json/jsmn.h ****  * end		end position in JSON data string
+  68:.\source\bsw\json/jsmn.h ****  */
+  69:.\source\bsw\json/jsmn.h **** typedef struct jsmntok {
+  70:.\source\bsw\json/jsmn.h ****   jsmntype_t type;
+  71:.\source\bsw\json/jsmn.h ****   int start;
+  72:.\source\bsw\json/jsmn.h ****   int end;
+  73:.\source\bsw\json/jsmn.h ****   int size;
+  74:.\source\bsw\json/jsmn.h **** #ifdef JSMN_PARENT_LINKS
+  75:.\source\bsw\json/jsmn.h ****   int parent;
+  76:.\source\bsw\json/jsmn.h **** #endif
+  77:.\source\bsw\json/jsmn.h **** } jsmntok_t;
+  78:.\source\bsw\json/jsmn.h **** 
+  79:.\source\bsw\json/jsmn.h **** /**
+  80:.\source\bsw\json/jsmn.h ****  * JSON parser. Contains an array of token blocks available. Also stores
+  81:.\source\bsw\json/jsmn.h ****  * the string being parsed now and current position in that string.
+  82:.\source\bsw\json/jsmn.h ****  */
+  83:.\source\bsw\json/jsmn.h **** typedef struct jsmn_parser {
+  84:.\source\bsw\json/jsmn.h ****   unsigned int pos;     /* offset in the JSON string */
+  85:.\source\bsw\json/jsmn.h ****   unsigned int toknext; /* next token to allocate */
+  86:.\source\bsw\json/jsmn.h ****   int toksuper;         /* superior token node, e.g. parent object or array */
+  87:.\source\bsw\json/jsmn.h **** } jsmn_parser;
+  88:.\source\bsw\json/jsmn.h **** 
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 3
+
+
+  89:.\source\bsw\json/jsmn.h **** /**
+  90:.\source\bsw\json/jsmn.h ****  * Create JSON parser over an array of tokens
+  91:.\source\bsw\json/jsmn.h ****  */
+  92:.\source\bsw\json/jsmn.h **** JSMN_API void jsmn_init(jsmn_parser *parser);
+  93:.\source\bsw\json/jsmn.h **** 
+  94:.\source\bsw\json/jsmn.h **** /**
+  95:.\source\bsw\json/jsmn.h ****  * Run JSON parser. It parses a JSON data string into and array of tokens, each
+  96:.\source\bsw\json/jsmn.h ****  * describing
+  97:.\source\bsw\json/jsmn.h ****  * a single JSON object.
+  98:.\source\bsw\json/jsmn.h ****  */
+  99:.\source\bsw\json/jsmn.h **** JSMN_API int jsmn_parse(jsmn_parser *parser, const char *js, const size_t len,
+ 100:.\source\bsw\json/jsmn.h ****                         jsmntok_t *tokens, const unsigned int num_tokens);
+ 101:.\source\bsw\json/jsmn.h **** 
+ 102:.\source\bsw\json/jsmn.h **** #ifndef JSMN_HEADER
+ 103:.\source\bsw\json/jsmn.h **** /**
+ 104:.\source\bsw\json/jsmn.h ****  * Allocates a fresh unused token from the token pool.
+ 105:.\source\bsw\json/jsmn.h ****  */
+ 106:.\source\bsw\json/jsmn.h **** static jsmntok_t *jsmn_alloc_token(jsmn_parser *parser, jsmntok_t *tokens,
+ 107:.\source\bsw\json/jsmn.h ****                                    const size_t num_tokens) {
+  27              		.loc 1 107 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 24
+  30              		@ frame_needed = 1, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32 0000 80B4     		push	{r7}
+  33              		.cfi_def_cfa_offset 4
+  34              		.cfi_offset 7, -4
+  35 0002 87B0     		sub	sp, sp, #28
+  36              		.cfi_def_cfa_offset 32
+  37 0004 00AF     		add	r7, sp, #0
+  38              		.cfi_def_cfa_register 7
+  39 0006 F860     		str	r0, [r7, #12]
+  40 0008 B960     		str	r1, [r7, #8]
+  41 000a 7A60     		str	r2, [r7, #4]
+ 108:.\source\bsw\json/jsmn.h ****   jsmntok_t *tok;
+ 109:.\source\bsw\json/jsmn.h ****   if (parser->toknext >= num_tokens) {
+  42              		.loc 1 109 0
+  43 000c FB68     		ldr	r3, [r7, #12]
+  44 000e 5A68     		ldr	r2, [r3, #4]
+  45 0010 7B68     		ldr	r3, [r7, #4]
+  46 0012 9A42     		cmp	r2, r3
+  47 0014 01D3     		bcc	.L2
+ 110:.\source\bsw\json/jsmn.h ****     return NULL;
+  48              		.loc 1 110 0
+  49 0016 0023     		movs	r3, #0
+  50 0018 14E0     		b	.L3
+  51              	.L2:
+ 111:.\source\bsw\json/jsmn.h ****   }
+ 112:.\source\bsw\json/jsmn.h ****   tok = &tokens[parser->toknext++];
+  52              		.loc 1 112 0
+  53 001a FB68     		ldr	r3, [r7, #12]
+  54 001c 5B68     		ldr	r3, [r3, #4]
+  55 001e 591C     		adds	r1, r3, #1
+  56 0020 FA68     		ldr	r2, [r7, #12]
+  57 0022 5160     		str	r1, [r2, #4]
+  58 0024 1B01     		lsls	r3, r3, #4
+  59 0026 BA68     		ldr	r2, [r7, #8]
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 4
+
+
+  60 0028 1344     		add	r3, r3, r2
+  61 002a 7B61     		str	r3, [r7, #20]
+ 113:.\source\bsw\json/jsmn.h ****   tok->start = tok->end = -1;
+  62              		.loc 1 113 0
+  63 002c 7B69     		ldr	r3, [r7, #20]
+  64 002e 4FF0FF32 		mov	r2, #-1
+  65 0032 9A60     		str	r2, [r3, #8]
+  66 0034 7B69     		ldr	r3, [r7, #20]
+  67 0036 9A68     		ldr	r2, [r3, #8]
+  68 0038 7B69     		ldr	r3, [r7, #20]
+  69 003a 5A60     		str	r2, [r3, #4]
+ 114:.\source\bsw\json/jsmn.h ****   tok->size = 0;
+  70              		.loc 1 114 0
+  71 003c 7B69     		ldr	r3, [r7, #20]
+  72 003e 0022     		movs	r2, #0
+  73 0040 DA60     		str	r2, [r3, #12]
+ 115:.\source\bsw\json/jsmn.h **** #ifdef JSMN_PARENT_LINKS
+ 116:.\source\bsw\json/jsmn.h ****   tok->parent = -1;
+ 117:.\source\bsw\json/jsmn.h **** #endif
+ 118:.\source\bsw\json/jsmn.h ****   return tok;
+  74              		.loc 1 118 0
+  75 0042 7B69     		ldr	r3, [r7, #20]
+  76              	.L3:
+ 119:.\source\bsw\json/jsmn.h **** }
+  77              		.loc 1 119 0
+  78 0044 1846     		mov	r0, r3
+  79 0046 1C37     		adds	r7, r7, #28
+  80              		.cfi_def_cfa_offset 4
+  81 0048 BD46     		mov	sp, r7
+  82              		.cfi_def_cfa_register 13
+  83              		@ sp needed
+  84 004a 80BC     		pop	{r7}
+  85              		.cfi_restore 7
+  86              		.cfi_def_cfa_offset 0
+  87 004c 7047     		bx	lr
+  88              		.cfi_endproc
+  89              	.LFE0:
+  90              		.size	jsmn_alloc_token, .-jsmn_alloc_token
+  91 004e 00BF     		.section	.text.jsmn_fill_token,"ax",%progbits
+  92              		.align	2
+  93              		.thumb
+  94              		.thumb_func
+  95              		.type	jsmn_fill_token, %function
+  96              	jsmn_fill_token:
+  97              	.LFB1:
+ 120:.\source\bsw\json/jsmn.h **** 
+ 121:.\source\bsw\json/jsmn.h **** /**
+ 122:.\source\bsw\json/jsmn.h ****  * Fills token type and boundaries.
+ 123:.\source\bsw\json/jsmn.h ****  */
+ 124:.\source\bsw\json/jsmn.h **** static void jsmn_fill_token(jsmntok_t *token, const jsmntype_t type,
+ 125:.\source\bsw\json/jsmn.h ****                             const int start, const int end) {
+  98              		.loc 1 125 0
+  99              		.cfi_startproc
+ 100              		@ args = 0, pretend = 0, frame = 16
+ 101              		@ frame_needed = 1, uses_anonymous_args = 0
+ 102              		@ link register save eliminated.
+ 103 0000 80B4     		push	{r7}
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 5
+
+
+ 104              		.cfi_def_cfa_offset 4
+ 105              		.cfi_offset 7, -4
+ 106 0002 85B0     		sub	sp, sp, #20
+ 107              		.cfi_def_cfa_offset 24
+ 108 0004 00AF     		add	r7, sp, #0
+ 109              		.cfi_def_cfa_register 7
+ 110 0006 F860     		str	r0, [r7, #12]
+ 111 0008 7A60     		str	r2, [r7, #4]
+ 112 000a 3B60     		str	r3, [r7]
+ 113 000c 0B46     		mov	r3, r1
+ 114 000e FB72     		strb	r3, [r7, #11]
+ 126:.\source\bsw\json/jsmn.h ****   token->type = type;
+ 115              		.loc 1 126 0
+ 116 0010 FB68     		ldr	r3, [r7, #12]
+ 117 0012 FA7A     		ldrb	r2, [r7, #11]
+ 118 0014 1A70     		strb	r2, [r3]
+ 127:.\source\bsw\json/jsmn.h ****   token->start = start;
+ 119              		.loc 1 127 0
+ 120 0016 FB68     		ldr	r3, [r7, #12]
+ 121 0018 7A68     		ldr	r2, [r7, #4]
+ 122 001a 5A60     		str	r2, [r3, #4]
+ 128:.\source\bsw\json/jsmn.h ****   token->end = end;
+ 123              		.loc 1 128 0
+ 124 001c FB68     		ldr	r3, [r7, #12]
+ 125 001e 3A68     		ldr	r2, [r7]
+ 126 0020 9A60     		str	r2, [r3, #8]
+ 129:.\source\bsw\json/jsmn.h ****   token->size = 0;
+ 127              		.loc 1 129 0
+ 128 0022 FB68     		ldr	r3, [r7, #12]
+ 129 0024 0022     		movs	r2, #0
+ 130 0026 DA60     		str	r2, [r3, #12]
+ 130:.\source\bsw\json/jsmn.h **** }
+ 131              		.loc 1 130 0
+ 132 0028 00BF     		nop
+ 133 002a 1437     		adds	r7, r7, #20
+ 134              		.cfi_def_cfa_offset 4
+ 135 002c BD46     		mov	sp, r7
+ 136              		.cfi_def_cfa_register 13
+ 137              		@ sp needed
+ 138 002e 80BC     		pop	{r7}
+ 139              		.cfi_restore 7
+ 140              		.cfi_def_cfa_offset 0
+ 141 0030 7047     		bx	lr
+ 142              		.cfi_endproc
+ 143              	.LFE1:
+ 144              		.size	jsmn_fill_token, .-jsmn_fill_token
+ 145 0032 00BF     		.section	.text.jsmn_parse_primitive,"ax",%progbits
+ 146              		.align	2
+ 147              		.thumb
+ 148              		.thumb_func
+ 149              		.type	jsmn_parse_primitive, %function
+ 150              	jsmn_parse_primitive:
+ 151              	.LFB2:
+ 131:.\source\bsw\json/jsmn.h **** 
+ 132:.\source\bsw\json/jsmn.h **** /**
+ 133:.\source\bsw\json/jsmn.h ****  * Fills next available token with JSON primitive.
+ 134:.\source\bsw\json/jsmn.h ****  */
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 6
+
+
+ 135:.\source\bsw\json/jsmn.h **** static int jsmn_parse_primitive(jsmn_parser *parser, const char *js,
+ 136:.\source\bsw\json/jsmn.h ****                                 const size_t len, jsmntok_t *tokens,
+ 137:.\source\bsw\json/jsmn.h ****                                 const size_t num_tokens) {
+ 152              		.loc 1 137 0
+ 153              		.cfi_startproc
+ 154              		@ args = 4, pretend = 0, frame = 24
+ 155              		@ frame_needed = 1, uses_anonymous_args = 0
+ 156 0000 80B5     		push	{r7, lr}
+ 157              		.cfi_def_cfa_offset 8
+ 158              		.cfi_offset 7, -8
+ 159              		.cfi_offset 14, -4
+ 160 0002 86B0     		sub	sp, sp, #24
+ 161              		.cfi_def_cfa_offset 32
+ 162 0004 00AF     		add	r7, sp, #0
+ 163              		.cfi_def_cfa_register 7
+ 164 0006 F860     		str	r0, [r7, #12]
+ 165 0008 B960     		str	r1, [r7, #8]
+ 166 000a 7A60     		str	r2, [r7, #4]
+ 167 000c 3B60     		str	r3, [r7]
+ 138:.\source\bsw\json/jsmn.h ****   jsmntok_t *token;
+ 139:.\source\bsw\json/jsmn.h ****   int start;
+ 140:.\source\bsw\json/jsmn.h **** 
+ 141:.\source\bsw\json/jsmn.h ****   start = parser->pos;
+ 168              		.loc 1 141 0
+ 169 000e FB68     		ldr	r3, [r7, #12]
+ 170 0010 1B68     		ldr	r3, [r3]
+ 171 0012 7B61     		str	r3, [r7, #20]
+ 142:.\source\bsw\json/jsmn.h **** 
+ 143:.\source\bsw\json/jsmn.h ****   for (; parser->pos < len && js[parser->pos] != '\0'; parser->pos++) {
+ 172              		.loc 1 143 0
+ 173 0014 34E0     		b	.L6
+ 174              	.L15:
+ 144:.\source\bsw\json/jsmn.h ****     switch (js[parser->pos]) {
+ 175              		.loc 1 144 0
+ 176 0016 FB68     		ldr	r3, [r7, #12]
+ 177 0018 1B68     		ldr	r3, [r3]
+ 178 001a BA68     		ldr	r2, [r7, #8]
+ 179 001c 1344     		add	r3, r3, r2
+ 180 001e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 181 0020 202B     		cmp	r3, #32
+ 182 0022 3AD0     		beq	.L19
+ 183 0024 202B     		cmp	r3, #32
+ 184 0026 06DC     		bgt	.L9
+ 185 0028 092B     		cmp	r3, #9
+ 186 002a 0FDB     		blt	.L20
+ 187 002c 0A2B     		cmp	r3, #10
+ 188 002e 34DD     		ble	.L19
+ 189 0030 0D2B     		cmp	r3, #13
+ 190 0032 32D0     		beq	.L19
+ 145:.\source\bsw\json/jsmn.h **** #ifndef JSMN_STRICT
+ 146:.\source\bsw\json/jsmn.h ****     /* In strict mode primitive must be followed by "," or "}" or "]" */
+ 147:.\source\bsw\json/jsmn.h ****     case ':':
+ 148:.\source\bsw\json/jsmn.h **** #endif
+ 149:.\source\bsw\json/jsmn.h ****     case '\t':
+ 150:.\source\bsw\json/jsmn.h ****     case '\r':
+ 151:.\source\bsw\json/jsmn.h ****     case '\n':
+ 152:.\source\bsw\json/jsmn.h ****     case ' ':
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 7
+
+
+ 153:.\source\bsw\json/jsmn.h ****     case ',':
+ 154:.\source\bsw\json/jsmn.h ****     case ']':
+ 155:.\source\bsw\json/jsmn.h ****     case '}':
+ 156:.\source\bsw\json/jsmn.h ****       goto found;
+ 157:.\source\bsw\json/jsmn.h ****     default:
+ 158:.\source\bsw\json/jsmn.h ****                    /* to quiet a warning from gcc*/
+ 159:.\source\bsw\json/jsmn.h ****       break;
+ 191              		.loc 1 159 0
+ 192 0034 0AE0     		b	.L20
+ 193              	.L9:
+ 144:.\source\bsw\json/jsmn.h ****     switch (js[parser->pos]) {
+ 194              		.loc 1 144 0
+ 195 0036 3A2B     		cmp	r3, #58
+ 196 0038 2FD0     		beq	.L19
+ 197 003a 3A2B     		cmp	r3, #58
+ 198 003c 02DC     		bgt	.L10
+ 199 003e 2C2B     		cmp	r3, #44
+ 200 0040 2BD0     		beq	.L19
+ 201              		.loc 1 159 0
+ 202 0042 03E0     		b	.L20
+ 203              	.L10:
+ 144:.\source\bsw\json/jsmn.h ****     switch (js[parser->pos]) {
+ 204              		.loc 1 144 0
+ 205 0044 5D2B     		cmp	r3, #93
+ 206 0046 28D0     		beq	.L19
+ 207 0048 7D2B     		cmp	r3, #125
+ 208 004a 26D0     		beq	.L19
+ 209              	.L20:
+ 210              		.loc 1 159 0
+ 211 004c 00BF     		nop
+ 160:.\source\bsw\json/jsmn.h ****     }
+ 161:.\source\bsw\json/jsmn.h ****     if (js[parser->pos] < 32 || js[parser->pos] >= 127) {
+ 212              		.loc 1 161 0
+ 213 004e FB68     		ldr	r3, [r7, #12]
+ 214 0050 1B68     		ldr	r3, [r3]
+ 215 0052 BA68     		ldr	r2, [r7, #8]
+ 216 0054 1344     		add	r3, r3, r2
+ 217 0056 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 218 0058 1F2B     		cmp	r3, #31
+ 219 005a 06D9     		bls	.L12
+ 220              		.loc 1 161 0 is_stmt 0 discriminator 1
+ 221 005c FB68     		ldr	r3, [r7, #12]
+ 222 005e 1B68     		ldr	r3, [r3]
+ 223 0060 BA68     		ldr	r2, [r7, #8]
+ 224 0062 1344     		add	r3, r3, r2
+ 225 0064 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 226 0066 7E2B     		cmp	r3, #126
+ 227 0068 05D9     		bls	.L13
+ 228              	.L12:
+ 162:.\source\bsw\json/jsmn.h ****       parser->pos = start;
+ 229              		.loc 1 162 0 is_stmt 1
+ 230 006a 7A69     		ldr	r2, [r7, #20]
+ 231 006c FB68     		ldr	r3, [r7, #12]
+ 232 006e 1A60     		str	r2, [r3]
+ 163:.\source\bsw\json/jsmn.h ****       return JSMN_ERROR_INVAL;
+ 233              		.loc 1 163 0
+ 234 0070 6FF00103 		mvn	r3, #1
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 8
+
+
+ 235 0074 38E0     		b	.L14
+ 236              	.L13:
+ 143:.\source\bsw\json/jsmn.h ****     switch (js[parser->pos]) {
+ 237              		.loc 1 143 0
+ 238 0076 FB68     		ldr	r3, [r7, #12]
+ 239 0078 1B68     		ldr	r3, [r3]
+ 240 007a 5A1C     		adds	r2, r3, #1
+ 241 007c FB68     		ldr	r3, [r7, #12]
+ 242 007e 1A60     		str	r2, [r3]
+ 243              	.L6:
+ 143:.\source\bsw\json/jsmn.h ****     switch (js[parser->pos]) {
+ 244              		.loc 1 143 0 is_stmt 0 discriminator 1
+ 245 0080 FB68     		ldr	r3, [r7, #12]
+ 246 0082 1A68     		ldr	r2, [r3]
+ 247 0084 7B68     		ldr	r3, [r7, #4]
+ 248 0086 9A42     		cmp	r2, r3
+ 249 0088 08D2     		bcs	.L11
+ 143:.\source\bsw\json/jsmn.h ****     switch (js[parser->pos]) {
+ 250              		.loc 1 143 0 discriminator 2
+ 251 008a FB68     		ldr	r3, [r7, #12]
+ 252 008c 1B68     		ldr	r3, [r3]
+ 253 008e BA68     		ldr	r2, [r7, #8]
+ 254 0090 1344     		add	r3, r3, r2
+ 255 0092 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 256 0094 002B     		cmp	r3, #0
+ 257 0096 BED1     		bne	.L15
+ 258 0098 00E0     		b	.L11
+ 259              	.L19:
+ 156:.\source\bsw\json/jsmn.h ****     default:
+ 260              		.loc 1 156 0 is_stmt 1
+ 261 009a 00BF     		nop
+ 262              	.L11:
+ 164:.\source\bsw\json/jsmn.h ****     }
+ 165:.\source\bsw\json/jsmn.h ****   }
+ 166:.\source\bsw\json/jsmn.h **** #ifdef JSMN_STRICT
+ 167:.\source\bsw\json/jsmn.h ****   /* In strict mode primitive must be followed by a comma/object/array */
+ 168:.\source\bsw\json/jsmn.h ****   parser->pos = start;
+ 169:.\source\bsw\json/jsmn.h ****   return JSMN_ERROR_PART;
+ 170:.\source\bsw\json/jsmn.h **** #endif
+ 171:.\source\bsw\json/jsmn.h **** 
+ 172:.\source\bsw\json/jsmn.h **** found:
+ 173:.\source\bsw\json/jsmn.h ****   if (tokens == NULL) {
+ 263              		.loc 1 173 0
+ 264 009c 3B68     		ldr	r3, [r7]
+ 265 009e 002B     		cmp	r3, #0
+ 266 00a0 06D1     		bne	.L16
+ 174:.\source\bsw\json/jsmn.h ****     parser->pos--;
+ 267              		.loc 1 174 0
+ 268 00a2 FB68     		ldr	r3, [r7, #12]
+ 269 00a4 1B68     		ldr	r3, [r3]
+ 270 00a6 5A1E     		subs	r2, r3, #1
+ 271 00a8 FB68     		ldr	r3, [r7, #12]
+ 272 00aa 1A60     		str	r2, [r3]
+ 175:.\source\bsw\json/jsmn.h ****     return 0;
+ 273              		.loc 1 175 0
+ 274 00ac 0023     		movs	r3, #0
+ 275 00ae 1BE0     		b	.L14
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 9
+
+
+ 276              	.L16:
+ 176:.\source\bsw\json/jsmn.h ****   }
+ 177:.\source\bsw\json/jsmn.h ****   token = jsmn_alloc_token(parser, tokens, num_tokens);
+ 277              		.loc 1 177 0
+ 278 00b0 3A6A     		ldr	r2, [r7, #32]
+ 279 00b2 3968     		ldr	r1, [r7]
+ 280 00b4 F868     		ldr	r0, [r7, #12]
+ 281 00b6 FFF7FEFF 		bl	jsmn_alloc_token
+ 282 00ba 3861     		str	r0, [r7, #16]
+ 178:.\source\bsw\json/jsmn.h ****   if (token == NULL) {
+ 283              		.loc 1 178 0
+ 284 00bc 3B69     		ldr	r3, [r7, #16]
+ 285 00be 002B     		cmp	r3, #0
+ 286 00c0 05D1     		bne	.L17
+ 179:.\source\bsw\json/jsmn.h ****     parser->pos = start;
+ 287              		.loc 1 179 0
+ 288 00c2 7A69     		ldr	r2, [r7, #20]
+ 289 00c4 FB68     		ldr	r3, [r7, #12]
+ 290 00c6 1A60     		str	r2, [r3]
+ 180:.\source\bsw\json/jsmn.h ****     return JSMN_ERROR_NOMEM;
+ 291              		.loc 1 180 0
+ 292 00c8 4FF0FF33 		mov	r3, #-1
+ 293 00cc 0CE0     		b	.L14
+ 294              	.L17:
+ 181:.\source\bsw\json/jsmn.h ****   }
+ 182:.\source\bsw\json/jsmn.h ****   jsmn_fill_token(token, JSMN_PRIMITIVE, start, parser->pos);
+ 295              		.loc 1 182 0
+ 296 00ce FB68     		ldr	r3, [r7, #12]
+ 297 00d0 1B68     		ldr	r3, [r3]
+ 298 00d2 7A69     		ldr	r2, [r7, #20]
+ 299 00d4 0821     		movs	r1, #8
+ 300 00d6 3869     		ldr	r0, [r7, #16]
+ 301 00d8 FFF7FEFF 		bl	jsmn_fill_token
+ 183:.\source\bsw\json/jsmn.h **** #ifdef JSMN_PARENT_LINKS
+ 184:.\source\bsw\json/jsmn.h ****   token->parent = parser->toksuper;
+ 185:.\source\bsw\json/jsmn.h **** #endif
+ 186:.\source\bsw\json/jsmn.h ****   parser->pos--;
+ 302              		.loc 1 186 0
+ 303 00dc FB68     		ldr	r3, [r7, #12]
+ 304 00de 1B68     		ldr	r3, [r3]
+ 305 00e0 5A1E     		subs	r2, r3, #1
+ 306 00e2 FB68     		ldr	r3, [r7, #12]
+ 307 00e4 1A60     		str	r2, [r3]
+ 187:.\source\bsw\json/jsmn.h ****   return 0;
+ 308              		.loc 1 187 0
+ 309 00e6 0023     		movs	r3, #0
+ 310              	.L14:
+ 188:.\source\bsw\json/jsmn.h **** }
+ 311              		.loc 1 188 0
+ 312 00e8 1846     		mov	r0, r3
+ 313 00ea 1837     		adds	r7, r7, #24
+ 314              		.cfi_def_cfa_offset 8
+ 315 00ec BD46     		mov	sp, r7
+ 316              		.cfi_def_cfa_register 13
+ 317              		@ sp needed
+ 318 00ee 80BD     		pop	{r7, pc}
+ 319              		.cfi_endproc
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 10
+
+
+ 320              	.LFE2:
+ 321              		.size	jsmn_parse_primitive, .-jsmn_parse_primitive
+ 322              		.section	.text.jsmn_parse_string,"ax",%progbits
+ 323              		.align	2
+ 324              		.thumb
+ 325              		.thumb_func
+ 326              		.type	jsmn_parse_string, %function
+ 327              	jsmn_parse_string:
+ 328              	.LFB3:
+ 189:.\source\bsw\json/jsmn.h **** 
+ 190:.\source\bsw\json/jsmn.h **** /**
+ 191:.\source\bsw\json/jsmn.h ****  * Fills next token with JSON string.
+ 192:.\source\bsw\json/jsmn.h ****  */
+ 193:.\source\bsw\json/jsmn.h **** static int jsmn_parse_string(jsmn_parser *parser, const char *js,
+ 194:.\source\bsw\json/jsmn.h ****                              const size_t len, jsmntok_t *tokens,
+ 195:.\source\bsw\json/jsmn.h ****                              const size_t num_tokens) {
+ 329              		.loc 1 195 0
+ 330              		.cfi_startproc
+ 331              		@ args = 4, pretend = 0, frame = 32
+ 332              		@ frame_needed = 1, uses_anonymous_args = 0
+ 333 0000 80B5     		push	{r7, lr}
+ 334              		.cfi_def_cfa_offset 8
+ 335              		.cfi_offset 7, -8
+ 336              		.cfi_offset 14, -4
+ 337 0002 88B0     		sub	sp, sp, #32
+ 338              		.cfi_def_cfa_offset 40
+ 339 0004 00AF     		add	r7, sp, #0
+ 340              		.cfi_def_cfa_register 7
+ 341 0006 F860     		str	r0, [r7, #12]
+ 342 0008 B960     		str	r1, [r7, #8]
+ 343 000a 7A60     		str	r2, [r7, #4]
+ 344 000c 3B60     		str	r3, [r7]
+ 196:.\source\bsw\json/jsmn.h ****   jsmntok_t *token;
+ 197:.\source\bsw\json/jsmn.h **** 
+ 198:.\source\bsw\json/jsmn.h ****   int start = parser->pos;
+ 345              		.loc 1 198 0
+ 346 000e FB68     		ldr	r3, [r7, #12]
+ 347 0010 1B68     		ldr	r3, [r3]
+ 348 0012 BB61     		str	r3, [r7, #24]
+ 199:.\source\bsw\json/jsmn.h ****   
+ 200:.\source\bsw\json/jsmn.h ****   /* Skip starting quote */
+ 201:.\source\bsw\json/jsmn.h ****   parser->pos++;
+ 349              		.loc 1 201 0
+ 350 0014 FB68     		ldr	r3, [r7, #12]
+ 351 0016 1B68     		ldr	r3, [r3]
+ 352 0018 5A1C     		adds	r2, r3, #1
+ 353 001a FB68     		ldr	r3, [r7, #12]
+ 354 001c 1A60     		str	r2, [r3]
+ 202:.\source\bsw\json/jsmn.h ****   
+ 203:.\source\bsw\json/jsmn.h ****   for (; parser->pos < len && js[parser->pos] != '\0'; parser->pos++) {
+ 355              		.loc 1 203 0
+ 356 001e 4CE1     		b	.L22
+ 357              	.L40:
+ 358              	.LBB2:
+ 204:.\source\bsw\json/jsmn.h ****     char c = js[parser->pos];
+ 359              		.loc 1 204 0
+ 360 0020 FB68     		ldr	r3, [r7, #12]
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 11
+
+
+ 361 0022 1B68     		ldr	r3, [r3]
+ 362 0024 BA68     		ldr	r2, [r7, #8]
+ 363 0026 1344     		add	r3, r3, r2
+ 364 0028 1B78     		ldrb	r3, [r3]
+ 365 002a FB75     		strb	r3, [r7, #23]
+ 205:.\source\bsw\json/jsmn.h **** 
+ 206:.\source\bsw\json/jsmn.h ****     /* Quote: end of string */
+ 207:.\source\bsw\json/jsmn.h ****     if (c == '\"') {
+ 366              		.loc 1 207 0
+ 367 002c FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 368 002e 222B     		cmp	r3, #34
+ 369 0030 1DD1     		bne	.L23
+ 208:.\source\bsw\json/jsmn.h ****       if (tokens == NULL) {
+ 370              		.loc 1 208 0
+ 371 0032 3B68     		ldr	r3, [r7]
+ 372 0034 002B     		cmp	r3, #0
+ 373 0036 01D1     		bne	.L24
+ 209:.\source\bsw\json/jsmn.h ****         return 0;
+ 374              		.loc 1 209 0
+ 375 0038 0023     		movs	r3, #0
+ 376 003a 50E1     		b	.L25
+ 377              	.L24:
+ 210:.\source\bsw\json/jsmn.h ****       }
+ 211:.\source\bsw\json/jsmn.h ****       token = jsmn_alloc_token(parser, tokens, num_tokens);
+ 378              		.loc 1 211 0
+ 379 003c BA6A     		ldr	r2, [r7, #40]
+ 380 003e 3968     		ldr	r1, [r7]
+ 381 0040 F868     		ldr	r0, [r7, #12]
+ 382 0042 FFF7FEFF 		bl	jsmn_alloc_token
+ 383 0046 3861     		str	r0, [r7, #16]
+ 212:.\source\bsw\json/jsmn.h ****       if (token == NULL) {
+ 384              		.loc 1 212 0
+ 385 0048 3B69     		ldr	r3, [r7, #16]
+ 386 004a 002B     		cmp	r3, #0
+ 387 004c 05D1     		bne	.L26
+ 213:.\source\bsw\json/jsmn.h ****         parser->pos = start;
+ 388              		.loc 1 213 0
+ 389 004e BA69     		ldr	r2, [r7, #24]
+ 390 0050 FB68     		ldr	r3, [r7, #12]
+ 391 0052 1A60     		str	r2, [r3]
+ 214:.\source\bsw\json/jsmn.h ****         return JSMN_ERROR_NOMEM;
+ 392              		.loc 1 214 0
+ 393 0054 4FF0FF33 		mov	r3, #-1
+ 394 0058 41E1     		b	.L25
+ 395              	.L26:
+ 215:.\source\bsw\json/jsmn.h ****       }
+ 216:.\source\bsw\json/jsmn.h ****       jsmn_fill_token(token, JSMN_STRING, start + 1, parser->pos);
+ 396              		.loc 1 216 0
+ 397 005a BB69     		ldr	r3, [r7, #24]
+ 398 005c 5A1C     		adds	r2, r3, #1
+ 399 005e FB68     		ldr	r3, [r7, #12]
+ 400 0060 1B68     		ldr	r3, [r3]
+ 401 0062 0421     		movs	r1, #4
+ 402 0064 3869     		ldr	r0, [r7, #16]
+ 403 0066 FFF7FEFF 		bl	jsmn_fill_token
+ 217:.\source\bsw\json/jsmn.h **** #ifdef JSMN_PARENT_LINKS
+ 218:.\source\bsw\json/jsmn.h ****       token->parent = parser->toksuper;
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 12
+
+
+ 219:.\source\bsw\json/jsmn.h **** #endif
+ 220:.\source\bsw\json/jsmn.h ****       return 0;
+ 404              		.loc 1 220 0
+ 405 006a 0023     		movs	r3, #0
+ 406 006c 37E1     		b	.L25
+ 407              	.L23:
+ 221:.\source\bsw\json/jsmn.h ****     }
+ 222:.\source\bsw\json/jsmn.h **** 
+ 223:.\source\bsw\json/jsmn.h ****     /* Backslash: Quoted symbol expected */
+ 224:.\source\bsw\json/jsmn.h ****     if (c == '\\' && parser->pos + 1 < len) {
+ 408              		.loc 1 224 0
+ 409 006e FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 410 0070 5C2B     		cmp	r3, #92
+ 411 0072 40F01D81 		bne	.L27
+ 412              		.loc 1 224 0 is_stmt 0 discriminator 1
+ 413 0076 FB68     		ldr	r3, [r7, #12]
+ 414 0078 1B68     		ldr	r3, [r3]
+ 415 007a 5A1C     		adds	r2, r3, #1
+ 416 007c 7B68     		ldr	r3, [r7, #4]
+ 417 007e 9A42     		cmp	r2, r3
+ 418 0080 80F01681 		bcs	.L27
+ 419              	.LBB3:
+ 225:.\source\bsw\json/jsmn.h ****       int i;
+ 226:.\source\bsw\json/jsmn.h ****       parser->pos++;
+ 420              		.loc 1 226 0 is_stmt 1
+ 421 0084 FB68     		ldr	r3, [r7, #12]
+ 422 0086 1B68     		ldr	r3, [r3]
+ 423 0088 5A1C     		adds	r2, r3, #1
+ 424 008a FB68     		ldr	r3, [r7, #12]
+ 425 008c 1A60     		str	r2, [r3]
+ 227:.\source\bsw\json/jsmn.h ****       switch (js[parser->pos]) {
+ 426              		.loc 1 227 0
+ 427 008e FB68     		ldr	r3, [r7, #12]
+ 428 0090 1B68     		ldr	r3, [r3]
+ 429 0092 BA68     		ldr	r2, [r7, #8]
+ 430 0094 1344     		add	r3, r3, r2
+ 431 0096 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 432 0098 223B     		subs	r3, r3, #34
+ 433 009a 532B     		cmp	r3, #83
+ 434 009c 00F20181 		bhi	.L28
+ 435 00a0 01A2     		adr	r2, .L30
+ 436 00a2 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 437 00a6 00BF     		.p2align 2
+ 438              	.L30:
+ 439 00a8 AF020000 		.word	.L41+1
+ 440 00ac A3020000 		.word	.L28+1
+ 441 00b0 A3020000 		.word	.L28+1
+ 442 00b4 A3020000 		.word	.L28+1
+ 443 00b8 A3020000 		.word	.L28+1
+ 444 00bc A3020000 		.word	.L28+1
+ 445 00c0 A3020000 		.word	.L28+1
+ 446 00c4 A3020000 		.word	.L28+1
+ 447 00c8 A3020000 		.word	.L28+1
+ 448 00cc A3020000 		.word	.L28+1
+ 449 00d0 A3020000 		.word	.L28+1
+ 450 00d4 A3020000 		.word	.L28+1
+ 451 00d8 A3020000 		.word	.L28+1
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 13
+
+
+ 452 00dc AF020000 		.word	.L41+1
+ 453 00e0 A3020000 		.word	.L28+1
+ 454 00e4 A3020000 		.word	.L28+1
+ 455 00e8 A3020000 		.word	.L28+1
+ 456 00ec A3020000 		.word	.L28+1
+ 457 00f0 A3020000 		.word	.L28+1
+ 458 00f4 A3020000 		.word	.L28+1
+ 459 00f8 A3020000 		.word	.L28+1
+ 460 00fc A3020000 		.word	.L28+1
+ 461 0100 A3020000 		.word	.L28+1
+ 462 0104 A3020000 		.word	.L28+1
+ 463 0108 A3020000 		.word	.L28+1
+ 464 010c A3020000 		.word	.L28+1
+ 465 0110 A3020000 		.word	.L28+1
+ 466 0114 A3020000 		.word	.L28+1
+ 467 0118 A3020000 		.word	.L28+1
+ 468 011c A3020000 		.word	.L28+1
+ 469 0120 A3020000 		.word	.L28+1
+ 470 0124 A3020000 		.word	.L28+1
+ 471 0128 A3020000 		.word	.L28+1
+ 472 012c A3020000 		.word	.L28+1
+ 473 0130 A3020000 		.word	.L28+1
+ 474 0134 A3020000 		.word	.L28+1
+ 475 0138 A3020000 		.word	.L28+1
+ 476 013c A3020000 		.word	.L28+1
+ 477 0140 A3020000 		.word	.L28+1
+ 478 0144 A3020000 		.word	.L28+1
+ 479 0148 A3020000 		.word	.L28+1
+ 480 014c A3020000 		.word	.L28+1
+ 481 0150 A3020000 		.word	.L28+1
+ 482 0154 A3020000 		.word	.L28+1
+ 483 0158 A3020000 		.word	.L28+1
+ 484 015c A3020000 		.word	.L28+1
+ 485 0160 A3020000 		.word	.L28+1
+ 486 0164 A3020000 		.word	.L28+1
+ 487 0168 A3020000 		.word	.L28+1
+ 488 016c A3020000 		.word	.L28+1
+ 489 0170 A3020000 		.word	.L28+1
+ 490 0174 A3020000 		.word	.L28+1
+ 491 0178 A3020000 		.word	.L28+1
+ 492 017c A3020000 		.word	.L28+1
+ 493 0180 A3020000 		.word	.L28+1
+ 494 0184 A3020000 		.word	.L28+1
+ 495 0188 A3020000 		.word	.L28+1
+ 496 018c A3020000 		.word	.L28+1
+ 497 0190 AF020000 		.word	.L41+1
+ 498 0194 A3020000 		.word	.L28+1
+ 499 0198 A3020000 		.word	.L28+1
+ 500 019c A3020000 		.word	.L28+1
+ 501 01a0 A3020000 		.word	.L28+1
+ 502 01a4 A3020000 		.word	.L28+1
+ 503 01a8 AF020000 		.word	.L41+1
+ 504 01ac A3020000 		.word	.L28+1
+ 505 01b0 A3020000 		.word	.L28+1
+ 506 01b4 A3020000 		.word	.L28+1
+ 507 01b8 AF020000 		.word	.L41+1
+ 508 01bc A3020000 		.word	.L28+1
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 14
+
+
+ 509 01c0 A3020000 		.word	.L28+1
+ 510 01c4 A3020000 		.word	.L28+1
+ 511 01c8 A3020000 		.word	.L28+1
+ 512 01cc A3020000 		.word	.L28+1
+ 513 01d0 A3020000 		.word	.L28+1
+ 514 01d4 A3020000 		.word	.L28+1
+ 515 01d8 AF020000 		.word	.L41+1
+ 516 01dc A3020000 		.word	.L28+1
+ 517 01e0 A3020000 		.word	.L28+1
+ 518 01e4 A3020000 		.word	.L28+1
+ 519 01e8 AF020000 		.word	.L41+1
+ 520 01ec A3020000 		.word	.L28+1
+ 521 01f0 AF020000 		.word	.L41+1
+ 522 01f4 F9010000 		.word	.L31+1
+ 523              		.p2align 1
+ 524              	.L31:
+ 228:.\source\bsw\json/jsmn.h ****       /* Allowed escaped symbols */
+ 229:.\source\bsw\json/jsmn.h ****       case '\"':
+ 230:.\source\bsw\json/jsmn.h ****       case '/':
+ 231:.\source\bsw\json/jsmn.h ****       case '\\':
+ 232:.\source\bsw\json/jsmn.h ****       case 'b':
+ 233:.\source\bsw\json/jsmn.h ****       case 'f':
+ 234:.\source\bsw\json/jsmn.h ****       case 'r':
+ 235:.\source\bsw\json/jsmn.h ****       case 'n':
+ 236:.\source\bsw\json/jsmn.h ****       case 't':
+ 237:.\source\bsw\json/jsmn.h ****         break;
+ 238:.\source\bsw\json/jsmn.h ****       /* Allows escaped symbol \uXXXX */
+ 239:.\source\bsw\json/jsmn.h ****       case 'u':
+ 240:.\source\bsw\json/jsmn.h ****         parser->pos++;
+ 525              		.loc 1 240 0
+ 526 01f8 FB68     		ldr	r3, [r7, #12]
+ 527 01fa 1B68     		ldr	r3, [r3]
+ 528 01fc 5A1C     		adds	r2, r3, #1
+ 529 01fe FB68     		ldr	r3, [r7, #12]
+ 530 0200 1A60     		str	r2, [r3]
+ 241:.\source\bsw\json/jsmn.h ****         for (i = 0; i < 4 && parser->pos < len && js[parser->pos] != '\0';
+ 531              		.loc 1 241 0
+ 532 0202 0023     		movs	r3, #0
+ 533 0204 FB61     		str	r3, [r7, #28]
+ 534 0206 37E0     		b	.L32
+ 535              	.L38:
+ 242:.\source\bsw\json/jsmn.h ****              i++) {
+ 243:.\source\bsw\json/jsmn.h ****           /* If it isn't a hex character we have an error */
+ 244:.\source\bsw\json/jsmn.h ****           if (!((js[parser->pos] >= 48 && js[parser->pos] <= 57) ||   /* 0-9 */
+ 536              		.loc 1 244 0
+ 537 0208 FB68     		ldr	r3, [r7, #12]
+ 538 020a 1B68     		ldr	r3, [r3]
+ 539 020c BA68     		ldr	r2, [r7, #8]
+ 540 020e 1344     		add	r3, r3, r2
+ 541 0210 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 542 0212 2F2B     		cmp	r3, #47
+ 543 0214 06D9     		bls	.L33
+ 544              		.loc 1 244 0 is_stmt 0 discriminator 2
+ 545 0216 FB68     		ldr	r3, [r7, #12]
+ 546 0218 1B68     		ldr	r3, [r3]
+ 547 021a BA68     		ldr	r2, [r7, #8]
+ 548 021c 1344     		add	r3, r3, r2
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 15
+
+
+ 549 021e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 550 0220 392B     		cmp	r3, #57
+ 551 0222 21D9     		bls	.L34
+ 552              	.L33:
+ 245:.\source\bsw\json/jsmn.h ****                 (js[parser->pos] >= 65 && js[parser->pos] <= 70) ||   /* A-F */
+ 553              		.loc 1 245 0 is_stmt 1 discriminator 3
+ 554 0224 FB68     		ldr	r3, [r7, #12]
+ 555 0226 1B68     		ldr	r3, [r3]
+ 556 0228 BA68     		ldr	r2, [r7, #8]
+ 557 022a 1344     		add	r3, r3, r2
+ 558 022c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 244:.\source\bsw\json/jsmn.h ****                 (js[parser->pos] >= 65 && js[parser->pos] <= 70) ||   /* A-F */
+ 559              		.loc 1 244 0 discriminator 3
+ 560 022e 402B     		cmp	r3, #64
+ 561 0230 06D9     		bls	.L35
+ 562              		.loc 1 245 0
+ 563 0232 FB68     		ldr	r3, [r7, #12]
+ 564 0234 1B68     		ldr	r3, [r3]
+ 565 0236 BA68     		ldr	r2, [r7, #8]
+ 566 0238 1344     		add	r3, r3, r2
+ 567 023a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 568 023c 462B     		cmp	r3, #70
+ 569 023e 13D9     		bls	.L34
+ 570              	.L35:
+ 246:.\source\bsw\json/jsmn.h ****                 (js[parser->pos] >= 97 && js[parser->pos] <= 102))) { /* a-f */
+ 571              		.loc 1 246 0 discriminator 4
+ 572 0240 FB68     		ldr	r3, [r7, #12]
+ 573 0242 1B68     		ldr	r3, [r3]
+ 574 0244 BA68     		ldr	r2, [r7, #8]
+ 575 0246 1344     		add	r3, r3, r2
+ 576 0248 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 244:.\source\bsw\json/jsmn.h ****                 (js[parser->pos] >= 65 && js[parser->pos] <= 70) ||   /* A-F */
+ 577              		.loc 1 244 0 discriminator 4
+ 578 024a 602B     		cmp	r3, #96
+ 579 024c 06D9     		bls	.L36
+ 580              		.loc 1 246 0
+ 581 024e FB68     		ldr	r3, [r7, #12]
+ 582 0250 1B68     		ldr	r3, [r3]
+ 583 0252 BA68     		ldr	r2, [r7, #8]
+ 584 0254 1344     		add	r3, r3, r2
+ 585 0256 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 586 0258 662B     		cmp	r3, #102
+ 587 025a 05D9     		bls	.L34
+ 588              	.L36:
+ 247:.\source\bsw\json/jsmn.h ****             parser->pos = start;
+ 589              		.loc 1 247 0
+ 590 025c BA69     		ldr	r2, [r7, #24]
+ 591 025e FB68     		ldr	r3, [r7, #12]
+ 592 0260 1A60     		str	r2, [r3]
+ 248:.\source\bsw\json/jsmn.h ****             return JSMN_ERROR_INVAL;
+ 593              		.loc 1 248 0
+ 594 0262 6FF00103 		mvn	r3, #1
+ 595 0266 3AE0     		b	.L25
+ 596              	.L34:
+ 249:.\source\bsw\json/jsmn.h ****           }
+ 250:.\source\bsw\json/jsmn.h ****           parser->pos++;
+ 597              		.loc 1 250 0
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 16
+
+
+ 598 0268 FB68     		ldr	r3, [r7, #12]
+ 599 026a 1B68     		ldr	r3, [r3]
+ 600 026c 5A1C     		adds	r2, r3, #1
+ 601 026e FB68     		ldr	r3, [r7, #12]
+ 602 0270 1A60     		str	r2, [r3]
+ 242:.\source\bsw\json/jsmn.h ****           /* If it isn't a hex character we have an error */
+ 603              		.loc 1 242 0
+ 604 0272 FB69     		ldr	r3, [r7, #28]
+ 605 0274 0133     		adds	r3, r3, #1
+ 606 0276 FB61     		str	r3, [r7, #28]
+ 607              	.L32:
+ 241:.\source\bsw\json/jsmn.h ****              i++) {
+ 608              		.loc 1 241 0 discriminator 1
+ 609 0278 FB69     		ldr	r3, [r7, #28]
+ 610 027a 032B     		cmp	r3, #3
+ 611 027c 0BDC     		bgt	.L37
+ 241:.\source\bsw\json/jsmn.h ****              i++) {
+ 612              		.loc 1 241 0 is_stmt 0 discriminator 2
+ 613 027e FB68     		ldr	r3, [r7, #12]
+ 614 0280 1A68     		ldr	r2, [r3]
+ 615 0282 7B68     		ldr	r3, [r7, #4]
+ 616 0284 9A42     		cmp	r2, r3
+ 617 0286 06D2     		bcs	.L37
+ 241:.\source\bsw\json/jsmn.h ****              i++) {
+ 618              		.loc 1 241 0 discriminator 3
+ 619 0288 FB68     		ldr	r3, [r7, #12]
+ 620 028a 1B68     		ldr	r3, [r3]
+ 621 028c BA68     		ldr	r2, [r7, #8]
+ 622 028e 1344     		add	r3, r3, r2
+ 623 0290 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 624 0292 002B     		cmp	r3, #0
+ 625 0294 B8D1     		bne	.L38
+ 626              	.L37:
+ 251:.\source\bsw\json/jsmn.h ****         }
+ 252:.\source\bsw\json/jsmn.h ****         parser->pos--;
+ 627              		.loc 1 252 0 is_stmt 1
+ 628 0296 FB68     		ldr	r3, [r7, #12]
+ 629 0298 1B68     		ldr	r3, [r3]
+ 630 029a 5A1E     		subs	r2, r3, #1
+ 631 029c FB68     		ldr	r3, [r7, #12]
+ 632 029e 1A60     		str	r2, [r3]
+ 253:.\source\bsw\json/jsmn.h ****         break;
+ 633              		.loc 1 253 0
+ 634 02a0 06E0     		b	.L27
+ 635              	.L28:
+ 254:.\source\bsw\json/jsmn.h ****       /* Unexpected symbol */
+ 255:.\source\bsw\json/jsmn.h ****       default:
+ 256:.\source\bsw\json/jsmn.h ****         parser->pos = start;
+ 636              		.loc 1 256 0
+ 637 02a2 BA69     		ldr	r2, [r7, #24]
+ 638 02a4 FB68     		ldr	r3, [r7, #12]
+ 639 02a6 1A60     		str	r2, [r3]
+ 257:.\source\bsw\json/jsmn.h ****         return JSMN_ERROR_INVAL;
+ 640              		.loc 1 257 0
+ 641 02a8 6FF00103 		mvn	r3, #1
+ 642 02ac 17E0     		b	.L25
+ 643              	.L41:
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 17
+
+
+ 237:.\source\bsw\json/jsmn.h ****       /* Allows escaped symbol \uXXXX */
+ 644              		.loc 1 237 0
+ 645 02ae 00BF     		nop
+ 646              	.L27:
+ 647              	.LBE3:
+ 648              	.LBE2:
+ 203:.\source\bsw\json/jsmn.h ****     char c = js[parser->pos];
+ 649              		.loc 1 203 0
+ 650 02b0 FB68     		ldr	r3, [r7, #12]
+ 651 02b2 1B68     		ldr	r3, [r3]
+ 652 02b4 5A1C     		adds	r2, r3, #1
+ 653 02b6 FB68     		ldr	r3, [r7, #12]
+ 654 02b8 1A60     		str	r2, [r3]
+ 655              	.L22:
+ 203:.\source\bsw\json/jsmn.h ****     char c = js[parser->pos];
+ 656              		.loc 1 203 0 is_stmt 0 discriminator 1
+ 657 02ba FB68     		ldr	r3, [r7, #12]
+ 658 02bc 1A68     		ldr	r2, [r3]
+ 659 02be 7B68     		ldr	r3, [r7, #4]
+ 660 02c0 9A42     		cmp	r2, r3
+ 661 02c2 07D2     		bcs	.L39
+ 203:.\source\bsw\json/jsmn.h ****     char c = js[parser->pos];
+ 662              		.loc 1 203 0 discriminator 2
+ 663 02c4 FB68     		ldr	r3, [r7, #12]
+ 664 02c6 1B68     		ldr	r3, [r3]
+ 665 02c8 BA68     		ldr	r2, [r7, #8]
+ 666 02ca 1344     		add	r3, r3, r2
+ 667 02cc 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 668 02ce 002B     		cmp	r3, #0
+ 669 02d0 7FF4A6AE 		bne	.L40
+ 670              	.L39:
+ 258:.\source\bsw\json/jsmn.h ****       }
+ 259:.\source\bsw\json/jsmn.h ****     }
+ 260:.\source\bsw\json/jsmn.h ****   }
+ 261:.\source\bsw\json/jsmn.h ****   parser->pos = start;
+ 671              		.loc 1 261 0 is_stmt 1
+ 672 02d4 BA69     		ldr	r2, [r7, #24]
+ 673 02d6 FB68     		ldr	r3, [r7, #12]
+ 674 02d8 1A60     		str	r2, [r3]
+ 262:.\source\bsw\json/jsmn.h ****   return JSMN_ERROR_PART;
+ 675              		.loc 1 262 0
+ 676 02da 6FF00203 		mvn	r3, #2
+ 677              	.L25:
+ 263:.\source\bsw\json/jsmn.h **** }
+ 678              		.loc 1 263 0
+ 679 02de 1846     		mov	r0, r3
+ 680 02e0 2037     		adds	r7, r7, #32
+ 681              		.cfi_def_cfa_offset 8
+ 682 02e2 BD46     		mov	sp, r7
+ 683              		.cfi_def_cfa_register 13
+ 684              		@ sp needed
+ 685 02e4 80BD     		pop	{r7, pc}
+ 686              		.cfi_endproc
+ 687              	.LFE3:
+ 688              		.size	jsmn_parse_string, .-jsmn_parse_string
+ 689 02e6 00BF     		.section	.text.jsmn_parse,"ax",%progbits
+ 690              		.align	2
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 18
+
+
+ 691              		.global	jsmn_parse
+ 692              		.thumb
+ 693              		.thumb_func
+ 694              		.type	jsmn_parse, %function
+ 695              	jsmn_parse:
+ 696              	.LFB4:
+ 264:.\source\bsw\json/jsmn.h **** 
+ 265:.\source\bsw\json/jsmn.h **** /**
+ 266:.\source\bsw\json/jsmn.h ****  * Parse JSON string and fill tokens.
+ 267:.\source\bsw\json/jsmn.h ****  */
+ 268:.\source\bsw\json/jsmn.h **** JSMN_API int jsmn_parse(jsmn_parser *parser, const char *js, const size_t len,
+ 269:.\source\bsw\json/jsmn.h ****                         jsmntok_t *tokens, const unsigned int num_tokens) {
+ 697              		.loc 1 269 0
+ 698              		.cfi_startproc
+ 699              		@ args = 4, pretend = 0, frame = 40
+ 700              		@ frame_needed = 1, uses_anonymous_args = 0
+ 701 0000 80B5     		push	{r7, lr}
+ 702              		.cfi_def_cfa_offset 8
+ 703              		.cfi_offset 7, -8
+ 704              		.cfi_offset 14, -4
+ 705 0002 8CB0     		sub	sp, sp, #48
+ 706              		.cfi_def_cfa_offset 56
+ 707 0004 02AF     		add	r7, sp, #8
+ 708              		.cfi_def_cfa 7, 48
+ 709 0006 F860     		str	r0, [r7, #12]
+ 710 0008 B960     		str	r1, [r7, #8]
+ 711 000a 7A60     		str	r2, [r7, #4]
+ 712 000c 3B60     		str	r3, [r7]
+ 270:.\source\bsw\json/jsmn.h ****   int r;
+ 271:.\source\bsw\json/jsmn.h ****   int i;
+ 272:.\source\bsw\json/jsmn.h ****   jsmntok_t *token;
+ 273:.\source\bsw\json/jsmn.h ****   int count = parser->toknext;
+ 713              		.loc 1 273 0
+ 714 000e FB68     		ldr	r3, [r7, #12]
+ 715 0010 5B68     		ldr	r3, [r3, #4]
+ 716 0012 3B62     		str	r3, [r7, #32]
+ 274:.\source\bsw\json/jsmn.h **** 
+ 275:.\source\bsw\json/jsmn.h ****   for (; parser->pos < len && js[parser->pos] != '\0'; parser->pos++) {
+ 717              		.loc 1 275 0
+ 718 0014 5FE1     		b	.L43
+ 719              	.L84:
+ 720              	.LBB4:
+ 276:.\source\bsw\json/jsmn.h ****     char c;
+ 277:.\source\bsw\json/jsmn.h ****     jsmntype_t type;
+ 278:.\source\bsw\json/jsmn.h **** 
+ 279:.\source\bsw\json/jsmn.h ****     c = js[parser->pos];
+ 721              		.loc 1 279 0
+ 722 0016 FB68     		ldr	r3, [r7, #12]
+ 723 0018 1B68     		ldr	r3, [r3]
+ 724 001a BA68     		ldr	r2, [r7, #8]
+ 725 001c 1344     		add	r3, r3, r2
+ 726 001e 1B78     		ldrb	r3, [r3]
+ 727 0020 FB77     		strb	r3, [r7, #31]
+ 280:.\source\bsw\json/jsmn.h ****     switch (c) {
+ 728              		.loc 1 280 0
+ 729 0022 FB7F     		ldrb	r3, [r7, #31]	@ zero_extendqisi2
+ 730 0024 2C2B     		cmp	r3, #44
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 19
+
+
+ 731 0026 00F0DD80 		beq	.L45
+ 732 002a 2C2B     		cmp	r3, #44
+ 733 002c 10DC     		bgt	.L46
+ 734 002e 0D2B     		cmp	r3, #13
+ 735 0030 00F04181 		beq	.L89
+ 736 0034 0D2B     		cmp	r3, #13
+ 737 0036 04DC     		bgt	.L48
+ 738 0038 093B     		subs	r3, r3, #9
+ 739 003a 012B     		cmp	r3, #1
+ 740 003c 00F21981 		bhi	.L44
+ 281:.\source\bsw\json/jsmn.h ****     case '{':
+ 282:.\source\bsw\json/jsmn.h ****     case '[':
+ 283:.\source\bsw\json/jsmn.h ****       count++;
+ 284:.\source\bsw\json/jsmn.h ****       if (tokens == NULL) {
+ 285:.\source\bsw\json/jsmn.h ****         break;
+ 286:.\source\bsw\json/jsmn.h ****       }
+ 287:.\source\bsw\json/jsmn.h ****       token = jsmn_alloc_token(parser, tokens, num_tokens);
+ 288:.\source\bsw\json/jsmn.h ****       if (token == NULL) {
+ 289:.\source\bsw\json/jsmn.h ****         return JSMN_ERROR_NOMEM;
+ 290:.\source\bsw\json/jsmn.h ****       }
+ 291:.\source\bsw\json/jsmn.h ****       if (parser->toksuper != -1) {
+ 292:.\source\bsw\json/jsmn.h ****         jsmntok_t *t = &tokens[parser->toksuper];
+ 293:.\source\bsw\json/jsmn.h **** #ifdef JSMN_STRICT
+ 294:.\source\bsw\json/jsmn.h ****         /* In strict mode an object or array can't become a key */
+ 295:.\source\bsw\json/jsmn.h ****         if (t->type == JSMN_OBJECT) {
+ 296:.\source\bsw\json/jsmn.h ****           return JSMN_ERROR_INVAL;
+ 297:.\source\bsw\json/jsmn.h ****         }
+ 298:.\source\bsw\json/jsmn.h **** #endif
+ 299:.\source\bsw\json/jsmn.h ****         t->size++;
+ 300:.\source\bsw\json/jsmn.h **** #ifdef JSMN_PARENT_LINKS
+ 301:.\source\bsw\json/jsmn.h ****         token->parent = parser->toksuper;
+ 302:.\source\bsw\json/jsmn.h **** #endif
+ 303:.\source\bsw\json/jsmn.h ****       }
+ 304:.\source\bsw\json/jsmn.h ****       token->type = (c == '{' ? JSMN_OBJECT : JSMN_ARRAY);
+ 305:.\source\bsw\json/jsmn.h ****       token->start = parser->pos;
+ 306:.\source\bsw\json/jsmn.h ****       parser->toksuper = parser->toknext - 1;
+ 307:.\source\bsw\json/jsmn.h ****       break;
+ 308:.\source\bsw\json/jsmn.h ****     case '}':
+ 309:.\source\bsw\json/jsmn.h ****     case ']':
+ 310:.\source\bsw\json/jsmn.h ****       if (tokens == NULL) {
+ 311:.\source\bsw\json/jsmn.h ****         break;
+ 312:.\source\bsw\json/jsmn.h ****       }
+ 313:.\source\bsw\json/jsmn.h ****       type = (c == '}' ? JSMN_OBJECT : JSMN_ARRAY);
+ 314:.\source\bsw\json/jsmn.h **** #ifdef JSMN_PARENT_LINKS
+ 315:.\source\bsw\json/jsmn.h ****       if (parser->toknext < 1) {
+ 316:.\source\bsw\json/jsmn.h ****         return JSMN_ERROR_INVAL;
+ 317:.\source\bsw\json/jsmn.h ****       }
+ 318:.\source\bsw\json/jsmn.h ****       token = &tokens[parser->toknext - 1];
+ 319:.\source\bsw\json/jsmn.h ****       for (;;) {
+ 320:.\source\bsw\json/jsmn.h ****         if (token->start != -1 && token->end == -1) {
+ 321:.\source\bsw\json/jsmn.h ****           if (token->type != type) {
+ 322:.\source\bsw\json/jsmn.h ****             return JSMN_ERROR_INVAL;
+ 323:.\source\bsw\json/jsmn.h ****           }
+ 324:.\source\bsw\json/jsmn.h ****           token->end = parser->pos + 1;
+ 325:.\source\bsw\json/jsmn.h ****           parser->toksuper = token->parent;
+ 326:.\source\bsw\json/jsmn.h ****           break;
+ 327:.\source\bsw\json/jsmn.h ****         }
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 20
+
+
+ 328:.\source\bsw\json/jsmn.h ****         if (token->parent == -1) {
+ 329:.\source\bsw\json/jsmn.h ****           if (token->type != type || parser->toksuper == -1) {
+ 330:.\source\bsw\json/jsmn.h ****             return JSMN_ERROR_INVAL;
+ 331:.\source\bsw\json/jsmn.h ****           }
+ 332:.\source\bsw\json/jsmn.h ****           break;
+ 333:.\source\bsw\json/jsmn.h ****         }
+ 334:.\source\bsw\json/jsmn.h ****         token = &tokens[token->parent];
+ 335:.\source\bsw\json/jsmn.h ****       }
+ 336:.\source\bsw\json/jsmn.h **** #else
+ 337:.\source\bsw\json/jsmn.h ****       for (i = parser->toknext - 1; i >= 0; i--) {
+ 338:.\source\bsw\json/jsmn.h ****         token = &tokens[i];
+ 339:.\source\bsw\json/jsmn.h ****         if (token->start != -1 && token->end == -1) {
+ 340:.\source\bsw\json/jsmn.h ****           if (token->type != type) {
+ 341:.\source\bsw\json/jsmn.h ****             return JSMN_ERROR_INVAL;
+ 342:.\source\bsw\json/jsmn.h ****           }
+ 343:.\source\bsw\json/jsmn.h ****           parser->toksuper = -1;
+ 344:.\source\bsw\json/jsmn.h ****           token->end = parser->pos + 1;
+ 345:.\source\bsw\json/jsmn.h ****           break;
+ 346:.\source\bsw\json/jsmn.h ****         }
+ 347:.\source\bsw\json/jsmn.h ****       }
+ 348:.\source\bsw\json/jsmn.h ****       /* Error if unmatched closing bracket */
+ 349:.\source\bsw\json/jsmn.h ****       if (i == -1) {
+ 350:.\source\bsw\json/jsmn.h ****         return JSMN_ERROR_INVAL;
+ 351:.\source\bsw\json/jsmn.h ****       }
+ 352:.\source\bsw\json/jsmn.h ****       for (; i >= 0; i--) {
+ 353:.\source\bsw\json/jsmn.h ****         token = &tokens[i];
+ 354:.\source\bsw\json/jsmn.h ****         if (token->start != -1 && token->end == -1) {
+ 355:.\source\bsw\json/jsmn.h ****           parser->toksuper = i;
+ 356:.\source\bsw\json/jsmn.h ****           break;
+ 357:.\source\bsw\json/jsmn.h ****         }
+ 358:.\source\bsw\json/jsmn.h ****       }
+ 359:.\source\bsw\json/jsmn.h **** #endif
+ 360:.\source\bsw\json/jsmn.h ****       break;
+ 361:.\source\bsw\json/jsmn.h ****     case '\"':
+ 362:.\source\bsw\json/jsmn.h ****       r = jsmn_parse_string(parser, js, len, tokens, num_tokens);
+ 363:.\source\bsw\json/jsmn.h ****       if (r < 0) {
+ 364:.\source\bsw\json/jsmn.h ****         return r;
+ 365:.\source\bsw\json/jsmn.h ****       }
+ 366:.\source\bsw\json/jsmn.h ****       count++;
+ 367:.\source\bsw\json/jsmn.h ****       if (parser->toksuper != -1 && tokens != NULL) {
+ 368:.\source\bsw\json/jsmn.h ****         tokens[parser->toksuper].size++;
+ 369:.\source\bsw\json/jsmn.h ****       }
+ 370:.\source\bsw\json/jsmn.h ****       break;
+ 371:.\source\bsw\json/jsmn.h ****     case '\t':
+ 372:.\source\bsw\json/jsmn.h ****     case '\r':
+ 373:.\source\bsw\json/jsmn.h ****     case '\n':
+ 374:.\source\bsw\json/jsmn.h ****     case ' ':
+ 375:.\source\bsw\json/jsmn.h ****       break;
+ 741              		.loc 1 375 0
+ 742 0040 39E1     		b	.L89
+ 743              	.L48:
+ 280:.\source\bsw\json/jsmn.h ****     switch (c) {
+ 744              		.loc 1 280 0
+ 745 0042 202B     		cmp	r3, #32
+ 746 0044 00F03781 		beq	.L89
+ 747 0048 222B     		cmp	r3, #34
+ 748 004a 00F0A180 		beq	.L49
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 21
+
+
+ 749 004e 10E1     		b	.L44
+ 750              	.L46:
+ 751 0050 5D2B     		cmp	r3, #93
+ 752 0052 43D0     		beq	.L50
+ 753 0054 5D2B     		cmp	r3, #93
+ 754 0056 05DC     		bgt	.L51
+ 755 0058 3A2B     		cmp	r3, #58
+ 756 005a 00F0BC80 		beq	.L52
+ 757 005e 5B2B     		cmp	r3, #91
+ 758 0060 05D0     		beq	.L53
+ 759 0062 06E1     		b	.L44
+ 760              	.L51:
+ 761 0064 7B2B     		cmp	r3, #123
+ 762 0066 02D0     		beq	.L53
+ 763 0068 7D2B     		cmp	r3, #125
+ 764 006a 37D0     		beq	.L50
+ 765 006c 01E1     		b	.L44
+ 766              	.L53:
+ 283:.\source\bsw\json/jsmn.h ****       if (tokens == NULL) {
+ 767              		.loc 1 283 0
+ 768 006e 3B6A     		ldr	r3, [r7, #32]
+ 769 0070 0133     		adds	r3, r3, #1
+ 770 0072 3B62     		str	r3, [r7, #32]
+ 284:.\source\bsw\json/jsmn.h ****         break;
+ 771              		.loc 1 284 0
+ 772 0074 3B68     		ldr	r3, [r7]
+ 773 0076 002B     		cmp	r3, #0
+ 774 0078 00F01F81 		beq	.L90
+ 287:.\source\bsw\json/jsmn.h ****       if (token == NULL) {
+ 775              		.loc 1 287 0
+ 776 007c 3A6B     		ldr	r2, [r7, #48]
+ 777 007e 3968     		ldr	r1, [r7]
+ 778 0080 F868     		ldr	r0, [r7, #12]
+ 779 0082 FFF7FEFF 		bl	jsmn_alloc_token
+ 780 0086 B861     		str	r0, [r7, #24]
+ 288:.\source\bsw\json/jsmn.h ****         return JSMN_ERROR_NOMEM;
+ 781              		.loc 1 288 0
+ 782 0088 BB69     		ldr	r3, [r7, #24]
+ 783 008a 002B     		cmp	r3, #0
+ 784 008c 02D1     		bne	.L56
+ 289:.\source\bsw\json/jsmn.h ****       }
+ 785              		.loc 1 289 0
+ 786 008e 4FF0FF33 		mov	r3, #-1
+ 787 0092 4FE1     		b	.L57
+ 788              	.L56:
+ 291:.\source\bsw\json/jsmn.h ****         jsmntok_t *t = &tokens[parser->toksuper];
+ 789              		.loc 1 291 0
+ 790 0094 FB68     		ldr	r3, [r7, #12]
+ 791 0096 9B68     		ldr	r3, [r3, #8]
+ 792 0098 B3F1FF3F 		cmp	r3, #-1
+ 793 009c 0AD0     		beq	.L58
+ 794              	.LBB5:
+ 292:.\source\bsw\json/jsmn.h **** #ifdef JSMN_STRICT
+ 795              		.loc 1 292 0
+ 796 009e FB68     		ldr	r3, [r7, #12]
+ 797 00a0 9B68     		ldr	r3, [r3, #8]
+ 798 00a2 1B01     		lsls	r3, r3, #4
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 22
+
+
+ 799 00a4 3A68     		ldr	r2, [r7]
+ 800 00a6 1344     		add	r3, r3, r2
+ 801 00a8 3B61     		str	r3, [r7, #16]
+ 299:.\source\bsw\json/jsmn.h **** #ifdef JSMN_PARENT_LINKS
+ 802              		.loc 1 299 0
+ 803 00aa 3B69     		ldr	r3, [r7, #16]
+ 804 00ac DB68     		ldr	r3, [r3, #12]
+ 805 00ae 5A1C     		adds	r2, r3, #1
+ 806 00b0 3B69     		ldr	r3, [r7, #16]
+ 807 00b2 DA60     		str	r2, [r3, #12]
+ 808              	.L58:
+ 809              	.LBE5:
+ 304:.\source\bsw\json/jsmn.h ****       token->start = parser->pos;
+ 810              		.loc 1 304 0
+ 811 00b4 FB7F     		ldrb	r3, [r7, #31]	@ zero_extendqisi2
+ 812 00b6 7B2B     		cmp	r3, #123
+ 813 00b8 01D1     		bne	.L59
+ 304:.\source\bsw\json/jsmn.h ****       token->start = parser->pos;
+ 814              		.loc 1 304 0 is_stmt 0 discriminator 1
+ 815 00ba 0122     		movs	r2, #1
+ 816 00bc 00E0     		b	.L60
+ 817              	.L59:
+ 304:.\source\bsw\json/jsmn.h ****       token->start = parser->pos;
+ 818              		.loc 1 304 0 discriminator 2
+ 819 00be 0222     		movs	r2, #2
+ 820              	.L60:
+ 304:.\source\bsw\json/jsmn.h ****       token->start = parser->pos;
+ 821              		.loc 1 304 0 discriminator 4
+ 822 00c0 BB69     		ldr	r3, [r7, #24]
+ 823 00c2 1A70     		strb	r2, [r3]
+ 305:.\source\bsw\json/jsmn.h ****       parser->toksuper = parser->toknext - 1;
+ 824              		.loc 1 305 0 is_stmt 1 discriminator 4
+ 825 00c4 FB68     		ldr	r3, [r7, #12]
+ 826 00c6 1B68     		ldr	r3, [r3]
+ 827 00c8 1A46     		mov	r2, r3
+ 828 00ca BB69     		ldr	r3, [r7, #24]
+ 829 00cc 5A60     		str	r2, [r3, #4]
+ 306:.\source\bsw\json/jsmn.h ****       break;
+ 830              		.loc 1 306 0 discriminator 4
+ 831 00ce FB68     		ldr	r3, [r7, #12]
+ 832 00d0 5B68     		ldr	r3, [r3, #4]
+ 833 00d2 013B     		subs	r3, r3, #1
+ 834 00d4 1A46     		mov	r2, r3
+ 835 00d6 FB68     		ldr	r3, [r7, #12]
+ 836 00d8 9A60     		str	r2, [r3, #8]
+ 307:.\source\bsw\json/jsmn.h ****     case '}':
+ 837              		.loc 1 307 0 discriminator 4
+ 838 00da F7E0     		b	.L55
+ 839              	.L50:
+ 310:.\source\bsw\json/jsmn.h ****         break;
+ 840              		.loc 1 310 0
+ 841 00dc 3B68     		ldr	r3, [r7]
+ 842 00de 002B     		cmp	r3, #0
+ 843 00e0 00F0ED80 		beq	.L91
+ 313:.\source\bsw\json/jsmn.h **** #ifdef JSMN_PARENT_LINKS
+ 844              		.loc 1 313 0
+ 845 00e4 FB7F     		ldrb	r3, [r7, #31]	@ zero_extendqisi2
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 23
+
+
+ 846 00e6 7D2B     		cmp	r3, #125
+ 847 00e8 01D1     		bne	.L62
+ 313:.\source\bsw\json/jsmn.h **** #ifdef JSMN_PARENT_LINKS
+ 848              		.loc 1 313 0 is_stmt 0 discriminator 1
+ 849 00ea 0123     		movs	r3, #1
+ 850 00ec 00E0     		b	.L63
+ 851              	.L62:
+ 313:.\source\bsw\json/jsmn.h **** #ifdef JSMN_PARENT_LINKS
+ 852              		.loc 1 313 0 discriminator 2
+ 853 00ee 0223     		movs	r3, #2
+ 854              	.L63:
+ 313:.\source\bsw\json/jsmn.h **** #ifdef JSMN_PARENT_LINKS
+ 855              		.loc 1 313 0 discriminator 4
+ 856 00f0 BB77     		strb	r3, [r7, #30]
+ 337:.\source\bsw\json/jsmn.h ****         token = &tokens[i];
+ 857              		.loc 1 337 0 is_stmt 1 discriminator 4
+ 858 00f2 FB68     		ldr	r3, [r7, #12]
+ 859 00f4 5B68     		ldr	r3, [r3, #4]
+ 860 00f6 013B     		subs	r3, r3, #1
+ 861 00f8 7B62     		str	r3, [r7, #36]
+ 862 00fa 24E0     		b	.L64
+ 863              	.L68:
+ 338:.\source\bsw\json/jsmn.h ****         if (token->start != -1 && token->end == -1) {
+ 864              		.loc 1 338 0
+ 865 00fc 7B6A     		ldr	r3, [r7, #36]
+ 866 00fe 1B01     		lsls	r3, r3, #4
+ 867 0100 3A68     		ldr	r2, [r7]
+ 868 0102 1344     		add	r3, r3, r2
+ 869 0104 BB61     		str	r3, [r7, #24]
+ 339:.\source\bsw\json/jsmn.h ****           if (token->type != type) {
+ 870              		.loc 1 339 0
+ 871 0106 BB69     		ldr	r3, [r7, #24]
+ 872 0108 5B68     		ldr	r3, [r3, #4]
+ 873 010a B3F1FF3F 		cmp	r3, #-1
+ 874 010e 17D0     		beq	.L65
+ 339:.\source\bsw\json/jsmn.h ****           if (token->type != type) {
+ 875              		.loc 1 339 0 is_stmt 0 discriminator 1
+ 876 0110 BB69     		ldr	r3, [r7, #24]
+ 877 0112 9B68     		ldr	r3, [r3, #8]
+ 878 0114 B3F1FF3F 		cmp	r3, #-1
+ 879 0118 12D1     		bne	.L65
+ 340:.\source\bsw\json/jsmn.h ****             return JSMN_ERROR_INVAL;
+ 880              		.loc 1 340 0 is_stmt 1
+ 881 011a BB69     		ldr	r3, [r7, #24]
+ 882 011c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 883 011e BA7F     		ldrb	r2, [r7, #30]	@ zero_extendqisi2
+ 884 0120 9A42     		cmp	r2, r3
+ 885 0122 02D0     		beq	.L66
+ 341:.\source\bsw\json/jsmn.h ****           }
+ 886              		.loc 1 341 0
+ 887 0124 6FF00103 		mvn	r3, #1
+ 888 0128 04E1     		b	.L57
+ 889              	.L66:
+ 343:.\source\bsw\json/jsmn.h ****           token->end = parser->pos + 1;
+ 890              		.loc 1 343 0
+ 891 012a FB68     		ldr	r3, [r7, #12]
+ 892 012c 4FF0FF32 		mov	r2, #-1
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 24
+
+
+ 893 0130 9A60     		str	r2, [r3, #8]
+ 344:.\source\bsw\json/jsmn.h ****           break;
+ 894              		.loc 1 344 0
+ 895 0132 FB68     		ldr	r3, [r7, #12]
+ 896 0134 1B68     		ldr	r3, [r3]
+ 897 0136 0133     		adds	r3, r3, #1
+ 898 0138 1A46     		mov	r2, r3
+ 899 013a BB69     		ldr	r3, [r7, #24]
+ 900 013c 9A60     		str	r2, [r3, #8]
+ 345:.\source\bsw\json/jsmn.h ****         }
+ 901              		.loc 1 345 0
+ 902 013e 05E0     		b	.L67
+ 903              	.L65:
+ 337:.\source\bsw\json/jsmn.h ****         token = &tokens[i];
+ 904              		.loc 1 337 0 discriminator 2
+ 905 0140 7B6A     		ldr	r3, [r7, #36]
+ 906 0142 013B     		subs	r3, r3, #1
+ 907 0144 7B62     		str	r3, [r7, #36]
+ 908              	.L64:
+ 337:.\source\bsw\json/jsmn.h ****         token = &tokens[i];
+ 909              		.loc 1 337 0 is_stmt 0 discriminator 1
+ 910 0146 7B6A     		ldr	r3, [r7, #36]
+ 911 0148 002B     		cmp	r3, #0
+ 912 014a D7DA     		bge	.L68
+ 913              	.L67:
+ 349:.\source\bsw\json/jsmn.h ****         return JSMN_ERROR_INVAL;
+ 914              		.loc 1 349 0 is_stmt 1
+ 915 014c 7B6A     		ldr	r3, [r7, #36]
+ 916 014e B3F1FF3F 		cmp	r3, #-1
+ 917 0152 19D1     		bne	.L70
+ 350:.\source\bsw\json/jsmn.h ****       }
+ 918              		.loc 1 350 0
+ 919 0154 6FF00103 		mvn	r3, #1
+ 920 0158 ECE0     		b	.L57
+ 921              	.L73:
+ 353:.\source\bsw\json/jsmn.h ****         if (token->start != -1 && token->end == -1) {
+ 922              		.loc 1 353 0
+ 923 015a 7B6A     		ldr	r3, [r7, #36]
+ 924 015c 1B01     		lsls	r3, r3, #4
+ 925 015e 3A68     		ldr	r2, [r7]
+ 926 0160 1344     		add	r3, r3, r2
+ 927 0162 BB61     		str	r3, [r7, #24]
+ 354:.\source\bsw\json/jsmn.h ****           parser->toksuper = i;
+ 928              		.loc 1 354 0
+ 929 0164 BB69     		ldr	r3, [r7, #24]
+ 930 0166 5B68     		ldr	r3, [r3, #4]
+ 931 0168 B3F1FF3F 		cmp	r3, #-1
+ 932 016c 09D0     		beq	.L71
+ 354:.\source\bsw\json/jsmn.h ****           parser->toksuper = i;
+ 933              		.loc 1 354 0 is_stmt 0 discriminator 1
+ 934 016e BB69     		ldr	r3, [r7, #24]
+ 935 0170 9B68     		ldr	r3, [r3, #8]
+ 936 0172 B3F1FF3F 		cmp	r3, #-1
+ 937 0176 04D1     		bne	.L71
+ 355:.\source\bsw\json/jsmn.h ****           break;
+ 938              		.loc 1 355 0 is_stmt 1
+ 939 0178 FB68     		ldr	r3, [r7, #12]
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 25
+
+
+ 940 017a 7A6A     		ldr	r2, [r7, #36]
+ 941 017c 9A60     		str	r2, [r3, #8]
+ 356:.\source\bsw\json/jsmn.h ****         }
+ 942              		.loc 1 356 0
+ 943 017e 00BF     		nop
+ 360:.\source\bsw\json/jsmn.h ****     case '\"':
+ 944              		.loc 1 360 0
+ 945 0180 A4E0     		b	.L55
+ 946              	.L71:
+ 352:.\source\bsw\json/jsmn.h ****         token = &tokens[i];
+ 947              		.loc 1 352 0
+ 948 0182 7B6A     		ldr	r3, [r7, #36]
+ 949 0184 013B     		subs	r3, r3, #1
+ 950 0186 7B62     		str	r3, [r7, #36]
+ 951              	.L70:
+ 352:.\source\bsw\json/jsmn.h ****         token = &tokens[i];
+ 952              		.loc 1 352 0 is_stmt 0 discriminator 1
+ 953 0188 7B6A     		ldr	r3, [r7, #36]
+ 954 018a 002B     		cmp	r3, #0
+ 955 018c E5DA     		bge	.L73
+ 360:.\source\bsw\json/jsmn.h ****     case '\"':
+ 956              		.loc 1 360 0 is_stmt 1
+ 957 018e 9DE0     		b	.L55
+ 958              	.L49:
+ 362:.\source\bsw\json/jsmn.h ****       if (r < 0) {
+ 959              		.loc 1 362 0
+ 960 0190 3B6B     		ldr	r3, [r7, #48]
+ 961 0192 0093     		str	r3, [sp]
+ 962 0194 3B68     		ldr	r3, [r7]
+ 963 0196 7A68     		ldr	r2, [r7, #4]
+ 964 0198 B968     		ldr	r1, [r7, #8]
+ 965 019a F868     		ldr	r0, [r7, #12]
+ 966 019c FFF7FEFF 		bl	jsmn_parse_string
+ 967 01a0 7861     		str	r0, [r7, #20]
+ 363:.\source\bsw\json/jsmn.h ****         return r;
+ 968              		.loc 1 363 0
+ 969 01a2 7B69     		ldr	r3, [r7, #20]
+ 970 01a4 002B     		cmp	r3, #0
+ 971 01a6 01DA     		bge	.L74
+ 364:.\source\bsw\json/jsmn.h ****       }
+ 972              		.loc 1 364 0
+ 973 01a8 7B69     		ldr	r3, [r7, #20]
+ 974 01aa C3E0     		b	.L57
+ 975              	.L74:
+ 366:.\source\bsw\json/jsmn.h ****       if (parser->toksuper != -1 && tokens != NULL) {
+ 976              		.loc 1 366 0
+ 977 01ac 3B6A     		ldr	r3, [r7, #32]
+ 978 01ae 0133     		adds	r3, r3, #1
+ 979 01b0 3B62     		str	r3, [r7, #32]
+ 367:.\source\bsw\json/jsmn.h ****         tokens[parser->toksuper].size++;
+ 980              		.loc 1 367 0
+ 981 01b2 FB68     		ldr	r3, [r7, #12]
+ 982 01b4 9B68     		ldr	r3, [r3, #8]
+ 983 01b6 B3F1FF3F 		cmp	r3, #-1
+ 984 01ba 00F08280 		beq	.L92
+ 367:.\source\bsw\json/jsmn.h ****         tokens[parser->toksuper].size++;
+ 985              		.loc 1 367 0 is_stmt 0 discriminator 1
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 26
+
+
+ 986 01be 3B68     		ldr	r3, [r7]
+ 987 01c0 002B     		cmp	r3, #0
+ 988 01c2 7ED0     		beq	.L92
+ 368:.\source\bsw\json/jsmn.h ****       }
+ 989              		.loc 1 368 0 is_stmt 1
+ 990 01c4 FB68     		ldr	r3, [r7, #12]
+ 991 01c6 9B68     		ldr	r3, [r3, #8]
+ 992 01c8 1B01     		lsls	r3, r3, #4
+ 993 01ca 3A68     		ldr	r2, [r7]
+ 994 01cc 1344     		add	r3, r3, r2
+ 995 01ce DA68     		ldr	r2, [r3, #12]
+ 996 01d0 0132     		adds	r2, r2, #1
+ 997 01d2 DA60     		str	r2, [r3, #12]
+ 370:.\source\bsw\json/jsmn.h ****     case '\t':
+ 998              		.loc 1 370 0
+ 999 01d4 75E0     		b	.L92
+ 1000              	.L52:
+ 376:.\source\bsw\json/jsmn.h ****     case ':':
+ 377:.\source\bsw\json/jsmn.h ****       parser->toksuper = parser->toknext - 1;
+ 1001              		.loc 1 377 0
+ 1002 01d6 FB68     		ldr	r3, [r7, #12]
+ 1003 01d8 5B68     		ldr	r3, [r3, #4]
+ 1004 01da 013B     		subs	r3, r3, #1
+ 1005 01dc 1A46     		mov	r2, r3
+ 1006 01de FB68     		ldr	r3, [r7, #12]
+ 1007 01e0 9A60     		str	r2, [r3, #8]
+ 378:.\source\bsw\json/jsmn.h ****       break;
+ 1008              		.loc 1 378 0
+ 1009 01e2 73E0     		b	.L55
+ 1010              	.L45:
+ 379:.\source\bsw\json/jsmn.h ****     case ',':
+ 380:.\source\bsw\json/jsmn.h ****       if (tokens != NULL && parser->toksuper != -1 &&
+ 1011              		.loc 1 380 0
+ 1012 01e4 3B68     		ldr	r3, [r7]
+ 1013 01e6 002B     		cmp	r3, #0
+ 1014 01e8 6DD0     		beq	.L93
+ 1015              		.loc 1 380 0 is_stmt 0 discriminator 1
+ 1016 01ea FB68     		ldr	r3, [r7, #12]
+ 1017 01ec 9B68     		ldr	r3, [r3, #8]
+ 1018 01ee B3F1FF3F 		cmp	r3, #-1
+ 1019 01f2 68D0     		beq	.L93
+ 381:.\source\bsw\json/jsmn.h ****           tokens[parser->toksuper].type != JSMN_ARRAY &&
+ 1020              		.loc 1 381 0 is_stmt 1 discriminator 2
+ 1021 01f4 FB68     		ldr	r3, [r7, #12]
+ 1022 01f6 9B68     		ldr	r3, [r3, #8]
+ 1023 01f8 1B01     		lsls	r3, r3, #4
+ 1024 01fa 3A68     		ldr	r2, [r7]
+ 1025 01fc 1344     		add	r3, r3, r2
+ 1026 01fe 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 380:.\source\bsw\json/jsmn.h ****           tokens[parser->toksuper].type != JSMN_ARRAY &&
+ 1027              		.loc 1 380 0 discriminator 2
+ 1028 0200 022B     		cmp	r3, #2
+ 1029 0202 60D0     		beq	.L93
+ 382:.\source\bsw\json/jsmn.h ****           tokens[parser->toksuper].type != JSMN_OBJECT) {
+ 1030              		.loc 1 382 0
+ 1031 0204 FB68     		ldr	r3, [r7, #12]
+ 1032 0206 9B68     		ldr	r3, [r3, #8]
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 27
+
+
+ 1033 0208 1B01     		lsls	r3, r3, #4
+ 1034 020a 3A68     		ldr	r2, [r7]
+ 1035 020c 1344     		add	r3, r3, r2
+ 1036 020e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 381:.\source\bsw\json/jsmn.h ****           tokens[parser->toksuper].type != JSMN_ARRAY &&
+ 1037              		.loc 1 381 0
+ 1038 0210 012B     		cmp	r3, #1
+ 1039 0212 58D0     		beq	.L93
+ 383:.\source\bsw\json/jsmn.h **** #ifdef JSMN_PARENT_LINKS
+ 384:.\source\bsw\json/jsmn.h ****         parser->toksuper = tokens[parser->toksuper].parent;
+ 385:.\source\bsw\json/jsmn.h **** #else
+ 386:.\source\bsw\json/jsmn.h ****         for (i = parser->toknext - 1; i >= 0; i--) {
+ 1040              		.loc 1 386 0
+ 1041 0214 FB68     		ldr	r3, [r7, #12]
+ 1042 0216 5B68     		ldr	r3, [r3, #4]
+ 1043 0218 013B     		subs	r3, r3, #1
+ 1044 021a 7B62     		str	r3, [r7, #36]
+ 1045 021c 25E0     		b	.L77
+ 1046              	.L80:
+ 387:.\source\bsw\json/jsmn.h ****           if (tokens[i].type == JSMN_ARRAY || tokens[i].type == JSMN_OBJECT) {
+ 1047              		.loc 1 387 0
+ 1048 021e 7B6A     		ldr	r3, [r7, #36]
+ 1049 0220 1B01     		lsls	r3, r3, #4
+ 1050 0222 3A68     		ldr	r2, [r7]
+ 1051 0224 1344     		add	r3, r3, r2
+ 1052 0226 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1053 0228 022B     		cmp	r3, #2
+ 1054 022a 06D0     		beq	.L78
+ 1055              		.loc 1 387 0 is_stmt 0 discriminator 1
+ 1056 022c 7B6A     		ldr	r3, [r7, #36]
+ 1057 022e 1B01     		lsls	r3, r3, #4
+ 1058 0230 3A68     		ldr	r2, [r7]
+ 1059 0232 1344     		add	r3, r3, r2
+ 1060 0234 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1061 0236 012B     		cmp	r3, #1
+ 1062 0238 14D1     		bne	.L79
+ 1063              	.L78:
+ 388:.\source\bsw\json/jsmn.h ****             if (tokens[i].start != -1 && tokens[i].end == -1) {
+ 1064              		.loc 1 388 0 is_stmt 1
+ 1065 023a 7B6A     		ldr	r3, [r7, #36]
+ 1066 023c 1B01     		lsls	r3, r3, #4
+ 1067 023e 3A68     		ldr	r2, [r7]
+ 1068 0240 1344     		add	r3, r3, r2
+ 1069 0242 5B68     		ldr	r3, [r3, #4]
+ 1070 0244 B3F1FF3F 		cmp	r3, #-1
+ 1071 0248 0CD0     		beq	.L79
+ 1072              		.loc 1 388 0 is_stmt 0 discriminator 1
+ 1073 024a 7B6A     		ldr	r3, [r7, #36]
+ 1074 024c 1B01     		lsls	r3, r3, #4
+ 1075 024e 3A68     		ldr	r2, [r7]
+ 1076 0250 1344     		add	r3, r3, r2
+ 1077 0252 9B68     		ldr	r3, [r3, #8]
+ 1078 0254 B3F1FF3F 		cmp	r3, #-1
+ 1079 0258 04D1     		bne	.L79
+ 389:.\source\bsw\json/jsmn.h ****               parser->toksuper = i;
+ 1080              		.loc 1 389 0 is_stmt 1
+ 1081 025a FB68     		ldr	r3, [r7, #12]
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 28
+
+
+ 1082 025c 7A6A     		ldr	r2, [r7, #36]
+ 1083 025e 9A60     		str	r2, [r3, #8]
+ 390:.\source\bsw\json/jsmn.h ****               break;
+ 1084              		.loc 1 390 0
+ 1085 0260 00BF     		nop
+ 391:.\source\bsw\json/jsmn.h ****             }
+ 392:.\source\bsw\json/jsmn.h ****           }
+ 393:.\source\bsw\json/jsmn.h ****         }
+ 394:.\source\bsw\json/jsmn.h **** #endif
+ 395:.\source\bsw\json/jsmn.h ****       }
+ 396:.\source\bsw\json/jsmn.h ****       break;
+ 1086              		.loc 1 396 0
+ 1087 0262 30E0     		b	.L93
+ 1088              	.L79:
+ 386:.\source\bsw\json/jsmn.h ****           if (tokens[i].type == JSMN_ARRAY || tokens[i].type == JSMN_OBJECT) {
+ 1089              		.loc 1 386 0 discriminator 2
+ 1090 0264 7B6A     		ldr	r3, [r7, #36]
+ 1091 0266 013B     		subs	r3, r3, #1
+ 1092 0268 7B62     		str	r3, [r7, #36]
+ 1093              	.L77:
+ 386:.\source\bsw\json/jsmn.h ****           if (tokens[i].type == JSMN_ARRAY || tokens[i].type == JSMN_OBJECT) {
+ 1094              		.loc 1 386 0 is_stmt 0 discriminator 1
+ 1095 026a 7B6A     		ldr	r3, [r7, #36]
+ 1096 026c 002B     		cmp	r3, #0
+ 1097 026e D6DA     		bge	.L80
+ 1098              		.loc 1 396 0 is_stmt 1
+ 1099 0270 29E0     		b	.L93
+ 1100              	.L44:
+ 397:.\source\bsw\json/jsmn.h **** #ifdef JSMN_STRICT
+ 398:.\source\bsw\json/jsmn.h ****     /* In strict mode primitives are: numbers and booleans */
+ 399:.\source\bsw\json/jsmn.h ****     case '-':
+ 400:.\source\bsw\json/jsmn.h ****     case '0':
+ 401:.\source\bsw\json/jsmn.h ****     case '1':
+ 402:.\source\bsw\json/jsmn.h ****     case '2':
+ 403:.\source\bsw\json/jsmn.h ****     case '3':
+ 404:.\source\bsw\json/jsmn.h ****     case '4':
+ 405:.\source\bsw\json/jsmn.h ****     case '5':
+ 406:.\source\bsw\json/jsmn.h ****     case '6':
+ 407:.\source\bsw\json/jsmn.h ****     case '7':
+ 408:.\source\bsw\json/jsmn.h ****     case '8':
+ 409:.\source\bsw\json/jsmn.h ****     case '9':
+ 410:.\source\bsw\json/jsmn.h ****     case 't':
+ 411:.\source\bsw\json/jsmn.h ****     case 'f':
+ 412:.\source\bsw\json/jsmn.h ****     case 'n':
+ 413:.\source\bsw\json/jsmn.h ****       /* And they must not be keys of the object */
+ 414:.\source\bsw\json/jsmn.h ****       if (tokens != NULL && parser->toksuper != -1) {
+ 415:.\source\bsw\json/jsmn.h ****         const jsmntok_t *t = &tokens[parser->toksuper];
+ 416:.\source\bsw\json/jsmn.h ****         if (t->type == JSMN_OBJECT ||
+ 417:.\source\bsw\json/jsmn.h ****             (t->type == JSMN_STRING && t->size != 0)) {
+ 418:.\source\bsw\json/jsmn.h ****           return JSMN_ERROR_INVAL;
+ 419:.\source\bsw\json/jsmn.h ****         }
+ 420:.\source\bsw\json/jsmn.h ****       }
+ 421:.\source\bsw\json/jsmn.h **** #else
+ 422:.\source\bsw\json/jsmn.h ****     /* In non-strict mode every unquoted value is a primitive */
+ 423:.\source\bsw\json/jsmn.h ****     default:
+ 424:.\source\bsw\json/jsmn.h **** #endif
+ 425:.\source\bsw\json/jsmn.h ****       r = jsmn_parse_primitive(parser, js, len, tokens, num_tokens);
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 29
+
+
+ 1101              		.loc 1 425 0
+ 1102 0272 3B6B     		ldr	r3, [r7, #48]
+ 1103 0274 0093     		str	r3, [sp]
+ 1104 0276 3B68     		ldr	r3, [r7]
+ 1105 0278 7A68     		ldr	r2, [r7, #4]
+ 1106 027a B968     		ldr	r1, [r7, #8]
+ 1107 027c F868     		ldr	r0, [r7, #12]
+ 1108 027e FFF7FEFF 		bl	jsmn_parse_primitive
+ 1109 0282 7861     		str	r0, [r7, #20]
+ 426:.\source\bsw\json/jsmn.h ****       if (r < 0) {
+ 1110              		.loc 1 426 0
+ 1111 0284 7B69     		ldr	r3, [r7, #20]
+ 1112 0286 002B     		cmp	r3, #0
+ 1113 0288 01DA     		bge	.L81
+ 427:.\source\bsw\json/jsmn.h ****         return r;
+ 1114              		.loc 1 427 0
+ 1115 028a 7B69     		ldr	r3, [r7, #20]
+ 1116 028c 52E0     		b	.L57
+ 1117              	.L81:
+ 428:.\source\bsw\json/jsmn.h ****       }
+ 429:.\source\bsw\json/jsmn.h ****       count++;
+ 1118              		.loc 1 429 0
+ 1119 028e 3B6A     		ldr	r3, [r7, #32]
+ 1120 0290 0133     		adds	r3, r3, #1
+ 1121 0292 3B62     		str	r3, [r7, #32]
+ 430:.\source\bsw\json/jsmn.h ****       if (parser->toksuper != -1 && tokens != NULL) {
+ 1122              		.loc 1 430 0
+ 1123 0294 FB68     		ldr	r3, [r7, #12]
+ 1124 0296 9B68     		ldr	r3, [r3, #8]
+ 1125 0298 B3F1FF3F 		cmp	r3, #-1
+ 1126 029c 15D0     		beq	.L94
+ 1127              		.loc 1 430 0 is_stmt 0 discriminator 1
+ 1128 029e 3B68     		ldr	r3, [r7]
+ 1129 02a0 002B     		cmp	r3, #0
+ 1130 02a2 12D0     		beq	.L94
+ 431:.\source\bsw\json/jsmn.h ****         tokens[parser->toksuper].size++;
+ 1131              		.loc 1 431 0 is_stmt 1
+ 1132 02a4 FB68     		ldr	r3, [r7, #12]
+ 1133 02a6 9B68     		ldr	r3, [r3, #8]
+ 1134 02a8 1B01     		lsls	r3, r3, #4
+ 1135 02aa 3A68     		ldr	r2, [r7]
+ 1136 02ac 1344     		add	r3, r3, r2
+ 1137 02ae DA68     		ldr	r2, [r3, #12]
+ 1138 02b0 0132     		adds	r2, r2, #1
+ 1139 02b2 DA60     		str	r2, [r3, #12]
+ 432:.\source\bsw\json/jsmn.h ****       }
+ 433:.\source\bsw\json/jsmn.h ****       break;
+ 1140              		.loc 1 433 0
+ 1141 02b4 09E0     		b	.L94
+ 1142              	.L89:
+ 375:.\source\bsw\json/jsmn.h ****     case ':':
+ 1143              		.loc 1 375 0
+ 1144 02b6 00BF     		nop
+ 1145 02b8 08E0     		b	.L55
+ 1146              	.L90:
+ 285:.\source\bsw\json/jsmn.h ****       }
+ 1147              		.loc 1 285 0
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 30
+
+
+ 1148 02ba 00BF     		nop
+ 1149 02bc 06E0     		b	.L55
+ 1150              	.L91:
+ 311:.\source\bsw\json/jsmn.h ****       }
+ 1151              		.loc 1 311 0
+ 1152 02be 00BF     		nop
+ 1153 02c0 04E0     		b	.L55
+ 1154              	.L92:
+ 370:.\source\bsw\json/jsmn.h ****     case '\t':
+ 1155              		.loc 1 370 0
+ 1156 02c2 00BF     		nop
+ 1157 02c4 02E0     		b	.L55
+ 1158              	.L93:
+ 396:.\source\bsw\json/jsmn.h **** #ifdef JSMN_STRICT
+ 1159              		.loc 1 396 0
+ 1160 02c6 00BF     		nop
+ 1161 02c8 00E0     		b	.L55
+ 1162              	.L94:
+ 1163              		.loc 1 433 0
+ 1164 02ca 00BF     		nop
+ 1165              	.L55:
+ 1166              	.LBE4:
+ 275:.\source\bsw\json/jsmn.h ****     char c;
+ 1167              		.loc 1 275 0
+ 1168 02cc FB68     		ldr	r3, [r7, #12]
+ 1169 02ce 1B68     		ldr	r3, [r3]
+ 1170 02d0 5A1C     		adds	r2, r3, #1
+ 1171 02d2 FB68     		ldr	r3, [r7, #12]
+ 1172 02d4 1A60     		str	r2, [r3]
+ 1173              	.L43:
+ 275:.\source\bsw\json/jsmn.h ****     char c;
+ 1174              		.loc 1 275 0 is_stmt 0 discriminator 1
+ 1175 02d6 FB68     		ldr	r3, [r7, #12]
+ 1176 02d8 1A68     		ldr	r2, [r3]
+ 1177 02da 7B68     		ldr	r3, [r7, #4]
+ 1178 02dc 9A42     		cmp	r2, r3
+ 1179 02de 07D2     		bcs	.L83
+ 275:.\source\bsw\json/jsmn.h ****     char c;
+ 1180              		.loc 1 275 0 discriminator 2
+ 1181 02e0 FB68     		ldr	r3, [r7, #12]
+ 1182 02e2 1B68     		ldr	r3, [r3]
+ 1183 02e4 BA68     		ldr	r2, [r7, #8]
+ 1184 02e6 1344     		add	r3, r3, r2
+ 1185 02e8 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1186 02ea 002B     		cmp	r3, #0
+ 1187 02ec 7FF493AE 		bne	.L84
+ 1188              	.L83:
+ 434:.\source\bsw\json/jsmn.h **** 
+ 435:.\source\bsw\json/jsmn.h **** #ifdef JSMN_STRICT
+ 436:.\source\bsw\json/jsmn.h ****     /* Unexpected char in strict mode */
+ 437:.\source\bsw\json/jsmn.h ****     default:
+ 438:.\source\bsw\json/jsmn.h ****       return JSMN_ERROR_INVAL;
+ 439:.\source\bsw\json/jsmn.h **** #endif
+ 440:.\source\bsw\json/jsmn.h ****     }
+ 441:.\source\bsw\json/jsmn.h ****   }
+ 442:.\source\bsw\json/jsmn.h **** 
+ 443:.\source\bsw\json/jsmn.h ****   if (tokens != NULL) {
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 31
+
+
+ 1189              		.loc 1 443 0 is_stmt 1
+ 1190 02f0 3B68     		ldr	r3, [r7]
+ 1191 02f2 002B     		cmp	r3, #0
+ 1192 02f4 1DD0     		beq	.L85
+ 444:.\source\bsw\json/jsmn.h ****     for (i = parser->toknext - 1; i >= 0; i--) {
+ 1193              		.loc 1 444 0
+ 1194 02f6 FB68     		ldr	r3, [r7, #12]
+ 1195 02f8 5B68     		ldr	r3, [r3, #4]
+ 1196 02fa 013B     		subs	r3, r3, #1
+ 1197 02fc 7B62     		str	r3, [r7, #36]
+ 1198 02fe 15E0     		b	.L86
+ 1199              	.L88:
+ 445:.\source\bsw\json/jsmn.h ****       /* Unmatched opened object or array */
+ 446:.\source\bsw\json/jsmn.h ****       if (tokens[i].start != -1 && tokens[i].end == -1) {
+ 1200              		.loc 1 446 0
+ 1201 0300 7B6A     		ldr	r3, [r7, #36]
+ 1202 0302 1B01     		lsls	r3, r3, #4
+ 1203 0304 3A68     		ldr	r2, [r7]
+ 1204 0306 1344     		add	r3, r3, r2
+ 1205 0308 5B68     		ldr	r3, [r3, #4]
+ 1206 030a B3F1FF3F 		cmp	r3, #-1
+ 1207 030e 0AD0     		beq	.L87
+ 1208              		.loc 1 446 0 is_stmt 0 discriminator 1
+ 1209 0310 7B6A     		ldr	r3, [r7, #36]
+ 1210 0312 1B01     		lsls	r3, r3, #4
+ 1211 0314 3A68     		ldr	r2, [r7]
+ 1212 0316 1344     		add	r3, r3, r2
+ 1213 0318 9B68     		ldr	r3, [r3, #8]
+ 1214 031a B3F1FF3F 		cmp	r3, #-1
+ 1215 031e 02D1     		bne	.L87
+ 447:.\source\bsw\json/jsmn.h ****         return JSMN_ERROR_PART;
+ 1216              		.loc 1 447 0 is_stmt 1
+ 1217 0320 6FF00203 		mvn	r3, #2
+ 1218 0324 06E0     		b	.L57
+ 1219              	.L87:
+ 444:.\source\bsw\json/jsmn.h ****     for (i = parser->toknext - 1; i >= 0; i--) {
+ 1220              		.loc 1 444 0 discriminator 2
+ 1221 0326 7B6A     		ldr	r3, [r7, #36]
+ 1222 0328 013B     		subs	r3, r3, #1
+ 1223 032a 7B62     		str	r3, [r7, #36]
+ 1224              	.L86:
+ 444:.\source\bsw\json/jsmn.h ****     for (i = parser->toknext - 1; i >= 0; i--) {
+ 1225              		.loc 1 444 0 is_stmt 0 discriminator 1
+ 1226 032c 7B6A     		ldr	r3, [r7, #36]
+ 1227 032e 002B     		cmp	r3, #0
+ 1228 0330 E6DA     		bge	.L88
+ 1229              	.L85:
+ 448:.\source\bsw\json/jsmn.h ****       }
+ 449:.\source\bsw\json/jsmn.h ****     }
+ 450:.\source\bsw\json/jsmn.h ****   }
+ 451:.\source\bsw\json/jsmn.h **** 
+ 452:.\source\bsw\json/jsmn.h ****   return count;
+ 1230              		.loc 1 452 0 is_stmt 1
+ 1231 0332 3B6A     		ldr	r3, [r7, #32]
+ 1232              	.L57:
+ 453:.\source\bsw\json/jsmn.h **** }
+ 1233              		.loc 1 453 0
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 32
+
+
+ 1234 0334 1846     		mov	r0, r3
+ 1235 0336 2837     		adds	r7, r7, #40
+ 1236              		.cfi_def_cfa_offset 8
+ 1237 0338 BD46     		mov	sp, r7
+ 1238              		.cfi_def_cfa_register 13
+ 1239              		@ sp needed
+ 1240 033a 80BD     		pop	{r7, pc}
+ 1241              		.cfi_endproc
+ 1242              	.LFE4:
+ 1243              		.size	jsmn_parse, .-jsmn_parse
+ 1244              		.section	.text.jsmn_init,"ax",%progbits
+ 1245              		.align	2
+ 1246              		.global	jsmn_init
+ 1247              		.thumb
+ 1248              		.thumb_func
+ 1249              		.type	jsmn_init, %function
+ 1250              	jsmn_init:
+ 1251              	.LFB5:
+ 454:.\source\bsw\json/jsmn.h **** 
+ 455:.\source\bsw\json/jsmn.h **** /**
+ 456:.\source\bsw\json/jsmn.h ****  * Creates a new parser based over a given buffer with an array of tokens
+ 457:.\source\bsw\json/jsmn.h ****  * available.
+ 458:.\source\bsw\json/jsmn.h ****  */
+ 459:.\source\bsw\json/jsmn.h **** JSMN_API void jsmn_init(jsmn_parser *parser) {
+ 1252              		.loc 1 459 0
+ 1253              		.cfi_startproc
+ 1254              		@ args = 0, pretend = 0, frame = 8
+ 1255              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1256              		@ link register save eliminated.
+ 1257 0000 80B4     		push	{r7}
+ 1258              		.cfi_def_cfa_offset 4
+ 1259              		.cfi_offset 7, -4
+ 1260 0002 83B0     		sub	sp, sp, #12
+ 1261              		.cfi_def_cfa_offset 16
+ 1262 0004 00AF     		add	r7, sp, #0
+ 1263              		.cfi_def_cfa_register 7
+ 1264 0006 7860     		str	r0, [r7, #4]
+ 460:.\source\bsw\json/jsmn.h ****   parser->pos = 0;
+ 1265              		.loc 1 460 0
+ 1266 0008 7B68     		ldr	r3, [r7, #4]
+ 1267 000a 0022     		movs	r2, #0
+ 1268 000c 1A60     		str	r2, [r3]
+ 461:.\source\bsw\json/jsmn.h ****   parser->toknext = 0;
+ 1269              		.loc 1 461 0
+ 1270 000e 7B68     		ldr	r3, [r7, #4]
+ 1271 0010 0022     		movs	r2, #0
+ 1272 0012 5A60     		str	r2, [r3, #4]
+ 462:.\source\bsw\json/jsmn.h ****   parser->toksuper = -1;
+ 1273              		.loc 1 462 0
+ 1274 0014 7B68     		ldr	r3, [r7, #4]
+ 1275 0016 4FF0FF32 		mov	r2, #-1
+ 1276 001a 9A60     		str	r2, [r3, #8]
+ 463:.\source\bsw\json/jsmn.h **** }
+ 1277              		.loc 1 463 0
+ 1278 001c 00BF     		nop
+ 1279 001e 0C37     		adds	r7, r7, #12
+ 1280              		.cfi_def_cfa_offset 4
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 33
+
+
+ 1281 0020 BD46     		mov	sp, r7
+ 1282              		.cfi_def_cfa_register 13
+ 1283              		@ sp needed
+ 1284 0022 80BC     		pop	{r7}
+ 1285              		.cfi_restore 7
+ 1286              		.cfi_def_cfa_offset 0
+ 1287 0024 7047     		bx	lr
+ 1288              		.cfi_endproc
+ 1289              	.LFE5:
+ 1290              		.size	jsmn_init, .-jsmn_init
+ 1291 0026 00BF     		.text
+ 1292              	.Letext0:
+ 1293              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1294              		.section	.debug_info,"",%progbits
+ 1295              	.Ldebug_info0:
+ 1296 0000 67040000 		.4byte	0x467
+ 1297 0004 0400     		.2byte	0x4
+ 1298 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1299 000a 04       		.byte	0x4
+ 1300 000b 01       		.uleb128 0x1
+ 1301 000c 38000000 		.4byte	.LASF40
+ 1302 0010 0C       		.byte	0xc
+ 1303 0011 76010000 		.4byte	.LASF41
+ 1304 0015 0A020000 		.4byte	.LASF42
+ 1305 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1306 001d 00000000 		.4byte	0
+ 1307 0021 00000000 		.4byte	.Ldebug_line0
+ 1308 0025 02       		.uleb128 0x2
+ 1309 0026 01       		.byte	0x1
+ 1310 0027 06       		.byte	0x6
+ 1311 0028 9D010000 		.4byte	.LASF0
+ 1312 002c 02       		.uleb128 0x2
+ 1313 002d 01       		.byte	0x1
+ 1314 002e 08       		.byte	0x8
+ 1315 002f 57010000 		.4byte	.LASF1
+ 1316 0033 02       		.uleb128 0x2
+ 1317 0034 02       		.byte	0x2
+ 1318 0035 05       		.byte	0x5
+ 1319 0036 16000000 		.4byte	.LASF2
+ 1320 003a 02       		.uleb128 0x2
+ 1321 003b 02       		.byte	0x2
+ 1322 003c 07       		.byte	0x7
+ 1323 003d E1010000 		.4byte	.LASF3
+ 1324 0041 02       		.uleb128 0x2
+ 1325 0042 04       		.byte	0x4
+ 1326 0043 05       		.byte	0x5
+ 1327 0044 26010000 		.4byte	.LASF4
+ 1328 0048 02       		.uleb128 0x2
+ 1329 0049 04       		.byte	0x4
+ 1330 004a 07       		.byte	0x7
+ 1331 004b 83020000 		.4byte	.LASF5
+ 1332 004f 02       		.uleb128 0x2
+ 1333 0050 04       		.byte	0x4
+ 1334 0051 04       		.byte	0x4
+ 1335 0052 07010000 		.4byte	.LASF6
+ 1336 0056 02       		.uleb128 0x2
+ 1337 0057 08       		.byte	0x8
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 34
+
+
+ 1338 0058 04       		.byte	0x4
+ 1339 0059 A1020000 		.4byte	.LASF7
+ 1340 005d 02       		.uleb128 0x2
+ 1341 005e 08       		.byte	0x8
+ 1342 005f 05       		.byte	0x5
+ 1343 0060 0D010000 		.4byte	.LASF8
+ 1344 0064 02       		.uleb128 0x2
+ 1345 0065 08       		.byte	0x8
+ 1346 0066 07       		.byte	0x7
+ 1347 0067 A9010000 		.4byte	.LASF9
+ 1348 006b 02       		.uleb128 0x2
+ 1349 006c 01       		.byte	0x1
+ 1350 006d 08       		.byte	0x8
+ 1351 006e 05020000 		.4byte	.LASF10
+ 1352 0072 03       		.uleb128 0x3
+ 1353 0073 04       		.byte	0x4
+ 1354 0074 78000000 		.4byte	0x78
+ 1355 0078 04       		.uleb128 0x4
+ 1356 0079 6B000000 		.4byte	0x6b
+ 1357 007d 05       		.uleb128 0x5
+ 1358 007e 04       		.byte	0x4
+ 1359 007f 05       		.byte	0x5
+ 1360 0080 696E7400 		.ascii	"int\000"
+ 1361 0084 06       		.uleb128 0x6
+ 1362 0085 20000000 		.4byte	.LASF18
+ 1363 0089 02       		.byte	0x2
+ 1364 008a D8       		.byte	0xd8
+ 1365 008b 8F000000 		.4byte	0x8f
+ 1366 008f 02       		.uleb128 0x2
+ 1367 0090 04       		.byte	0x4
+ 1368 0091 07       		.byte	0x7
+ 1369 0092 C5010000 		.4byte	.LASF11
+ 1370 0096 02       		.uleb128 0x2
+ 1371 0097 08       		.byte	0x8
+ 1372 0098 04       		.byte	0x4
+ 1373 0099 4B010000 		.4byte	.LASF12
+ 1374 009d 07       		.uleb128 0x7
+ 1375 009e 01       		.byte	0x1
+ 1376 009f 2C000000 		.4byte	0x2c
+ 1377 00a3 01       		.byte	0x1
+ 1378 00a4 2E       		.byte	0x2e
+ 1379 00a5 C8000000 		.4byte	0xc8
+ 1380 00a9 08       		.uleb128 0x8
+ 1381 00aa 8E010000 		.4byte	.LASF13
+ 1382 00ae 00       		.byte	0
+ 1383 00af 08       		.uleb128 0x8
+ 1384 00b0 E6020000 		.4byte	.LASF14
+ 1385 00b4 01       		.byte	0x1
+ 1386 00b5 08       		.uleb128 0x8
+ 1387 00b6 1B010000 		.4byte	.LASF15
+ 1388 00ba 02       		.byte	0x2
+ 1389 00bb 08       		.uleb128 0x8
+ 1390 00bc EA000000 		.4byte	.LASF16
+ 1391 00c0 04       		.byte	0x4
+ 1392 00c1 08       		.uleb128 0x8
+ 1393 00c2 7F010000 		.4byte	.LASF17
+ 1394 00c6 08       		.byte	0x8
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 35
+
+
+ 1395 00c7 00       		.byte	0
+ 1396 00c8 06       		.uleb128 0x6
+ 1397 00c9 D0020000 		.4byte	.LASF19
+ 1398 00cd 01       		.byte	0x1
+ 1399 00ce 34       		.byte	0x34
+ 1400 00cf 9D000000 		.4byte	0x9d
+ 1401 00d3 09       		.uleb128 0x9
+ 1402 00d4 66020000 		.4byte	.LASF43
+ 1403 00d8 01       		.byte	0x1
+ 1404 00d9 25000000 		.4byte	0x25
+ 1405 00dd 01       		.byte	0x1
+ 1406 00de 36       		.byte	0x36
+ 1407 00df F6000000 		.4byte	0xf6
+ 1408 00e3 0A       		.uleb128 0xa
+ 1409 00e4 F4010000 		.4byte	.LASF20
+ 1410 00e8 7F       		.sleb128 -1
+ 1411 00e9 0A       		.uleb128 0xa
+ 1412 00ea 65010000 		.4byte	.LASF21
+ 1413 00ee 7E       		.sleb128 -2
+ 1414 00ef 0A       		.uleb128 0xa
+ 1415 00f0 00000000 		.4byte	.LASF22
+ 1416 00f4 7D       		.sleb128 -3
+ 1417 00f5 00       		.byte	0
+ 1418 00f6 0B       		.uleb128 0xb
+ 1419 00f7 27000000 		.4byte	.LASF27
+ 1420 00fb 10       		.byte	0x10
+ 1421 00fc 01       		.byte	0x1
+ 1422 00fd 45       		.byte	0x45
+ 1423 00fe 33010000 		.4byte	0x133
+ 1424 0102 0C       		.uleb128 0xc
+ 1425 0103 C0010000 		.4byte	.LASF23
+ 1426 0107 01       		.byte	0x1
+ 1427 0108 46       		.byte	0x46
+ 1428 0109 C8000000 		.4byte	0xc8
+ 1429 010d 00       		.byte	0
+ 1430 010e 0C       		.uleb128 0xc
+ 1431 010f DB010000 		.4byte	.LASF24
+ 1432 0113 01       		.byte	0x1
+ 1433 0114 47       		.byte	0x47
+ 1434 0115 7D000000 		.4byte	0x7d
+ 1435 0119 04       		.byte	0x4
+ 1436 011a 0D       		.uleb128 0xd
+ 1437 011b 656E6400 		.ascii	"end\000"
+ 1438 011f 01       		.byte	0x1
+ 1439 0120 48       		.byte	0x48
+ 1440 0121 7D000000 		.4byte	0x7d
+ 1441 0125 08       		.byte	0x8
+ 1442 0126 0C       		.uleb128 0xc
+ 1443 0127 A8020000 		.4byte	.LASF25
+ 1444 012b 01       		.byte	0x1
+ 1445 012c 49       		.byte	0x49
+ 1446 012d 7D000000 		.4byte	0x7d
+ 1447 0131 0C       		.byte	0xc
+ 1448 0132 00       		.byte	0
+ 1449 0133 06       		.uleb128 0x6
+ 1450 0134 79020000 		.4byte	.LASF26
+ 1451 0138 01       		.byte	0x1
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 36
+
+
+ 1452 0139 4D       		.byte	0x4d
+ 1453 013a F6000000 		.4byte	0xf6
+ 1454 013e 0B       		.uleb128 0xb
+ 1455 013f 95020000 		.4byte	.LASF28
+ 1456 0143 0C       		.byte	0xc
+ 1457 0144 01       		.byte	0x1
+ 1458 0145 53       		.byte	0x53
+ 1459 0146 6F010000 		.4byte	0x16f
+ 1460 014a 0D       		.uleb128 0xd
+ 1461 014b 706F7300 		.ascii	"pos\000"
+ 1462 014f 01       		.byte	0x1
+ 1463 0150 54       		.byte	0x54
+ 1464 0151 8F000000 		.4byte	0x8f
+ 1465 0155 00       		.byte	0
+ 1466 0156 0C       		.uleb128 0xc
+ 1467 0157 C6000000 		.4byte	.LASF29
+ 1468 015b 01       		.byte	0x1
+ 1469 015c 55       		.byte	0x55
+ 1470 015d 8F000000 		.4byte	0x8f
+ 1471 0161 04       		.byte	0x4
+ 1472 0162 0C       		.uleb128 0xc
+ 1473 0163 D2010000 		.4byte	.LASF30
+ 1474 0167 01       		.byte	0x1
+ 1475 0168 56       		.byte	0x56
+ 1476 0169 7D000000 		.4byte	0x7d
+ 1477 016d 08       		.byte	0x8
+ 1478 016e 00       		.byte	0
+ 1479 016f 06       		.uleb128 0x6
+ 1480 0170 95020000 		.4byte	.LASF28
+ 1481 0174 01       		.byte	0x1
+ 1482 0175 57       		.byte	0x57
+ 1483 0176 3E010000 		.4byte	0x13e
+ 1484 017a 02       		.uleb128 0x2
+ 1485 017b 04       		.byte	0x4
+ 1486 017c 07       		.byte	0x7
+ 1487 017d 2F000000 		.4byte	.LASF31
+ 1488 0181 0E       		.uleb128 0xe
+ 1489 0182 F6000000 		.4byte	.LASF36
+ 1490 0186 01       		.byte	0x1
+ 1491 0187 6A       		.byte	0x6a
+ 1492 0188 D3010000 		.4byte	0x1d3
+ 1493 018c 00000000 		.4byte	.LFB0
+ 1494 0190 4E000000 		.4byte	.LFE0-.LFB0
+ 1495 0194 01       		.uleb128 0x1
+ 1496 0195 9C       		.byte	0x9c
+ 1497 0196 D3010000 		.4byte	0x1d3
+ 1498 019a 0F       		.uleb128 0xf
+ 1499 019b E3000000 		.4byte	.LASF32
+ 1500 019f 01       		.byte	0x1
+ 1501 01a0 6A       		.byte	0x6a
+ 1502 01a1 D9010000 		.4byte	0x1d9
+ 1503 01a5 02       		.uleb128 0x2
+ 1504 01a6 91       		.byte	0x91
+ 1505 01a7 6C       		.sleb128 -20
+ 1506 01a8 0F       		.uleb128 0xf
+ 1507 01a9 B3020000 		.4byte	.LASF33
+ 1508 01ad 01       		.byte	0x1
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 37
+
+
+ 1509 01ae 6A       		.byte	0x6a
+ 1510 01af D3010000 		.4byte	0x1d3
+ 1511 01b3 02       		.uleb128 0x2
+ 1512 01b4 91       		.byte	0x91
+ 1513 01b5 68       		.sleb128 -24
+ 1514 01b6 0F       		.uleb128 0xf
+ 1515 01b7 DB020000 		.4byte	.LASF34
+ 1516 01bb 01       		.byte	0x1
+ 1517 01bc 6B       		.byte	0x6b
+ 1518 01bd DF010000 		.4byte	0x1df
+ 1519 01c1 02       		.uleb128 0x2
+ 1520 01c2 91       		.byte	0x91
+ 1521 01c3 64       		.sleb128 -28
+ 1522 01c4 10       		.uleb128 0x10
+ 1523 01c5 746F6B00 		.ascii	"tok\000"
+ 1524 01c9 01       		.byte	0x1
+ 1525 01ca 6C       		.byte	0x6c
+ 1526 01cb D3010000 		.4byte	0x1d3
+ 1527 01cf 02       		.uleb128 0x2
+ 1528 01d0 91       		.byte	0x91
+ 1529 01d1 74       		.sleb128 -12
+ 1530 01d2 00       		.byte	0
+ 1531 01d3 03       		.uleb128 0x3
+ 1532 01d4 04       		.byte	0x4
+ 1533 01d5 33010000 		.4byte	0x133
+ 1534 01d9 03       		.uleb128 0x3
+ 1535 01da 04       		.byte	0x4
+ 1536 01db 6F010000 		.4byte	0x16f
+ 1537 01df 04       		.uleb128 0x4
+ 1538 01e0 84000000 		.4byte	0x84
+ 1539 01e4 11       		.uleb128 0x11
+ 1540 01e5 C0020000 		.4byte	.LASF44
+ 1541 01e9 01       		.byte	0x1
+ 1542 01ea 7C       		.byte	0x7c
+ 1543 01eb 00000000 		.4byte	.LFB1
+ 1544 01ef 32000000 		.4byte	.LFE1-.LFB1
+ 1545 01f3 01       		.uleb128 0x1
+ 1546 01f4 9C       		.byte	0x9c
+ 1547 01f5 32020000 		.4byte	0x232
+ 1548 01f9 0F       		.uleb128 0xf
+ 1549 01fa 10000000 		.4byte	.LASF35
+ 1550 01fe 01       		.byte	0x1
+ 1551 01ff 7C       		.byte	0x7c
+ 1552 0200 D3010000 		.4byte	0x1d3
+ 1553 0204 02       		.uleb128 0x2
+ 1554 0205 91       		.byte	0x91
+ 1555 0206 74       		.sleb128 -12
+ 1556 0207 0F       		.uleb128 0xf
+ 1557 0208 C0010000 		.4byte	.LASF23
+ 1558 020c 01       		.byte	0x1
+ 1559 020d 7C       		.byte	0x7c
+ 1560 020e 32020000 		.4byte	0x232
+ 1561 0212 02       		.uleb128 0x2
+ 1562 0213 91       		.byte	0x91
+ 1563 0214 73       		.sleb128 -13
+ 1564 0215 0F       		.uleb128 0xf
+ 1565 0216 DB010000 		.4byte	.LASF24
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 38
+
+
+ 1566 021a 01       		.byte	0x1
+ 1567 021b 7D       		.byte	0x7d
+ 1568 021c 37020000 		.4byte	0x237
+ 1569 0220 02       		.uleb128 0x2
+ 1570 0221 91       		.byte	0x91
+ 1571 0222 6C       		.sleb128 -20
+ 1572 0223 12       		.uleb128 0x12
+ 1573 0224 656E6400 		.ascii	"end\000"
+ 1574 0228 01       		.byte	0x1
+ 1575 0229 7D       		.byte	0x7d
+ 1576 022a 37020000 		.4byte	0x237
+ 1577 022e 02       		.uleb128 0x2
+ 1578 022f 91       		.byte	0x91
+ 1579 0230 68       		.sleb128 -24
+ 1580 0231 00       		.byte	0
+ 1581 0232 04       		.uleb128 0x4
+ 1582 0233 C8000000 		.4byte	0xc8
+ 1583 0237 04       		.uleb128 0x4
+ 1584 0238 7D000000 		.4byte	0x7d
+ 1585 023c 13       		.uleb128 0x13
+ 1586 023d CE000000 		.4byte	.LASF37
+ 1587 0241 01       		.byte	0x1
+ 1588 0242 87       		.byte	0x87
+ 1589 0243 7D000000 		.4byte	0x7d
+ 1590 0247 00000000 		.4byte	.LFB2
+ 1591 024b F0000000 		.4byte	.LFE2-.LFB2
+ 1592 024f 01       		.uleb128 0x1
+ 1593 0250 9C       		.byte	0x9c
+ 1594 0251 C2020000 		.4byte	0x2c2
+ 1595 0255 0F       		.uleb128 0xf
+ 1596 0256 E3000000 		.4byte	.LASF32
+ 1597 025a 01       		.byte	0x1
+ 1598 025b 87       		.byte	0x87
+ 1599 025c D9010000 		.4byte	0x1d9
+ 1600 0260 02       		.uleb128 0x2
+ 1601 0261 91       		.byte	0x91
+ 1602 0262 6C       		.sleb128 -20
+ 1603 0263 12       		.uleb128 0x12
+ 1604 0264 6A7300   		.ascii	"js\000"
+ 1605 0267 01       		.byte	0x1
+ 1606 0268 87       		.byte	0x87
+ 1607 0269 72000000 		.4byte	0x72
+ 1608 026d 02       		.uleb128 0x2
+ 1609 026e 91       		.byte	0x91
+ 1610 026f 68       		.sleb128 -24
+ 1611 0270 12       		.uleb128 0x12
+ 1612 0271 6C656E00 		.ascii	"len\000"
+ 1613 0275 01       		.byte	0x1
+ 1614 0276 88       		.byte	0x88
+ 1615 0277 DF010000 		.4byte	0x1df
+ 1616 027b 02       		.uleb128 0x2
+ 1617 027c 91       		.byte	0x91
+ 1618 027d 64       		.sleb128 -28
+ 1619 027e 0F       		.uleb128 0xf
+ 1620 027f B3020000 		.4byte	.LASF33
+ 1621 0283 01       		.byte	0x1
+ 1622 0284 88       		.byte	0x88
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 39
+
+
+ 1623 0285 D3010000 		.4byte	0x1d3
+ 1624 0289 02       		.uleb128 0x2
+ 1625 028a 91       		.byte	0x91
+ 1626 028b 60       		.sleb128 -32
+ 1627 028c 0F       		.uleb128 0xf
+ 1628 028d DB020000 		.4byte	.LASF34
+ 1629 0291 01       		.byte	0x1
+ 1630 0292 89       		.byte	0x89
+ 1631 0293 DF010000 		.4byte	0x1df
+ 1632 0297 02       		.uleb128 0x2
+ 1633 0298 91       		.byte	0x91
+ 1634 0299 00       		.sleb128 0
+ 1635 029a 14       		.uleb128 0x14
+ 1636 029b 10000000 		.4byte	.LASF35
+ 1637 029f 01       		.byte	0x1
+ 1638 02a0 8A       		.byte	0x8a
+ 1639 02a1 D3010000 		.4byte	0x1d3
+ 1640 02a5 02       		.uleb128 0x2
+ 1641 02a6 91       		.byte	0x91
+ 1642 02a7 70       		.sleb128 -16
+ 1643 02a8 14       		.uleb128 0x14
+ 1644 02a9 DB010000 		.4byte	.LASF24
+ 1645 02ad 01       		.byte	0x1
+ 1646 02ae 8B       		.byte	0x8b
+ 1647 02af 7D000000 		.4byte	0x7d
+ 1648 02b3 02       		.uleb128 0x2
+ 1649 02b4 91       		.byte	0x91
+ 1650 02b5 74       		.sleb128 -12
+ 1651 02b6 15       		.uleb128 0x15
+ 1652 02b7 AD020000 		.4byte	.LASF45
+ 1653 02bb 01       		.byte	0x1
+ 1654 02bc AC       		.byte	0xac
+ 1655 02bd 9C000000 		.4byte	.L11
+ 1656 02c1 00       		.byte	0
+ 1657 02c2 13       		.uleb128 0x13
+ 1658 02c3 39010000 		.4byte	.LASF38
+ 1659 02c7 01       		.byte	0x1
+ 1660 02c8 C1       		.byte	0xc1
+ 1661 02c9 7D000000 		.4byte	0x7d
+ 1662 02cd 00000000 		.4byte	.LFB3
+ 1663 02d1 E6020000 		.4byte	.LFE3-.LFB3
+ 1664 02d5 01       		.uleb128 0x1
+ 1665 02d6 9C       		.byte	0x9c
+ 1666 02d7 69030000 		.4byte	0x369
+ 1667 02db 0F       		.uleb128 0xf
+ 1668 02dc E3000000 		.4byte	.LASF32
+ 1669 02e0 01       		.byte	0x1
+ 1670 02e1 C1       		.byte	0xc1
+ 1671 02e2 D9010000 		.4byte	0x1d9
+ 1672 02e6 02       		.uleb128 0x2
+ 1673 02e7 91       		.byte	0x91
+ 1674 02e8 64       		.sleb128 -28
+ 1675 02e9 12       		.uleb128 0x12
+ 1676 02ea 6A7300   		.ascii	"js\000"
+ 1677 02ed 01       		.byte	0x1
+ 1678 02ee C1       		.byte	0xc1
+ 1679 02ef 72000000 		.4byte	0x72
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 40
+
+
+ 1680 02f3 02       		.uleb128 0x2
+ 1681 02f4 91       		.byte	0x91
+ 1682 02f5 60       		.sleb128 -32
+ 1683 02f6 12       		.uleb128 0x12
+ 1684 02f7 6C656E00 		.ascii	"len\000"
+ 1685 02fb 01       		.byte	0x1
+ 1686 02fc C2       		.byte	0xc2
+ 1687 02fd DF010000 		.4byte	0x1df
+ 1688 0301 02       		.uleb128 0x2
+ 1689 0302 91       		.byte	0x91
+ 1690 0303 5C       		.sleb128 -36
+ 1691 0304 0F       		.uleb128 0xf
+ 1692 0305 B3020000 		.4byte	.LASF33
+ 1693 0309 01       		.byte	0x1
+ 1694 030a C2       		.byte	0xc2
+ 1695 030b D3010000 		.4byte	0x1d3
+ 1696 030f 02       		.uleb128 0x2
+ 1697 0310 91       		.byte	0x91
+ 1698 0311 58       		.sleb128 -40
+ 1699 0312 0F       		.uleb128 0xf
+ 1700 0313 DB020000 		.4byte	.LASF34
+ 1701 0317 01       		.byte	0x1
+ 1702 0318 C3       		.byte	0xc3
+ 1703 0319 DF010000 		.4byte	0x1df
+ 1704 031d 02       		.uleb128 0x2
+ 1705 031e 91       		.byte	0x91
+ 1706 031f 00       		.sleb128 0
+ 1707 0320 14       		.uleb128 0x14
+ 1708 0321 10000000 		.4byte	.LASF35
+ 1709 0325 01       		.byte	0x1
+ 1710 0326 C4       		.byte	0xc4
+ 1711 0327 D3010000 		.4byte	0x1d3
+ 1712 032b 02       		.uleb128 0x2
+ 1713 032c 91       		.byte	0x91
+ 1714 032d 68       		.sleb128 -24
+ 1715 032e 14       		.uleb128 0x14
+ 1716 032f DB010000 		.4byte	.LASF24
+ 1717 0333 01       		.byte	0x1
+ 1718 0334 C6       		.byte	0xc6
+ 1719 0335 7D000000 		.4byte	0x7d
+ 1720 0339 02       		.uleb128 0x2
+ 1721 033a 91       		.byte	0x91
+ 1722 033b 70       		.sleb128 -16
+ 1723 033c 16       		.uleb128 0x16
+ 1724 033d 20000000 		.4byte	.LBB2
+ 1725 0341 90020000 		.4byte	.LBE2-.LBB2
+ 1726 0345 10       		.uleb128 0x10
+ 1727 0346 6300     		.ascii	"c\000"
+ 1728 0348 01       		.byte	0x1
+ 1729 0349 CC       		.byte	0xcc
+ 1730 034a 6B000000 		.4byte	0x6b
+ 1731 034e 02       		.uleb128 0x2
+ 1732 034f 91       		.byte	0x91
+ 1733 0350 6F       		.sleb128 -17
+ 1734 0351 16       		.uleb128 0x16
+ 1735 0352 84000000 		.4byte	.LBB3
+ 1736 0356 2C020000 		.4byte	.LBE3-.LBB3
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 41
+
+
+ 1737 035a 10       		.uleb128 0x10
+ 1738 035b 6900     		.ascii	"i\000"
+ 1739 035d 01       		.byte	0x1
+ 1740 035e E1       		.byte	0xe1
+ 1741 035f 7D000000 		.4byte	0x7d
+ 1742 0363 02       		.uleb128 0x2
+ 1743 0364 91       		.byte	0x91
+ 1744 0365 74       		.sleb128 -12
+ 1745 0366 00       		.byte	0
+ 1746 0367 00       		.byte	0
+ 1747 0368 00       		.byte	0
+ 1748 0369 17       		.uleb128 0x17
+ 1749 036a 6E020000 		.4byte	.LASF46
+ 1750 036e 01       		.byte	0x1
+ 1751 036f 0C01     		.2byte	0x10c
+ 1752 0371 7D000000 		.4byte	0x7d
+ 1753 0375 00000000 		.4byte	.LFB4
+ 1754 0379 3C030000 		.4byte	.LFE4-.LFB4
+ 1755 037d 01       		.uleb128 0x1
+ 1756 037e 9C       		.byte	0x9c
+ 1757 037f 43040000 		.4byte	0x443
+ 1758 0383 18       		.uleb128 0x18
+ 1759 0384 E3000000 		.4byte	.LASF32
+ 1760 0388 01       		.byte	0x1
+ 1761 0389 0C01     		.2byte	0x10c
+ 1762 038b D9010000 		.4byte	0x1d9
+ 1763 038f 02       		.uleb128 0x2
+ 1764 0390 91       		.byte	0x91
+ 1765 0391 5C       		.sleb128 -36
+ 1766 0392 19       		.uleb128 0x19
+ 1767 0393 6A7300   		.ascii	"js\000"
+ 1768 0396 01       		.byte	0x1
+ 1769 0397 0C01     		.2byte	0x10c
+ 1770 0399 72000000 		.4byte	0x72
+ 1771 039d 02       		.uleb128 0x2
+ 1772 039e 91       		.byte	0x91
+ 1773 039f 58       		.sleb128 -40
+ 1774 03a0 19       		.uleb128 0x19
+ 1775 03a1 6C656E00 		.ascii	"len\000"
+ 1776 03a5 01       		.byte	0x1
+ 1777 03a6 0C01     		.2byte	0x10c
+ 1778 03a8 DF010000 		.4byte	0x1df
+ 1779 03ac 02       		.uleb128 0x2
+ 1780 03ad 91       		.byte	0x91
+ 1781 03ae 54       		.sleb128 -44
+ 1782 03af 18       		.uleb128 0x18
+ 1783 03b0 B3020000 		.4byte	.LASF33
+ 1784 03b4 01       		.byte	0x1
+ 1785 03b5 0D01     		.2byte	0x10d
+ 1786 03b7 D3010000 		.4byte	0x1d3
+ 1787 03bb 02       		.uleb128 0x2
+ 1788 03bc 91       		.byte	0x91
+ 1789 03bd 50       		.sleb128 -48
+ 1790 03be 18       		.uleb128 0x18
+ 1791 03bf DB020000 		.4byte	.LASF34
+ 1792 03c3 01       		.byte	0x1
+ 1793 03c4 0D01     		.2byte	0x10d
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 42
+
+
+ 1794 03c6 43040000 		.4byte	0x443
+ 1795 03ca 02       		.uleb128 0x2
+ 1796 03cb 91       		.byte	0x91
+ 1797 03cc 00       		.sleb128 0
+ 1798 03cd 1A       		.uleb128 0x1a
+ 1799 03ce 7200     		.ascii	"r\000"
+ 1800 03d0 01       		.byte	0x1
+ 1801 03d1 0E01     		.2byte	0x10e
+ 1802 03d3 7D000000 		.4byte	0x7d
+ 1803 03d7 02       		.uleb128 0x2
+ 1804 03d8 91       		.byte	0x91
+ 1805 03d9 64       		.sleb128 -28
+ 1806 03da 1A       		.uleb128 0x1a
+ 1807 03db 6900     		.ascii	"i\000"
+ 1808 03dd 01       		.byte	0x1
+ 1809 03de 0F01     		.2byte	0x10f
+ 1810 03e0 7D000000 		.4byte	0x7d
+ 1811 03e4 02       		.uleb128 0x2
+ 1812 03e5 91       		.byte	0x91
+ 1813 03e6 74       		.sleb128 -12
+ 1814 03e7 1B       		.uleb128 0x1b
+ 1815 03e8 10000000 		.4byte	.LASF35
+ 1816 03ec 01       		.byte	0x1
+ 1817 03ed 1001     		.2byte	0x110
+ 1818 03ef D3010000 		.4byte	0x1d3
+ 1819 03f3 02       		.uleb128 0x2
+ 1820 03f4 91       		.byte	0x91
+ 1821 03f5 68       		.sleb128 -24
+ 1822 03f6 1B       		.uleb128 0x1b
+ 1823 03f7 BA020000 		.4byte	.LASF39
+ 1824 03fb 01       		.byte	0x1
+ 1825 03fc 1101     		.2byte	0x111
+ 1826 03fe 7D000000 		.4byte	0x7d
+ 1827 0402 02       		.uleb128 0x2
+ 1828 0403 91       		.byte	0x91
+ 1829 0404 70       		.sleb128 -16
+ 1830 0405 16       		.uleb128 0x16
+ 1831 0406 16000000 		.4byte	.LBB4
+ 1832 040a B6020000 		.4byte	.LBE4-.LBB4
+ 1833 040e 1A       		.uleb128 0x1a
+ 1834 040f 6300     		.ascii	"c\000"
+ 1835 0411 01       		.byte	0x1
+ 1836 0412 1401     		.2byte	0x114
+ 1837 0414 6B000000 		.4byte	0x6b
+ 1838 0418 02       		.uleb128 0x2
+ 1839 0419 91       		.byte	0x91
+ 1840 041a 6F       		.sleb128 -17
+ 1841 041b 1B       		.uleb128 0x1b
+ 1842 041c C0010000 		.4byte	.LASF23
+ 1843 0420 01       		.byte	0x1
+ 1844 0421 1501     		.2byte	0x115
+ 1845 0423 C8000000 		.4byte	0xc8
+ 1846 0427 02       		.uleb128 0x2
+ 1847 0428 91       		.byte	0x91
+ 1848 0429 6E       		.sleb128 -18
+ 1849 042a 16       		.uleb128 0x16
+ 1850 042b 9E000000 		.4byte	.LBB5
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 43
+
+
+ 1851 042f 16000000 		.4byte	.LBE5-.LBB5
+ 1852 0433 1A       		.uleb128 0x1a
+ 1853 0434 7400     		.ascii	"t\000"
+ 1854 0436 01       		.byte	0x1
+ 1855 0437 2401     		.2byte	0x124
+ 1856 0439 D3010000 		.4byte	0x1d3
+ 1857 043d 02       		.uleb128 0x2
+ 1858 043e 91       		.byte	0x91
+ 1859 043f 60       		.sleb128 -32
+ 1860 0440 00       		.byte	0
+ 1861 0441 00       		.byte	0
+ 1862 0442 00       		.byte	0
+ 1863 0443 04       		.uleb128 0x4
+ 1864 0444 8F000000 		.4byte	0x8f
+ 1865 0448 1C       		.uleb128 0x1c
+ 1866 0449 2F010000 		.4byte	.LASF47
+ 1867 044d 01       		.byte	0x1
+ 1868 044e CB01     		.2byte	0x1cb
+ 1869 0450 00000000 		.4byte	.LFB5
+ 1870 0454 26000000 		.4byte	.LFE5-.LFB5
+ 1871 0458 01       		.uleb128 0x1
+ 1872 0459 9C       		.byte	0x9c
+ 1873 045a 18       		.uleb128 0x18
+ 1874 045b E3000000 		.4byte	.LASF32
+ 1875 045f 01       		.byte	0x1
+ 1876 0460 CB01     		.2byte	0x1cb
+ 1877 0462 D9010000 		.4byte	0x1d9
+ 1878 0466 02       		.uleb128 0x2
+ 1879 0467 91       		.byte	0x91
+ 1880 0468 74       		.sleb128 -12
+ 1881 0469 00       		.byte	0
+ 1882 046a 00       		.byte	0
+ 1883              		.section	.debug_abbrev,"",%progbits
+ 1884              	.Ldebug_abbrev0:
+ 1885 0000 01       		.uleb128 0x1
+ 1886 0001 11       		.uleb128 0x11
+ 1887 0002 01       		.byte	0x1
+ 1888 0003 25       		.uleb128 0x25
+ 1889 0004 0E       		.uleb128 0xe
+ 1890 0005 13       		.uleb128 0x13
+ 1891 0006 0B       		.uleb128 0xb
+ 1892 0007 03       		.uleb128 0x3
+ 1893 0008 0E       		.uleb128 0xe
+ 1894 0009 1B       		.uleb128 0x1b
+ 1895 000a 0E       		.uleb128 0xe
+ 1896 000b 55       		.uleb128 0x55
+ 1897 000c 17       		.uleb128 0x17
+ 1898 000d 11       		.uleb128 0x11
+ 1899 000e 01       		.uleb128 0x1
+ 1900 000f 10       		.uleb128 0x10
+ 1901 0010 17       		.uleb128 0x17
+ 1902 0011 00       		.byte	0
+ 1903 0012 00       		.byte	0
+ 1904 0013 02       		.uleb128 0x2
+ 1905 0014 24       		.uleb128 0x24
+ 1906 0015 00       		.byte	0
+ 1907 0016 0B       		.uleb128 0xb
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 44
+
+
+ 1908 0017 0B       		.uleb128 0xb
+ 1909 0018 3E       		.uleb128 0x3e
+ 1910 0019 0B       		.uleb128 0xb
+ 1911 001a 03       		.uleb128 0x3
+ 1912 001b 0E       		.uleb128 0xe
+ 1913 001c 00       		.byte	0
+ 1914 001d 00       		.byte	0
+ 1915 001e 03       		.uleb128 0x3
+ 1916 001f 0F       		.uleb128 0xf
+ 1917 0020 00       		.byte	0
+ 1918 0021 0B       		.uleb128 0xb
+ 1919 0022 0B       		.uleb128 0xb
+ 1920 0023 49       		.uleb128 0x49
+ 1921 0024 13       		.uleb128 0x13
+ 1922 0025 00       		.byte	0
+ 1923 0026 00       		.byte	0
+ 1924 0027 04       		.uleb128 0x4
+ 1925 0028 26       		.uleb128 0x26
+ 1926 0029 00       		.byte	0
+ 1927 002a 49       		.uleb128 0x49
+ 1928 002b 13       		.uleb128 0x13
+ 1929 002c 00       		.byte	0
+ 1930 002d 00       		.byte	0
+ 1931 002e 05       		.uleb128 0x5
+ 1932 002f 24       		.uleb128 0x24
+ 1933 0030 00       		.byte	0
+ 1934 0031 0B       		.uleb128 0xb
+ 1935 0032 0B       		.uleb128 0xb
+ 1936 0033 3E       		.uleb128 0x3e
+ 1937 0034 0B       		.uleb128 0xb
+ 1938 0035 03       		.uleb128 0x3
+ 1939 0036 08       		.uleb128 0x8
+ 1940 0037 00       		.byte	0
+ 1941 0038 00       		.byte	0
+ 1942 0039 06       		.uleb128 0x6
+ 1943 003a 16       		.uleb128 0x16
+ 1944 003b 00       		.byte	0
+ 1945 003c 03       		.uleb128 0x3
+ 1946 003d 0E       		.uleb128 0xe
+ 1947 003e 3A       		.uleb128 0x3a
+ 1948 003f 0B       		.uleb128 0xb
+ 1949 0040 3B       		.uleb128 0x3b
+ 1950 0041 0B       		.uleb128 0xb
+ 1951 0042 49       		.uleb128 0x49
+ 1952 0043 13       		.uleb128 0x13
+ 1953 0044 00       		.byte	0
+ 1954 0045 00       		.byte	0
+ 1955 0046 07       		.uleb128 0x7
+ 1956 0047 04       		.uleb128 0x4
+ 1957 0048 01       		.byte	0x1
+ 1958 0049 0B       		.uleb128 0xb
+ 1959 004a 0B       		.uleb128 0xb
+ 1960 004b 49       		.uleb128 0x49
+ 1961 004c 13       		.uleb128 0x13
+ 1962 004d 3A       		.uleb128 0x3a
+ 1963 004e 0B       		.uleb128 0xb
+ 1964 004f 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 45
+
+
+ 1965 0050 0B       		.uleb128 0xb
+ 1966 0051 01       		.uleb128 0x1
+ 1967 0052 13       		.uleb128 0x13
+ 1968 0053 00       		.byte	0
+ 1969 0054 00       		.byte	0
+ 1970 0055 08       		.uleb128 0x8
+ 1971 0056 28       		.uleb128 0x28
+ 1972 0057 00       		.byte	0
+ 1973 0058 03       		.uleb128 0x3
+ 1974 0059 0E       		.uleb128 0xe
+ 1975 005a 1C       		.uleb128 0x1c
+ 1976 005b 0B       		.uleb128 0xb
+ 1977 005c 00       		.byte	0
+ 1978 005d 00       		.byte	0
+ 1979 005e 09       		.uleb128 0x9
+ 1980 005f 04       		.uleb128 0x4
+ 1981 0060 01       		.byte	0x1
+ 1982 0061 03       		.uleb128 0x3
+ 1983 0062 0E       		.uleb128 0xe
+ 1984 0063 0B       		.uleb128 0xb
+ 1985 0064 0B       		.uleb128 0xb
+ 1986 0065 49       		.uleb128 0x49
+ 1987 0066 13       		.uleb128 0x13
+ 1988 0067 3A       		.uleb128 0x3a
+ 1989 0068 0B       		.uleb128 0xb
+ 1990 0069 3B       		.uleb128 0x3b
+ 1991 006a 0B       		.uleb128 0xb
+ 1992 006b 01       		.uleb128 0x1
+ 1993 006c 13       		.uleb128 0x13
+ 1994 006d 00       		.byte	0
+ 1995 006e 00       		.byte	0
+ 1996 006f 0A       		.uleb128 0xa
+ 1997 0070 28       		.uleb128 0x28
+ 1998 0071 00       		.byte	0
+ 1999 0072 03       		.uleb128 0x3
+ 2000 0073 0E       		.uleb128 0xe
+ 2001 0074 1C       		.uleb128 0x1c
+ 2002 0075 0D       		.uleb128 0xd
+ 2003 0076 00       		.byte	0
+ 2004 0077 00       		.byte	0
+ 2005 0078 0B       		.uleb128 0xb
+ 2006 0079 13       		.uleb128 0x13
+ 2007 007a 01       		.byte	0x1
+ 2008 007b 03       		.uleb128 0x3
+ 2009 007c 0E       		.uleb128 0xe
+ 2010 007d 0B       		.uleb128 0xb
+ 2011 007e 0B       		.uleb128 0xb
+ 2012 007f 3A       		.uleb128 0x3a
+ 2013 0080 0B       		.uleb128 0xb
+ 2014 0081 3B       		.uleb128 0x3b
+ 2015 0082 0B       		.uleb128 0xb
+ 2016 0083 01       		.uleb128 0x1
+ 2017 0084 13       		.uleb128 0x13
+ 2018 0085 00       		.byte	0
+ 2019 0086 00       		.byte	0
+ 2020 0087 0C       		.uleb128 0xc
+ 2021 0088 0D       		.uleb128 0xd
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 46
+
+
+ 2022 0089 00       		.byte	0
+ 2023 008a 03       		.uleb128 0x3
+ 2024 008b 0E       		.uleb128 0xe
+ 2025 008c 3A       		.uleb128 0x3a
+ 2026 008d 0B       		.uleb128 0xb
+ 2027 008e 3B       		.uleb128 0x3b
+ 2028 008f 0B       		.uleb128 0xb
+ 2029 0090 49       		.uleb128 0x49
+ 2030 0091 13       		.uleb128 0x13
+ 2031 0092 38       		.uleb128 0x38
+ 2032 0093 0B       		.uleb128 0xb
+ 2033 0094 00       		.byte	0
+ 2034 0095 00       		.byte	0
+ 2035 0096 0D       		.uleb128 0xd
+ 2036 0097 0D       		.uleb128 0xd
+ 2037 0098 00       		.byte	0
+ 2038 0099 03       		.uleb128 0x3
+ 2039 009a 08       		.uleb128 0x8
+ 2040 009b 3A       		.uleb128 0x3a
+ 2041 009c 0B       		.uleb128 0xb
+ 2042 009d 3B       		.uleb128 0x3b
+ 2043 009e 0B       		.uleb128 0xb
+ 2044 009f 49       		.uleb128 0x49
+ 2045 00a0 13       		.uleb128 0x13
+ 2046 00a1 38       		.uleb128 0x38
+ 2047 00a2 0B       		.uleb128 0xb
+ 2048 00a3 00       		.byte	0
+ 2049 00a4 00       		.byte	0
+ 2050 00a5 0E       		.uleb128 0xe
+ 2051 00a6 2E       		.uleb128 0x2e
+ 2052 00a7 01       		.byte	0x1
+ 2053 00a8 03       		.uleb128 0x3
+ 2054 00a9 0E       		.uleb128 0xe
+ 2055 00aa 3A       		.uleb128 0x3a
+ 2056 00ab 0B       		.uleb128 0xb
+ 2057 00ac 3B       		.uleb128 0x3b
+ 2058 00ad 0B       		.uleb128 0xb
+ 2059 00ae 27       		.uleb128 0x27
+ 2060 00af 19       		.uleb128 0x19
+ 2061 00b0 49       		.uleb128 0x49
+ 2062 00b1 13       		.uleb128 0x13
+ 2063 00b2 11       		.uleb128 0x11
+ 2064 00b3 01       		.uleb128 0x1
+ 2065 00b4 12       		.uleb128 0x12
+ 2066 00b5 06       		.uleb128 0x6
+ 2067 00b6 40       		.uleb128 0x40
+ 2068 00b7 18       		.uleb128 0x18
+ 2069 00b8 9742     		.uleb128 0x2117
+ 2070 00ba 19       		.uleb128 0x19
+ 2071 00bb 01       		.uleb128 0x1
+ 2072 00bc 13       		.uleb128 0x13
+ 2073 00bd 00       		.byte	0
+ 2074 00be 00       		.byte	0
+ 2075 00bf 0F       		.uleb128 0xf
+ 2076 00c0 05       		.uleb128 0x5
+ 2077 00c1 00       		.byte	0
+ 2078 00c2 03       		.uleb128 0x3
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 47
+
+
+ 2079 00c3 0E       		.uleb128 0xe
+ 2080 00c4 3A       		.uleb128 0x3a
+ 2081 00c5 0B       		.uleb128 0xb
+ 2082 00c6 3B       		.uleb128 0x3b
+ 2083 00c7 0B       		.uleb128 0xb
+ 2084 00c8 49       		.uleb128 0x49
+ 2085 00c9 13       		.uleb128 0x13
+ 2086 00ca 02       		.uleb128 0x2
+ 2087 00cb 18       		.uleb128 0x18
+ 2088 00cc 00       		.byte	0
+ 2089 00cd 00       		.byte	0
+ 2090 00ce 10       		.uleb128 0x10
+ 2091 00cf 34       		.uleb128 0x34
+ 2092 00d0 00       		.byte	0
+ 2093 00d1 03       		.uleb128 0x3
+ 2094 00d2 08       		.uleb128 0x8
+ 2095 00d3 3A       		.uleb128 0x3a
+ 2096 00d4 0B       		.uleb128 0xb
+ 2097 00d5 3B       		.uleb128 0x3b
+ 2098 00d6 0B       		.uleb128 0xb
+ 2099 00d7 49       		.uleb128 0x49
+ 2100 00d8 13       		.uleb128 0x13
+ 2101 00d9 02       		.uleb128 0x2
+ 2102 00da 18       		.uleb128 0x18
+ 2103 00db 00       		.byte	0
+ 2104 00dc 00       		.byte	0
+ 2105 00dd 11       		.uleb128 0x11
+ 2106 00de 2E       		.uleb128 0x2e
+ 2107 00df 01       		.byte	0x1
+ 2108 00e0 03       		.uleb128 0x3
+ 2109 00e1 0E       		.uleb128 0xe
+ 2110 00e2 3A       		.uleb128 0x3a
+ 2111 00e3 0B       		.uleb128 0xb
+ 2112 00e4 3B       		.uleb128 0x3b
+ 2113 00e5 0B       		.uleb128 0xb
+ 2114 00e6 27       		.uleb128 0x27
+ 2115 00e7 19       		.uleb128 0x19
+ 2116 00e8 11       		.uleb128 0x11
+ 2117 00e9 01       		.uleb128 0x1
+ 2118 00ea 12       		.uleb128 0x12
+ 2119 00eb 06       		.uleb128 0x6
+ 2120 00ec 40       		.uleb128 0x40
+ 2121 00ed 18       		.uleb128 0x18
+ 2122 00ee 9742     		.uleb128 0x2117
+ 2123 00f0 19       		.uleb128 0x19
+ 2124 00f1 01       		.uleb128 0x1
+ 2125 00f2 13       		.uleb128 0x13
+ 2126 00f3 00       		.byte	0
+ 2127 00f4 00       		.byte	0
+ 2128 00f5 12       		.uleb128 0x12
+ 2129 00f6 05       		.uleb128 0x5
+ 2130 00f7 00       		.byte	0
+ 2131 00f8 03       		.uleb128 0x3
+ 2132 00f9 08       		.uleb128 0x8
+ 2133 00fa 3A       		.uleb128 0x3a
+ 2134 00fb 0B       		.uleb128 0xb
+ 2135 00fc 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 48
+
+
+ 2136 00fd 0B       		.uleb128 0xb
+ 2137 00fe 49       		.uleb128 0x49
+ 2138 00ff 13       		.uleb128 0x13
+ 2139 0100 02       		.uleb128 0x2
+ 2140 0101 18       		.uleb128 0x18
+ 2141 0102 00       		.byte	0
+ 2142 0103 00       		.byte	0
+ 2143 0104 13       		.uleb128 0x13
+ 2144 0105 2E       		.uleb128 0x2e
+ 2145 0106 01       		.byte	0x1
+ 2146 0107 03       		.uleb128 0x3
+ 2147 0108 0E       		.uleb128 0xe
+ 2148 0109 3A       		.uleb128 0x3a
+ 2149 010a 0B       		.uleb128 0xb
+ 2150 010b 3B       		.uleb128 0x3b
+ 2151 010c 0B       		.uleb128 0xb
+ 2152 010d 27       		.uleb128 0x27
+ 2153 010e 19       		.uleb128 0x19
+ 2154 010f 49       		.uleb128 0x49
+ 2155 0110 13       		.uleb128 0x13
+ 2156 0111 11       		.uleb128 0x11
+ 2157 0112 01       		.uleb128 0x1
+ 2158 0113 12       		.uleb128 0x12
+ 2159 0114 06       		.uleb128 0x6
+ 2160 0115 40       		.uleb128 0x40
+ 2161 0116 18       		.uleb128 0x18
+ 2162 0117 9642     		.uleb128 0x2116
+ 2163 0119 19       		.uleb128 0x19
+ 2164 011a 01       		.uleb128 0x1
+ 2165 011b 13       		.uleb128 0x13
+ 2166 011c 00       		.byte	0
+ 2167 011d 00       		.byte	0
+ 2168 011e 14       		.uleb128 0x14
+ 2169 011f 34       		.uleb128 0x34
+ 2170 0120 00       		.byte	0
+ 2171 0121 03       		.uleb128 0x3
+ 2172 0122 0E       		.uleb128 0xe
+ 2173 0123 3A       		.uleb128 0x3a
+ 2174 0124 0B       		.uleb128 0xb
+ 2175 0125 3B       		.uleb128 0x3b
+ 2176 0126 0B       		.uleb128 0xb
+ 2177 0127 49       		.uleb128 0x49
+ 2178 0128 13       		.uleb128 0x13
+ 2179 0129 02       		.uleb128 0x2
+ 2180 012a 18       		.uleb128 0x18
+ 2181 012b 00       		.byte	0
+ 2182 012c 00       		.byte	0
+ 2183 012d 15       		.uleb128 0x15
+ 2184 012e 0A       		.uleb128 0xa
+ 2185 012f 00       		.byte	0
+ 2186 0130 03       		.uleb128 0x3
+ 2187 0131 0E       		.uleb128 0xe
+ 2188 0132 3A       		.uleb128 0x3a
+ 2189 0133 0B       		.uleb128 0xb
+ 2190 0134 3B       		.uleb128 0x3b
+ 2191 0135 0B       		.uleb128 0xb
+ 2192 0136 11       		.uleb128 0x11
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 49
+
+
+ 2193 0137 01       		.uleb128 0x1
+ 2194 0138 00       		.byte	0
+ 2195 0139 00       		.byte	0
+ 2196 013a 16       		.uleb128 0x16
+ 2197 013b 0B       		.uleb128 0xb
+ 2198 013c 01       		.byte	0x1
+ 2199 013d 11       		.uleb128 0x11
+ 2200 013e 01       		.uleb128 0x1
+ 2201 013f 12       		.uleb128 0x12
+ 2202 0140 06       		.uleb128 0x6
+ 2203 0141 00       		.byte	0
+ 2204 0142 00       		.byte	0
+ 2205 0143 17       		.uleb128 0x17
+ 2206 0144 2E       		.uleb128 0x2e
+ 2207 0145 01       		.byte	0x1
+ 2208 0146 3F       		.uleb128 0x3f
+ 2209 0147 19       		.uleb128 0x19
+ 2210 0148 03       		.uleb128 0x3
+ 2211 0149 0E       		.uleb128 0xe
+ 2212 014a 3A       		.uleb128 0x3a
+ 2213 014b 0B       		.uleb128 0xb
+ 2214 014c 3B       		.uleb128 0x3b
+ 2215 014d 05       		.uleb128 0x5
+ 2216 014e 27       		.uleb128 0x27
+ 2217 014f 19       		.uleb128 0x19
+ 2218 0150 49       		.uleb128 0x49
+ 2219 0151 13       		.uleb128 0x13
+ 2220 0152 11       		.uleb128 0x11
+ 2221 0153 01       		.uleb128 0x1
+ 2222 0154 12       		.uleb128 0x12
+ 2223 0155 06       		.uleb128 0x6
+ 2224 0156 40       		.uleb128 0x40
+ 2225 0157 18       		.uleb128 0x18
+ 2226 0158 9642     		.uleb128 0x2116
+ 2227 015a 19       		.uleb128 0x19
+ 2228 015b 01       		.uleb128 0x1
+ 2229 015c 13       		.uleb128 0x13
+ 2230 015d 00       		.byte	0
+ 2231 015e 00       		.byte	0
+ 2232 015f 18       		.uleb128 0x18
+ 2233 0160 05       		.uleb128 0x5
+ 2234 0161 00       		.byte	0
+ 2235 0162 03       		.uleb128 0x3
+ 2236 0163 0E       		.uleb128 0xe
+ 2237 0164 3A       		.uleb128 0x3a
+ 2238 0165 0B       		.uleb128 0xb
+ 2239 0166 3B       		.uleb128 0x3b
+ 2240 0167 05       		.uleb128 0x5
+ 2241 0168 49       		.uleb128 0x49
+ 2242 0169 13       		.uleb128 0x13
+ 2243 016a 02       		.uleb128 0x2
+ 2244 016b 18       		.uleb128 0x18
+ 2245 016c 00       		.byte	0
+ 2246 016d 00       		.byte	0
+ 2247 016e 19       		.uleb128 0x19
+ 2248 016f 05       		.uleb128 0x5
+ 2249 0170 00       		.byte	0
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 50
+
+
+ 2250 0171 03       		.uleb128 0x3
+ 2251 0172 08       		.uleb128 0x8
+ 2252 0173 3A       		.uleb128 0x3a
+ 2253 0174 0B       		.uleb128 0xb
+ 2254 0175 3B       		.uleb128 0x3b
+ 2255 0176 05       		.uleb128 0x5
+ 2256 0177 49       		.uleb128 0x49
+ 2257 0178 13       		.uleb128 0x13
+ 2258 0179 02       		.uleb128 0x2
+ 2259 017a 18       		.uleb128 0x18
+ 2260 017b 00       		.byte	0
+ 2261 017c 00       		.byte	0
+ 2262 017d 1A       		.uleb128 0x1a
+ 2263 017e 34       		.uleb128 0x34
+ 2264 017f 00       		.byte	0
+ 2265 0180 03       		.uleb128 0x3
+ 2266 0181 08       		.uleb128 0x8
+ 2267 0182 3A       		.uleb128 0x3a
+ 2268 0183 0B       		.uleb128 0xb
+ 2269 0184 3B       		.uleb128 0x3b
+ 2270 0185 05       		.uleb128 0x5
+ 2271 0186 49       		.uleb128 0x49
+ 2272 0187 13       		.uleb128 0x13
+ 2273 0188 02       		.uleb128 0x2
+ 2274 0189 18       		.uleb128 0x18
+ 2275 018a 00       		.byte	0
+ 2276 018b 00       		.byte	0
+ 2277 018c 1B       		.uleb128 0x1b
+ 2278 018d 34       		.uleb128 0x34
+ 2279 018e 00       		.byte	0
+ 2280 018f 03       		.uleb128 0x3
+ 2281 0190 0E       		.uleb128 0xe
+ 2282 0191 3A       		.uleb128 0x3a
+ 2283 0192 0B       		.uleb128 0xb
+ 2284 0193 3B       		.uleb128 0x3b
+ 2285 0194 05       		.uleb128 0x5
+ 2286 0195 49       		.uleb128 0x49
+ 2287 0196 13       		.uleb128 0x13
+ 2288 0197 02       		.uleb128 0x2
+ 2289 0198 18       		.uleb128 0x18
+ 2290 0199 00       		.byte	0
+ 2291 019a 00       		.byte	0
+ 2292 019b 1C       		.uleb128 0x1c
+ 2293 019c 2E       		.uleb128 0x2e
+ 2294 019d 01       		.byte	0x1
+ 2295 019e 3F       		.uleb128 0x3f
+ 2296 019f 19       		.uleb128 0x19
+ 2297 01a0 03       		.uleb128 0x3
+ 2298 01a1 0E       		.uleb128 0xe
+ 2299 01a2 3A       		.uleb128 0x3a
+ 2300 01a3 0B       		.uleb128 0xb
+ 2301 01a4 3B       		.uleb128 0x3b
+ 2302 01a5 05       		.uleb128 0x5
+ 2303 01a6 27       		.uleb128 0x27
+ 2304 01a7 19       		.uleb128 0x19
+ 2305 01a8 11       		.uleb128 0x11
+ 2306 01a9 01       		.uleb128 0x1
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 51
+
+
+ 2307 01aa 12       		.uleb128 0x12
+ 2308 01ab 06       		.uleb128 0x6
+ 2309 01ac 40       		.uleb128 0x40
+ 2310 01ad 18       		.uleb128 0x18
+ 2311 01ae 9742     		.uleb128 0x2117
+ 2312 01b0 19       		.uleb128 0x19
+ 2313 01b1 00       		.byte	0
+ 2314 01b2 00       		.byte	0
+ 2315 01b3 00       		.byte	0
+ 2316              		.section	.debug_aranges,"",%progbits
+ 2317 0000 44000000 		.4byte	0x44
+ 2318 0004 0200     		.2byte	0x2
+ 2319 0006 00000000 		.4byte	.Ldebug_info0
+ 2320 000a 04       		.byte	0x4
+ 2321 000b 00       		.byte	0
+ 2322 000c 0000     		.2byte	0
+ 2323 000e 0000     		.2byte	0
+ 2324 0010 00000000 		.4byte	.LFB0
+ 2325 0014 4E000000 		.4byte	.LFE0-.LFB0
+ 2326 0018 00000000 		.4byte	.LFB1
+ 2327 001c 32000000 		.4byte	.LFE1-.LFB1
+ 2328 0020 00000000 		.4byte	.LFB2
+ 2329 0024 F0000000 		.4byte	.LFE2-.LFB2
+ 2330 0028 00000000 		.4byte	.LFB3
+ 2331 002c E6020000 		.4byte	.LFE3-.LFB3
+ 2332 0030 00000000 		.4byte	.LFB4
+ 2333 0034 3C030000 		.4byte	.LFE4-.LFB4
+ 2334 0038 00000000 		.4byte	.LFB5
+ 2335 003c 26000000 		.4byte	.LFE5-.LFB5
+ 2336 0040 00000000 		.4byte	0
+ 2337 0044 00000000 		.4byte	0
+ 2338              		.section	.debug_ranges,"",%progbits
+ 2339              	.Ldebug_ranges0:
+ 2340 0000 00000000 		.4byte	.LFB0
+ 2341 0004 4E000000 		.4byte	.LFE0
+ 2342 0008 00000000 		.4byte	.LFB1
+ 2343 000c 32000000 		.4byte	.LFE1
+ 2344 0010 00000000 		.4byte	.LFB2
+ 2345 0014 F0000000 		.4byte	.LFE2
+ 2346 0018 00000000 		.4byte	.LFB3
+ 2347 001c E6020000 		.4byte	.LFE3
+ 2348 0020 00000000 		.4byte	.LFB4
+ 2349 0024 3C030000 		.4byte	.LFE4
+ 2350 0028 00000000 		.4byte	.LFB5
+ 2351 002c 26000000 		.4byte	.LFE5
+ 2352 0030 00000000 		.4byte	0
+ 2353 0034 00000000 		.4byte	0
+ 2354              		.section	.debug_line,"",%progbits
+ 2355              	.Ldebug_line0:
+ 2356 0000 F1020000 		.section	.debug_str,"MS",%progbits,1
+ 2356      0200B100 
+ 2356      00000201 
+ 2356      FB0E0D00 
+ 2356      01010101 
+ 2357              	.LASF22:
+ 2358 0000 4A534D4E 		.ascii	"JSMN_ERROR_PART\000"
+ 2358      5F455252 
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 52
+
+
+ 2358      4F525F50 
+ 2358      41525400 
+ 2359              	.LASF35:
+ 2360 0010 746F6B65 		.ascii	"token\000"
+ 2360      6E00
+ 2361              	.LASF2:
+ 2362 0016 73686F72 		.ascii	"short int\000"
+ 2362      7420696E 
+ 2362      7400
+ 2363              	.LASF18:
+ 2364 0020 73697A65 		.ascii	"size_t\000"
+ 2364      5F7400
+ 2365              	.LASF27:
+ 2366 0027 6A736D6E 		.ascii	"jsmntok\000"
+ 2366      746F6B00 
+ 2367              	.LASF31:
+ 2368 002f 73697A65 		.ascii	"sizetype\000"
+ 2368      74797065 
+ 2368      00
+ 2369              	.LASF40:
+ 2370 0038 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2370      43313120 
+ 2370      352E342E 
+ 2370      31203230 
+ 2370      31363036 
+ 2371 006b 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2371      20726576 
+ 2371      6973696F 
+ 2371      6E203233 
+ 2371      37373135 
+ 2372 009e 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 2372      66756E63 
+ 2372      74696F6E 
+ 2372      2D736563 
+ 2372      74696F6E 
+ 2373              	.LASF29:
+ 2374 00c6 746F6B6E 		.ascii	"toknext\000"
+ 2374      65787400 
+ 2375              	.LASF37:
+ 2376 00ce 6A736D6E 		.ascii	"jsmn_parse_primitive\000"
+ 2376      5F706172 
+ 2376      73655F70 
+ 2376      72696D69 
+ 2376      74697665 
+ 2377              	.LASF32:
+ 2378 00e3 70617273 		.ascii	"parser\000"
+ 2378      657200
+ 2379              	.LASF16:
+ 2380 00ea 4A534D4E 		.ascii	"JSMN_STRING\000"
+ 2380      5F535452 
+ 2380      494E4700 
+ 2381              	.LASF36:
+ 2382 00f6 6A736D6E 		.ascii	"jsmn_alloc_token\000"
+ 2382      5F616C6C 
+ 2382      6F635F74 
+ 2382      6F6B656E 
+ 2382      00
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 53
+
+
+ 2383              	.LASF6:
+ 2384 0107 666C6F61 		.ascii	"float\000"
+ 2384      7400
+ 2385              	.LASF8:
+ 2386 010d 6C6F6E67 		.ascii	"long long int\000"
+ 2386      206C6F6E 
+ 2386      6720696E 
+ 2386      7400
+ 2387              	.LASF15:
+ 2388 011b 4A534D4E 		.ascii	"JSMN_ARRAY\000"
+ 2388      5F415252 
+ 2388      415900
+ 2389              	.LASF4:
+ 2390 0126 6C6F6E67 		.ascii	"long int\000"
+ 2390      20696E74 
+ 2390      00
+ 2391              	.LASF47:
+ 2392 012f 6A736D6E 		.ascii	"jsmn_init\000"
+ 2392      5F696E69 
+ 2392      7400
+ 2393              	.LASF38:
+ 2394 0139 6A736D6E 		.ascii	"jsmn_parse_string\000"
+ 2394      5F706172 
+ 2394      73655F73 
+ 2394      7472696E 
+ 2394      6700
+ 2395              	.LASF12:
+ 2396 014b 6C6F6E67 		.ascii	"long double\000"
+ 2396      20646F75 
+ 2396      626C6500 
+ 2397              	.LASF1:
+ 2398 0157 756E7369 		.ascii	"unsigned char\000"
+ 2398      676E6564 
+ 2398      20636861 
+ 2398      7200
+ 2399              	.LASF21:
+ 2400 0165 4A534D4E 		.ascii	"JSMN_ERROR_INVAL\000"
+ 2400      5F455252 
+ 2400      4F525F49 
+ 2400      4E56414C 
+ 2400      00
+ 2401              	.LASF41:
+ 2402 0176 70617273 		.ascii	"parser.c\000"
+ 2402      65722E63 
+ 2402      00
+ 2403              	.LASF17:
+ 2404 017f 4A534D4E 		.ascii	"JSMN_PRIMITIVE\000"
+ 2404      5F505249 
+ 2404      4D495449 
+ 2404      564500
+ 2405              	.LASF13:
+ 2406 018e 4A534D4E 		.ascii	"JSMN_UNDEFINED\000"
+ 2406      5F554E44 
+ 2406      4546494E 
+ 2406      454400
+ 2407              	.LASF0:
+ 2408 019d 7369676E 		.ascii	"signed char\000"
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 54
+
+
+ 2408      65642063 
+ 2408      68617200 
+ 2409              	.LASF9:
+ 2410 01a9 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2410      206C6F6E 
+ 2410      6720756E 
+ 2410      7369676E 
+ 2410      65642069 
+ 2411              	.LASF23:
+ 2412 01c0 74797065 		.ascii	"type\000"
+ 2412      00
+ 2413              	.LASF11:
+ 2414 01c5 756E7369 		.ascii	"unsigned int\000"
+ 2414      676E6564 
+ 2414      20696E74 
+ 2414      00
+ 2415              	.LASF30:
+ 2416 01d2 746F6B73 		.ascii	"toksuper\000"
+ 2416      75706572 
+ 2416      00
+ 2417              	.LASF24:
+ 2418 01db 73746172 		.ascii	"start\000"
+ 2418      7400
+ 2419              	.LASF3:
+ 2420 01e1 73686F72 		.ascii	"short unsigned int\000"
+ 2420      7420756E 
+ 2420      7369676E 
+ 2420      65642069 
+ 2420      6E7400
+ 2421              	.LASF20:
+ 2422 01f4 4A534D4E 		.ascii	"JSMN_ERROR_NOMEM\000"
+ 2422      5F455252 
+ 2422      4F525F4E 
+ 2422      4F4D454D 
+ 2422      00
+ 2423              	.LASF10:
+ 2424 0205 63686172 		.ascii	"char\000"
+ 2424      00
+ 2425              	.LASF42:
+ 2426 020a 433A5C55 		.ascii	"C:\\Users\\schmi\\OneDrive\\Dokumente\\PSoC Creator"
+ 2426      73657273 
+ 2426      5C736368 
+ 2426      6D695C4F 
+ 2426      6E654472 
+ 2427 0238 5C4A736F 		.ascii	"\\JsonParserLAB3\\holidayProject\\setUpEnv.cydsn\000"
+ 2427      6E506172 
+ 2427      7365724C 
+ 2427      4142335C 
+ 2427      686F6C69 
+ 2428              	.LASF43:
+ 2429 0266 6A736D6E 		.ascii	"jsmnerr\000"
+ 2429      65727200 
+ 2430              	.LASF46:
+ 2431 026e 6A736D6E 		.ascii	"jsmn_parse\000"
+ 2431      5F706172 
+ 2431      736500
+ 2432              	.LASF26:
+ARM GAS  C:\Users\schmi\AppData\Local\Temp\ccOzRDTC.s 			page 55
+
+
+ 2433 0279 6A736D6E 		.ascii	"jsmntok_t\000"
+ 2433      746F6B5F 
+ 2433      7400
+ 2434              	.LASF5:
+ 2435 0283 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2435      20756E73 
+ 2435      69676E65 
+ 2435      6420696E 
+ 2435      7400
+ 2436              	.LASF28:
+ 2437 0295 6A736D6E 		.ascii	"jsmn_parser\000"
+ 2437      5F706172 
+ 2437      73657200 
+ 2438              	.LASF7:
+ 2439 02a1 646F7562 		.ascii	"double\000"
+ 2439      6C6500
+ 2440              	.LASF25:
+ 2441 02a8 73697A65 		.ascii	"size\000"
+ 2441      00
+ 2442              	.LASF45:
+ 2443 02ad 666F756E 		.ascii	"found\000"
+ 2443      6400
+ 2444              	.LASF33:
+ 2445 02b3 746F6B65 		.ascii	"tokens\000"
+ 2445      6E7300
+ 2446              	.LASF39:
+ 2447 02ba 636F756E 		.ascii	"count\000"
+ 2447      7400
+ 2448              	.LASF44:
+ 2449 02c0 6A736D6E 		.ascii	"jsmn_fill_token\000"
+ 2449      5F66696C 
+ 2449      6C5F746F 
+ 2449      6B656E00 
+ 2450              	.LASF19:
+ 2451 02d0 6A736D6E 		.ascii	"jsmntype_t\000"
+ 2451      74797065 
+ 2451      5F7400
+ 2452              	.LASF34:
+ 2453 02db 6E756D5F 		.ascii	"num_tokens\000"
+ 2453      746F6B65 
+ 2453      6E7300
+ 2454              	.LASF14:
+ 2455 02e6 4A534D4E 		.ascii	"JSMN_OBJECT\000"
+ 2455      5F4F424A 
+ 2455      45435400 
+ 2456              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
