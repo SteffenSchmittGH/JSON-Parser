@@ -1,6 +1,0 @@
-C:\Users\schmi\OneDrive\Dokumente\PSoC Creator\JsonParserLAB3\holidayProject\setUpEnv.cydsn\setUpEnv.cyprj|6f85eb7e-e3e6-4775-9ab1-b5b9dde6491c
-C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|b7df6b42-67f5-4f97-b356-fa2e3a529186
-C:\Users\schmi\OneDrive\Dokumente\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|46d39df2-c152-462d-9c9b-63f63a7ca847
-C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|f919cc02-0043-4fad-b77e-cadd1ce362f8
-C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|7f54957d-90b1-49fb-89b5-43f14107945f
-C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|a5214e7c-250f-4d46-b0c9-7ae63b0a8c07
