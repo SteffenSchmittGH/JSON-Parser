@@ -68,7 +68,7 @@ TASK(tsk_json){
         //while(){//!!!!!!!!
             jsonString = malloc(sizeof(char)*inputLength);
             if(jsonString == NULL){
-                UART_LOG_PutString("Memory allokation failed!");   
+                UART_LOG_PutString("Memory allocation failed!");   
             }
             //set Delimiter
             for(int i = 0; i < inputLength; i++){
